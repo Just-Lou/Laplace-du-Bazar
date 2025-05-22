@@ -1,6 +1,6 @@
 # Projet-S3
 
-## Convention de code
+## Conventions de code
 - Camel case pour le nom des variables 
 - Constantes : toutes en majuscule et _ 
 - Variable membre d’une classe : camel case qui débute par un _ 
