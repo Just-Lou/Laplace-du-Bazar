@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.UsersMapper">
+
+    <select id="getAllUsers" resultType="business.Users">
+        SELECT id, firstName, lastName, email, passwordHash
+        FROM app.Users;
+    </select>
+
+
+    <select id="getUserById" resultType="business.Users">
+        SELECT id, firstName, lastName, email, passwordHash
+        FROM app.Users
+        WHERE id = coalesce(#{id}, id)
+    </select>
+
+</mapper>
