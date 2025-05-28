@@ -43,14 +43,14 @@ services:
 
   database:
     image: postgres:13
-    container_name: laplace
+    container_name: database
     restart: always
     ports:
       - 5444:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DATABASE: laplacebazard
+      POSTGRES_DATABASE: laplacebazardDB
     networks:
       acad-net:
 
