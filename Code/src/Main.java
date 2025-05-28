@@ -12,5 +12,7 @@ public class Main {
         User newUser2 = new User("Louis", "Gagnon", "gagl@test.com", "819-819-8119");
         System.out.println("\nThird run");
         newUser2.showInfo();
+
     }
+
 }
