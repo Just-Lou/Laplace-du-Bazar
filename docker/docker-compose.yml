@@ -47,10 +47,12 @@ services:
     restart: always
     ports:
       - 5444:5432
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DATABASE: laplacebazardDB
+      POSTGRES_DB: laplacebazardDB
     networks:
       acad-net:
 

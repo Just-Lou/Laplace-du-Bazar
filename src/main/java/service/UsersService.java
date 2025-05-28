@@ -7,6 +7,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.inject.Inject;
 
+import java.util.List;
 import java.util.UUID;
 
 @Path("/users")
@@ -16,6 +17,14 @@ public class UsersService {
 
     @Inject
     UsersMapper usersMapper;
+
+    @GET
+    @Path("getAllUsers")
+    @PermitAll
+    public List<Users> getAllUsers() {
+        List<Users> users = usersMapper.getAllUsers();
+        return users;
+    }
 
     @GET
     @Path("getUser/{id}")
