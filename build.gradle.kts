@@ -38,6 +38,7 @@ dependencies {
 
     // utilisation avec swagger
     implementation("io.quarkus:quarkus-smallrye-openapi")
+
 }
 
 tasks.test {
