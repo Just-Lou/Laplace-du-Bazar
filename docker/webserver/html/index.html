@@ -195,6 +195,7 @@
 <script>
     function getAllUsers() {
         var textBox = document.getElementById("data-textbox");
+        textBox.innerHTML = "";
         fetch('http://localhost:8080/users/getAllUsers', {
             method: 'GET',
             headers: {
@@ -211,7 +212,13 @@
             })
             .then(data => {
                 if (data) {
-                    textBox.innerHTML = JSON.stringify(data, null, 2); // Affichage formaté
+                    data.forEach((user) => {
+                        var id =  user["id"];
+                        var firstName = user["firstName"];
+                        var lastName = user["lastName"];
+                        var email = user["email"];
+                        textBox.innerHTML += `user: ${firstName} ${lastName}, ${email} (${id})<hr>`;
+                    });
                     console.log(data);
                 }
             })
