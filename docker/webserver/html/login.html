@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Laplace du Bazar</title>
+</head>
+<body>
+<h2>Non authentifier</h2>
+<button id="login-btn">Bouton connection</button>
+<script>
+  document.getElementById("login-btn").onclick = function() {
+    window.location.href = "http://localhost:6969/realms/users/protocol/openid-connect/auth?client_id=site&response_type=code&scope=openid&redirect_uri=http://localhost/index.html";
+  };
+</script>
+</body>
+</html>
