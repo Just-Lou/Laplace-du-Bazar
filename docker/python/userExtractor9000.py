@@ -55,6 +55,8 @@ merged = {
 with open('/app/docker/data/import/merged.json', 'w') as outfile:
     json.dump(merged, outfile, indent=2)
 
+outfile.close()
+
 cur.close()
 conn.close()
 
