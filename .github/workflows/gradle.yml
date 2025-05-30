@@ -34,6 +34,10 @@ jobs:
           docker compose up -d
           docker ps
 
+    - name: Test access container
+      run: |
+          docker compose exec echo "**** ZAK LE TBNK *****"
+
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
