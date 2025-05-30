@@ -31,11 +31,13 @@ for row in allData:
 
 output = {
     "realm": "users",
-    "users": users
+    "users": users,
+    "enabled": True
 }
 
 with open('/app/docker/data/import/users.json', 'w') as file:
     json.dump(output, file, indent=2)
+file.close()
 
 cur.close()
 conn.close()
