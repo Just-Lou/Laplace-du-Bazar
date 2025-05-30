@@ -32,8 +32,6 @@ jobs:
       run: |
           docker compose up
           docker ps
-      with:
-        compose-file: './docker/docker-compose.yml'
 
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
