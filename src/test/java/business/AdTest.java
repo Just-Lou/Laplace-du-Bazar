@@ -16,6 +16,6 @@ class AdTest {
     void ad_priceShouldNotMatch() {
         Ad ad = new Ad();
         ad.setPrice(900.00);
-        assertEquals(100.00, ad.returnPrice());
+        assertNotEquals(100.00, ad.returnPrice());
     }
 }
