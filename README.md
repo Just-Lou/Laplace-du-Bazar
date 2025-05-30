@@ -5,7 +5,8 @@
 - Constantes : toutes en majuscule et _ 
 - Variable membre d’une classe : camel case qui débute par un _ 
 - Commentaires en français, code en anglais 
-- Méthodes : get/set est standard, pas d’abréviations, concis/explicite, en autant que ça commence par un verbe, camel case aussi 
+- Méthodes : get/set est standard, pas d’abréviations, concis/explicite, en autant que ça commence par un verbe, camel case aussi
+- Méthodes de tests : nom commence par la classe mère suivi d'un _ et de la courte description du test (ex. ad_priceShouldMatch pour un test de la classe Ad)
 - Classe : camel case mais commence par majuscule  
 - IDE : IntelliJ 
 - Noms de fichiers : tout minuscule camel case 
