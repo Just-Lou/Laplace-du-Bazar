@@ -1,0 +1,119 @@
+{
+  "realm": "users",
+  "enabled": true,
+  "users": [
+    {
+      "id": "99db36b2-9bb3-4ab1-a566-fd7fc8529ded",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "a",
+          "temporary": true
+        }
+      ],
+      "createdTimestamp": 1673771400000,
+      "enabled": true,
+      "username": "john.doe@example.com"
+    },
+    {
+      "id": "7ed25498-ed52-41b4-87a5-57c7772d957e",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "email": "jane.smith@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "a",
+          "temporary": true
+        }
+      ],
+      "createdTimestamp": 1676904300000,
+      "enabled": true,
+      "username": "jane.smith@example.com"
+    },
+    {
+      "id": "1b8b7bbd-fd34-43ce-b109-7861aec377c0",
+      "firstName": "Bob",
+      "lastName": "Johnson",
+      "email": "bob.johnson@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "a",
+          "temporary": true
+        }
+      ],
+      "createdTimestamp": 1678446900000,
+      "enabled": false,
+      "username": "bob.johnson@example.com"
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "site",
+      "name": "",
+      "description": "website",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "http://localhost/",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "http://localhost:8080/*",
+        "http://localhost:6969/*",
+        "http://localhost/*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "realm_client": "false",
+        "oidc.ciba.grant.enabled": "false",
+        "backchannel.logout.session.required": "true",
+        "standard.token.exchange.enabled": "false",
+        "frontchannel.logout.session.required": "true",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "organization",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "access": {
+        "view": true,
+        "configure": true,
+        "manage": true
+      }
+    }
+  ]
+}

@@ -11,31 +11,48 @@ users = []
 for row in allData:
     user = {
         "id": row[0],
-        "username": row[1],
-        "email": row[2],
-        "firstName": row[3],
-        "lastName": row[4],
-        "enabled": True,
-
-        # SAFE
+        "firstName": row[1],
+        "lastName": row[2],
+        "email": row[3],
         "credentials": [
             {
                 "type": "password",
-                "value": "a",
-                "temporary": False
+                "value": "a",  # row[4]
+                "temporary": True
             }
-        ]
-        # "createdTimestamp": "1970-01-01T00:00:00Z", 
-    }
+        ],
+        "createdTimestamp": int(row[6].timestamp() * 1000) if row[6] else None,
+        "enabled": row[7],
+        "username": row[3]
+}
     users.append(user)
 
 output = {
     "realm": "users",
-    "users": users
+    "users": users,
+    "enabled": True
+
 }
 
-with open('/app/docker/data/import/users.json', 'w') as file:
+
+
+with open('/app/docker/data/users.json', 'w') as file:
     json.dump(output, file, indent=2)
+
+with open('/app/docker/data/users.json', 'r') as f1, open('/app/docker/data/site.json', 'r') as f2:
+    users_data = json.load(f1)
+    site_data = json.load(f2)
+
+merged = {
+    "realm": users_data.get("realm", "users"),
+    "enabled": users_data.get("enabled", True),
+    "users": users_data.get("users", []),
+    "clients": [site_data]
+}
+
+with open('/app/docker/data/import/merged.json', 'w') as outfile:
+    json.dump(merged, outfile, indent=2)
+    
 
 cur.close()
 conn.close()

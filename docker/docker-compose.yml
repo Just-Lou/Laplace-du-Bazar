@@ -61,6 +61,7 @@ services:
       dockerfile: Dockerfile.user-extractor
     volumes:
       - ./data/import:/app/docker/data/import
+      - ./data:/app/docker/data
     networks:
       - acad-net
     restart: no
