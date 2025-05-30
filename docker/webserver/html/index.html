@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Laplace du Bazar</title>
-    <link rel="stylesheet" href="includes/style.css"/>
+    <link rel="stylesheet" href="../includes/style.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
 </head>
 
@@ -195,7 +195,7 @@
 <script>
     function getAllUsers() {
         if (!checkAuthStatus()) { // mini modif pour pas donner acces si pas logged in
-                    return;
+            return;
         }
 
         var textBox = document.getElementById("data-textbox");
@@ -217,7 +217,7 @@
             .then(data => {
                 if (data) {
                     data.forEach((user) => {
-                        var id =  user["id"];
+                        var id = user["id"];
                         var firstName = user["firstName"];
                         var lastName = user["lastName"];
                         var email = user["email"];
@@ -253,7 +253,7 @@
         return isAuthenticated;
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         checkAuthStatus();
     });
 
@@ -293,7 +293,7 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         handleAuthCallback();
         checkAuthStatus();
     });
