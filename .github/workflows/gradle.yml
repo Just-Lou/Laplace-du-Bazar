@@ -50,6 +50,11 @@ jobs:
     # - name: Build with Gradle 8.9
     #   run: gradle build
 
+    - name: Test run
+      run: |
+          chmod +x ./gradlew
+          ./gradlew test
+
   dependency-submission:
 
     runs-on: ubuntu-latest
