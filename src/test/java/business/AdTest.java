@@ -8,7 +8,7 @@ class AdTest {
     @Test
     void testAd() {
         Ad ad = new Ad();
-        ad.setPrice(100.00);
+        ad.setPrice(900.00);
         assertEquals(100.00, ad.returnPrice());
     }
 }
