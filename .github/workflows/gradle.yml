@@ -30,6 +30,7 @@ jobs:
 
     - name: Run docker compose
       run: |
+          cd docker
           docker compose up
           docker ps
 
