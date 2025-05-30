@@ -41,6 +41,12 @@ CREATE TABLE app.Categories(
                            PRIMARY KEY(categoryId)
 );
 
+CREATE TABLE app.Programs(
+                      programId UUID,
+                      program TEXT,
+                      PRIMARY KEY(programId)
+);
+
 CREATE TABLE app.Users(
                       userId UUID,
                       firstName TEXT,
@@ -94,4 +100,15 @@ CREATE TABLE app.Books(
                       PRIMARY KEY(bookId),
                       FOREIGN KEY(categoryId) REFERENCES app.Categories(categoryId),
                       FOREIGN KEY(adId) REFERENCES app.Ads(adId)
+);
+
+CREATE TABLE app.Equipments(
+                          equipmentId UUID,
+                          categoryId UUID,
+                          programID UUID,
+                          adId UUID,
+                          PRIMARY KEY(equipmentId),
+                          FOREIGN KEY(categoryId) REFERENCES app.Categories(categoryId),
+                          FOREIGN KEY(programId) REFERENCES app.Programs(programId),
+                          FOREIGN KEY(adId) REFERENCES app.Ads(adId)
 );
