@@ -1,0 +1,101 @@
+{
+  "realm": "users",
+  "enabled": true,
+  "users": [
+    {
+      "id": "25bbf038-ca4e-40bf-84bf-bb8258f56aca",
+      "username": "Anatold",
+      "email": "Mitoukilmailleself",
+      "firstName": "anatold.emo@myspace.com",
+      "lastName": "cc17a2f35ce65d2441ca0e7a169fb5effef20b03e778fab691acd1cf69744b256780440ac9c13575b2ba44db87e38b7ca1cc5f5d521809a536128c6ca1dbcd29",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "a",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "f793e293-2b4a-4760-8cda-488c789522ca",
+      "username": "Georges",
+      "email": "Beaupelage",
+      "firstName": "georgestropcool2008@yahoo.com",
+      "lastName": "cc17a2f35ce65d2441ca0e7a169fb5effef20b03e778fab691acd1cf69744b256780440ac9c13575b2ba44db87e38b7ca1cc5f5d521809a536128c6ca1dbcd29",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "a",
+          "temporary": false
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "site",
+      "name": "",
+      "description": "website",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "http://localhost/",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "http://localhost:8080/*",
+        "http://localhost:6969/*",
+        "http://localhost/*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "realm_client": "false",
+        "oidc.ciba.grant.enabled": "false",
+        "backchannel.logout.session.required": "true",
+        "standard.token.exchange.enabled": "false",
+        "frontchannel.logout.session.required": "true",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "organization",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "access": {
+        "view": true,
+        "configure": true,
+        "manage": true
+      }
+    }
+  ]
+}
