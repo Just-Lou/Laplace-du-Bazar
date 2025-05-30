@@ -50,10 +50,28 @@ jobs:
     # - name: Build with Gradle 8.9
     #   run: gradle build
 
-    - name: Test run
-      run: |
-          chmod +x ./gradlew
-          ./gradlew test
+  run-tests:
+    needs: build
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+
+      - name: Test run
+        run: |
+            chmod +x ./gradlew
+            ./gradlew test
+
+      - name: Test report
+        uses: dorny/test-reporter@v2
+        if: always()
+        with:
+          name: Ad tests
+          path: '**/build/test-results/test/TEST*.xml'
+          reporter: java-junit
+          fail-on-error: 'true'
 
   dependency-submission:
 
