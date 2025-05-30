@@ -112,3 +112,27 @@ CREATE TABLE app.Equipments(
                           FOREIGN KEY(programId) REFERENCES app.Programs(programId),
                           FOREIGN KEY(adId) REFERENCES app.Ads(adId)
 );
+
+-- First create scores for clients and sellers
+INSERT INTO app.Scores (scoreId, score, number)
+VALUES
+  ('11111111-1111-1111-1111-111111111111', 4.5, 10),
+  ('22222222-2222-2222-2222-222222222222', 3.8, 5),
+  ('33333333-3333-3333-3333-333333333333', 5.0, 15),
+  ('44444444-4444-4444-4444-444444444444', 4.2, 8),
+  ('55555555-5555-5555-5555-555555555555', 4.7, 12),
+  ('66666666-6666-6666-6666-666666666666', 3.5, 3);
+
+-- Create user types
+INSERT INTO app.UsersTypes (userTypeId, userType)
+VALUES
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Student'),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Professor'),
+  ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'Staff');
+
+-- Create the dummy users
+INSERT INTO app.Users (userId, firstName, lastName, email, passwordHash, phoneNumber, creationDate, enabled, scoreClientId, userTypeId, scoreSellerId)
+VALUES
+  (gen_random_uuid(), 'John', 'Doe', 'john.doe@example.com', 'hashedpassword1', '555-123-4567', '2023-01-15 08:30:00', TRUE, '11111111-1111-1111-1111-111111111111', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '44444444-4444-4444-4444-444444444444'),
+  (gen_random_uuid(), 'Jane', 'Smith', 'jane.smith@example.com', 'hashedpassword2', '555-987-6543', '2023-02-20 14:45:00', TRUE, '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '55555555-5555-5555-5555-555555555555'),
+  (gen_random_uuid(), 'Bob', 'Johnson', 'bob.johnson@example.com', 'hashedpassword3', '555-456-7890', '2023-03-10 11:15:00', FALSE, '33333333-3333-3333-3333-333333333333', 'cccccccc-cccc-cccc-cccc-cccccccccccc', '66666666-6666-6666-6666-666666666666');

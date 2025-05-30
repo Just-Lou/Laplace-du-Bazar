@@ -11,22 +11,20 @@ users = []
 for row in allData:
     user = {
         "id": row[0],
-        "username": row[1],
-        "email": row[2],
-        "firstName": row[3],
-        "lastName": row[4],
-        "enabled": True,
-
-        # SAFE
+        "firstName": row[1],
+        "lastName": row[2],
+        "email": row[3],
         "credentials": [
             {
                 "type": "password",
-                "value": "a",
-                "temporary": False
+                "value": "a",  # row[4]
+                "temporary": True
             }
-        ]
-        # "createdTimestamp": "1970-01-01T00:00:00Z", 
-    }
+        ],
+        "createdTimestamp": int(row[6].timestamp() * 1000) if row[6] else None,
+        "enabled": row[7],
+        "username": row[3]
+}
     users.append(user)
 
 output = {
@@ -54,8 +52,7 @@ merged = {
 
 with open('/app/docker/data/import/merged.json', 'w') as outfile:
     json.dump(merged, outfile, indent=2)
-
-outfile.close()
+    
 
 cur.close()
 conn.close()
