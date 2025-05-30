@@ -39,6 +39,9 @@ dependencies {
     // utilisation avec swagger
     implementation("io.quarkus:quarkus-smallrye-openapi")
 
+    //json???
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.4.2")
+
 }
 
 tasks.test {

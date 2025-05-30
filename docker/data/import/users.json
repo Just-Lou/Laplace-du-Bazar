@@ -1,0 +1,35 @@
+{
+  "realm": "users",
+  "users": [
+    {
+      "id": "25bbf038-ca4e-40bf-84bf-bb8258f56aca",
+      "username": "Anatold",
+      "email": "Mitoukilmailleself",
+      "firstName": "anatold.emo@myspace.com",
+      "lastName": "cc17a2f35ce65d2441ca0e7a169fb5effef20b03e778fab691acd1cf69744b256780440ac9c13575b2ba44db87e38b7ca1cc5f5d521809a536128c6ca1dbcd29",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "a",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "f793e293-2b4a-4760-8cda-488c789522ca",
+      "username": "Georges",
+      "email": "Beaupelage",
+      "firstName": "georgestropcool2008@yahoo.com",
+      "lastName": "cc17a2f35ce65d2441ca0e7a169fb5effef20b03e778fab691acd1cf69744b256780440ac9c13575b2ba44db87e38b7ca1cc5f5d521809a536128c6ca1dbcd29",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "a",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

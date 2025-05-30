@@ -12,11 +12,11 @@ services:
       acad-net:
 
   keycloak:
-    image: quay.io/keycloak/keycloak:19.0.3
+    image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
     environment:
-      KEYCLOAK_ADMIN: moi
-      KEYCLOAK_ADMIN_PASSWORD: moi
+      KC_BOOTSTRAP_ADMIN_USERNAME: moi
+      KC_BOOTSTRAP_ADMIN_PASSWORD: moi
       # CA SERT A RIEN TOUT CA AHAHAHAHAHHAHAHAHAHAHAHHAHAHAHAHHA CEST TROP DROLE AHAHAH
 
 #      KC_HOSTNAME_STRICT: "false"
@@ -35,7 +35,10 @@ services:
     networks:
       acad-net: #nettest:
     volumes:
-      - keycloak_data:/opt/keycloak/data
+      - ./data/import:/opt/keycloak/data/import
+    depends_on:
+      - database
+      - user-extractor
 
   database:
     image: postgres:13
@@ -51,6 +54,21 @@ services:
       POSTGRES_DB: laplacebazardDB #bazar avec un 'd' de plus? -zak
     networks:
       acad-net:
+
+  user-extractor:
+    build:
+      context: ./python
+      dockerfile: Dockerfile.user-extractor
+    volumes:
+      - ./data/import:/app/docker/data/import
+    networks:
+      - acad-net
+    restart: no
+    depends_on:
+      - database
+
+
+  
 
 networks:
   acad-net:
