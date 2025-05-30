@@ -36,9 +36,9 @@ CREATE TABLE app.ApartmentSizes(
 );
 
 CREATE TABLE app.Categories(
-                           categorieId UUID,
+                           categoryId UUID,
                            category TEXT,
-                           PRIMARY KEY(categorieId)
+                           PRIMARY KEY(categoryId)
 );
 
 CREATE TABLE app.Users(
@@ -67,7 +67,7 @@ CREATE TABLE app.Ads(
                     description TEXT,
                     folderPath TEXT,
                     publicationDate TIMESTAMP,
-                    flagsQty INT,
+                    flagQty INT,
                     price FLOAT,
                     userId UUID,
                     PRIMARY KEY(adId),
@@ -89,10 +89,10 @@ CREATE TABLE app.Books(
                       bookId UUID,
                       bookTitle TEXT,
                       author TEXT,
-                      categorieId UUID,
+                      categoryId UUID,
                       adId UUID,
                       PRIMARY KEY(bookId),
-                      FOREIGN KEY(categorieId) REFERENCES app.Categories(categorieId),
+                      FOREIGN KEY(categoryId) REFERENCES app.Categories(categoryId),
                       FOREIGN KEY(adId) REFERENCES app.Ads(adId)
 );
 
