@@ -16,16 +16,82 @@ SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
-CREATE TABLE app.Users (
-    id uuid primary key,
-    firstName text,
-    lastName text,
-    email text,
-    passwordHash text
+CREATE TABLE app.Scores(
+                       scoreId UUID,
+                       score FLOAT,
+                       number INT,
+                       PRIMARY KEY(scoreId)
 );
 
-ALTER TABLE app.Users OWNER TO postgres;
+CREATE TABLE app.UsersTypes(
+                           userTypeId UUID,
+                           userType TEXT,
+                           PRIMARY KEY(userTypeId)
+);
 
-INSERT INTO app.Users(id, firstName, lastName, email, passwordHash) VALUES ('25bbf038-ca4e-40bf-84bf-bb8258f56aca', 'Anatold', 'Mitoukilmailleself', 'anatold.emo@myspace.com','cc17a2f35ce65d2441ca0e7a169fb5effef20b03e778fab691acd1cf69744b256780440ac9c13575b2ba44db87e38b7ca1cc5f5d521809a536128c6ca1dbcd29');
+CREATE TABLE app.ApartmentSizes(
+                               apartmentSizeId UUID,
+                               apartmentSize TEXT,
+                               PRIMARY KEY(apartmentSizeId)
+);
 
-INSERT INTO app.Users(id, firstName, lastName, email, passwordHash) VALUES ('f793e293-2b4a-4760-8cda-488c789522ca', 'Georges', 'Beaupelage', 'georgestropcool2008@yahoo.com','cc17a2f35ce65d2441ca0e7a169fb5effef20b03e778fab691acd1cf69744b256780440ac9c13575b2ba44db87e38b7ca1cc5f5d521809a536128c6ca1dbcd29');
+CREATE TABLE app.Categories(
+                           categorieId UUID,
+                           category TEXT,
+                           PRIMARY KEY(categorieId)
+);
+
+CREATE TABLE app.Users(
+                      userId UUID,
+                      firstName TEXT,
+                      lastName TEXT,
+                      email TEXT,
+                      passwordHash TEXT,
+                      phoneNumber TEXT,
+                      creationDate TIMESTAMP,
+                      enabled BOOLEAN,
+                      scoreClientId UUID,
+                      userTypeId UUID,
+                      scoreSellerId UUID,
+                      PRIMARY KEY(userId),
+                      UNIQUE(scoreClientId),
+                      UNIQUE(scoreSellerId),
+                      FOREIGN KEY(scoreClientId) REFERENCES app.Scores(scoreId),
+                      FOREIGN KEY(userTypeId) REFERENCES app.UsersTypes(userTypeId),
+                      FOREIGN KEY(scoreSellerId) REFERENCES app.Scores(scoreId)
+);
+
+CREATE TABLE app.Ads(
+                    adId UUID,
+                    title TEXT,
+                    description TEXT,
+                    folderPath TEXT,
+                    publicationDate TIMESTAMP,
+                    flagsQty INT,
+                    price FLOAT,
+                    userId UUID,
+                    PRIMARY KEY(adId),
+                    FOREIGN KEY(userId) REFERENCES app.Users(userId)
+);
+
+CREATE TABLE app.Apartments(
+                           apartmentId UUID,
+                           disponibility TIMESTAMP,
+                           address TEXT,
+                           apartmentSizeId UUID,
+                           adId UUID,
+                           PRIMARY KEY(apartmentId),
+                           FOREIGN KEY(apartmentSizeId) REFERENCES app.ApartmentSizes(apartmentSizeId),
+                           FOREIGN KEY(adId) REFERENCES app.Ads(adId)
+);
+
+CREATE TABLE app.Books(
+                      bookId UUID,
+                      bookTitle TEXT,
+                      author TEXT,
+                      categorieId UUID,
+                      adId UUID,
+                      PRIMARY KEY(bookId),
+                      FOREIGN KEY(categorieId) REFERENCES app.Categories(categorieId),
+                      FOREIGN KEY(adId) REFERENCES app.Ads(adId)
+);
