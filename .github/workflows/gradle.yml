@@ -49,6 +49,12 @@ jobs:
         chmod +x ./gradlew
         ./gradlew test
 
+    - name: Docker compose down
+      run: |
+          cd docker
+          docker compose down
+          docker ps
+
     - name: Test report
       uses: dorny/test-reporter@v2
       if: always()
