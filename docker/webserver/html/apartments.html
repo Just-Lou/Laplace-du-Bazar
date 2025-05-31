@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Laplace du Bazar - Appartements</title>
+    <link rel="icon" type="image/png" href="laplaceDuBazarLogo.png">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="navbar.css">
@@ -11,7 +12,9 @@
 </head>
 <body>
 <div id="navbar"></div>
-
+<div id="background">
+    <div id="background-fade"></div>
+</div>
 <div id="container">
     <div id="filter-row">
         <div>
@@ -77,4 +80,10 @@
     fetch("navbar.html")
         .then(response => response.text())
         .then(html => document.getElementById("navbar").innerHTML = html);
+
+    window.addEventListener("scroll", function() {
+        let scrolled = window.scrollY;
+        document.getElementById("background").style.transform = "translateY(" + scrolled * 0.5 + "px)";
+    });
+
 </script>

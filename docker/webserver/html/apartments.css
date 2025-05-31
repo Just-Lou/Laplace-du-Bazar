@@ -1,10 +1,30 @@
 body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1 {
     margin: 0;
+}
+
+#background {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 700px;
+    background-image: url("sherbrooke.jpg");
+    opacity: 0.5;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(2px);
+}
+#background-fade {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px -300px 200px -25px white inset;
 }
 
 #container {
@@ -12,7 +32,7 @@ h1 {
     position: relative;
     top: 200px;
     width: 70%;
-    min-height: 600px;
+    height: 1000px;
 }
 
 #filter-row {
@@ -89,6 +109,10 @@ h1 {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: transform 0.05s linear;
+}
+.ad:hover {
+    transform: scale(1.02);
 }
 
 .ad-image-container {
