@@ -1,0 +1,142 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+#container {
+    font-family: "Titillium Web", sans-serif;
+    position: relative;
+    top: 200px;
+    width: 70%;
+    min-height: 600px;
+}
+
+#filter-row {
+    display: flex;
+    height: 50px;
+    background: whitesmoke;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    align-items: center;
+    justify-content: space-around;
+    font-size: 18px;
+    padding: 10px;
+}
+
+#filter-row > div {
+    display: flex;
+    align-items: center;
+}
+
+#filter-row label {
+    margin-right: 20px;
+}
+
+#filter-row select,input {
+    font-family: "Titillium Web", sans-serif;
+    height: 40px;
+    border-radius: 3px;
+    border: none;
+    font-size: 16px;
+}
+
+#price-start-range, #price-end-range {
+    width: 70px;
+    text-align: center;
+}
+
+#filter-row p {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#filter-row option{
+    border: none;
+}
+
+#apply-button {
+    font-family: "Titillium Web", sans-serif;
+    font-size: 18px;
+    height: 40px;
+    border-radius: 3px;
+    border: none;
+    background-color: seagreen;
+    color: whitesmoke;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#apply-button > img {
+    color: whitesmoke;
+    width: 30px;
+    height: 30px;
+}
+
+#ads-listing {
+    width: 100%;
+    height: 100%;
+}
+
+.ad {
+    display: flex;
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ad-image-container {
+    height: 300px;
+    aspect-ratio: 1;
+    flex: none;
+    border-radius: 10px !important;
+}
+
+.ad-text-container {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.title {
+    height: 40px;
+    width: 80%;
+    display: block !important;
+}
+
+.description {
+    width: 100%;
+    height: 50%;
+    margin-top:10px;
+}
+
+
+
+.loading {
+    position: relative;
+    background-color: darkgrey;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    animation: wave 4s infinite linear;
+}
+
+@keyframes wave {
+    0% { left: -200%; }
+    100% { left: 100%; }
+}
