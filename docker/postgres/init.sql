@@ -52,7 +52,7 @@ CREATE TABLE app.Users(
                       firstName TEXT,
                       lastName TEXT,
                       email TEXT,
-                      passwordHash TEXT,
+                      passwordHash TEXT NOT NULL,
                       phoneNumber TEXT,
                       creationDate TIMESTAMP,
                       enabled BOOLEAN,
