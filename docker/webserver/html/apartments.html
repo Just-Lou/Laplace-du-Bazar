@@ -54,6 +54,41 @@
 
                 </div>
             </div>
+            <div class="ad-seller-profile">
+                <div class="stars-container">
+                    <div class="stars-rating">
+                        <div class="rating-full-stars">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="rating-empty-stars">
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <p>Georges Beaupelage</p>
+                </div>
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="ad">
+            <div class="ad-image-container loading">
+
+            </div>
+            <div class="ad-text-container">
+                <div class="title loading">
+                    <h1></h1>
+                </div>
+                <div class="description loading">
+
+                </div>
+            </div>
         </div>
         <div class="ad">
             <div class="ad-image-container loading">
@@ -81,7 +116,7 @@
         .then(response => response.text())
         .then(html => document.getElementById("navbar").innerHTML = html);
 
-    window.addEventListener("scroll", function() {
+    window.addEventListener("scroll", function () {
         let scrolled = window.scrollY;
         document.getElementById("background").style.transform = "translateY(" + scrolled * 0.5 + "px)";
     });
