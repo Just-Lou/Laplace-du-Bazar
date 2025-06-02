@@ -7,12 +7,14 @@ public class Book extends Ad{
     private UUID bookId;
     private String author;
     private String bookTitle;
+    private Category bookCategory;
 
-    public Book(String title, String description, LocalDate publicationDate, float price, String folderPath, String author, String bookTitle) {
+    public Book(String title, String description, LocalDate publicationDate, float price, String folderPath, String author, String bookTitle, String categoryName, UUID categoryId) {
         super(title, description, publicationDate, price, folderPath);
         this.bookId = UUID.randomUUID();
         this.author = author;
         this.bookTitle = bookTitle;
+        this.bookCategory = new Category(categoryId, categoryName);
     }
 
     public UUID getBookId() { return bookId; }
@@ -20,4 +22,7 @@ public class Book extends Ad{
     public void setAuthor(String author) { this.author = author; }
     public String getBookTitle() { return bookTitle; }
     public void setBookTitle(String bookTitle) { this.bookTitle = bookTitle; }
+    public UUID getBookCategoryId() { return bookCategory.getCategoryId(); }
+    public String getBookCategoryName() { return bookCategory.getCategoryName(); }
+
 }
