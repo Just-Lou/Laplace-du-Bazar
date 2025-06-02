@@ -4,7 +4,6 @@ import java.util.UUID;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
-import business.Score;
 
 public class Users {
     private final UUID Id;
@@ -42,33 +41,85 @@ public class Users {
             throw new RuntimeException(e);
         }
     }
-    public float getScoreClient() { return this.scoreClient.getScore(); }
 
-    public void setScoreClient(float score) {
-        if (score < 0) {
-            score = 0;
-        }
-        if (score > 5) {
-            score = 5;
-        }
-        float totalScores = this.scoreClient.getScore() + score;
-        int totalNumbers = this.scoreClient.getScoreNumber() + 1;
-        this.scoreClient.setScore(totalScores/totalNumbers);
-        this.scoreClient.setScoreNumber(totalNumbers);
+    public UUID getScoreClientId() { return this.scoreClient.getScoreId(); }
+    public UUID getScoreSellerId() { return this.scoreSeller.getScoreId(); }
+
+    public float getTotalScoreClient() {
+        return this.scoreClient.getScore();
     }
 
-    public float getScoreSeller() { return this.scoreSeller.getScore(); }
+    public int getNumberScoreClient() {
+        return this.scoreClient.getScoreNumber();
+    }
+
+    public float getAverageScoreClient() {
+        if (this.scoreClient.getScoreNumber() == 0) {
+            return 0f;
+        }
+        else {
+            float result = this.scoreClient.getScore() / this.scoreClient.getScoreNumber();
+            return result;
+        }
+    }
+
+    public void setScoreClient(float score){
+        if (score < 0f) {
+            score = 0f;
+        }
+        if (score > 5f) {
+            score = 5f;
+        }
+        this.scoreClient.setScore(score);
+    }
+
+    public void addScoreClient(float score) {
+        if (score < 0f) {
+            score = 0f;
+        }
+        if (score > 5f) {
+            score = 5f;
+        }
+        this.scoreClient.setScore(this.scoreClient.getScore() + score);
+        this.scoreClient.setScoreNumber(this.scoreClient.getScoreNumber() + 1);
+    }
+
+    public float getTotalScoreSeller() {
+        return this.scoreSeller.getScore();
+    }
+
+    public int getNumberScoreSeller() {
+        return this.scoreSeller.getScoreNumber();
+    }
+
+    public float getAverageScoreSeller() {
+        if(this.scoreSeller.getScoreNumber() == 0){
+            return 0f;
+        }
+        else {
+            float result = this.scoreSeller.getScore()/this.scoreSeller.getScoreNumber();
+            return result;
+        }
+    }
 
     public void setScoreSeller(float score) {
-        if (score < 0) {
-            score = 0;
+        if (score < 0f) {
+            score = 0f;
         }
-        if (score > 5) {
-            score = 5;
+        if (score > 5f) {
+            score = 5f;
         }
-        float totalScores = this.scoreSeller.getScore() + score;
-        int totalNumbers = this.scoreSeller.getScoreNumber() + 1;
-        this.scoreSeller.setScore(totalScores/totalNumbers);
-        this.scoreSeller.setScoreNumber(totalNumbers);
+        this.scoreSeller.setScore(score);
+    }
+
+    public void addScoreSeller(float score) {
+        if (score < 0f) {
+            score = 0f;
+        }
+        if (score > 5f) {
+            score = 5f;
+        }
+        this.scoreSeller.setScore(this.scoreSeller.getScore() + score);
+        this.scoreSeller.setScoreNumber(this.scoreSeller.getScoreNumber() + 1);
     }
 }
