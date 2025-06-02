@@ -42,10 +42,22 @@
         </button>
     </div>
     <div id="ads-listing">
-        <div class="ad">
-            <div class="flag-options">
-                <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                <i class="fa fa-flag-o" aria-hidden="true"></i>
+        <div class="ad" id="">
+            <div class="flag-options empty-flags">
+                <div class="flag-empty-save" onclick="saveAd(this)">
+                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                </div>
+                <div class="flag-empty-report" onclick="reportAd(this)">
+                    <i class="fa fa-flag-o" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="flag-options full-flags">
+                <div class="flag-full-save" onclick="unsaveAd(this)">
+                    <i class="fa fa-bookmark" aria-hidden="true"></i>
+                </div>
+                <div class="flag-full-report" onclick="unreportAd(this)">
+                    <i class="fa fa-flag" aria-hidden="true"></i>
+                </div>
             </div>
             <div class="ad-image-container loading">
 
@@ -124,5 +136,34 @@
         let scrolled = window.scrollY;
         document.getElementById("background").style.transform = "translateY(" + scrolled * 0.5 + "px)";
     });
+
+    function reportAd(element) {
+        const elementAd = element.closest('.ad');
+        const adId = elementAd.id;
+        const elementFullReport = elementAd.querySelector('.flag-full-report');
+
+        elementFullReport.style.height = '30px';
+        //faire une requête pour ajouter une signalement de cette annonce
+    }
+
+    function unreportAd(element) {
+        element.style.height = '0';
+        //faire une requête pour enlever un siganlement de cette annonce
+    }
+
+    function saveAd(element) {
+        const elementAd = element.closest('.ad');
+        const elementFullSave = elementAd.querySelector('.flag-full-save');
+
+        elementFullSave.style.height = '30px';
+        //faire une requête pour ajouter cette annonce dans les annonces enregistrées par l'utilisateur
+    }
+
+    function unsaveAd(element) {
+        element.style.height = '0';
+        //faire une requête pour enlever cette annonces des annonces enregistrées par l'utilisateur
+    }
+
+
 
 </script>
