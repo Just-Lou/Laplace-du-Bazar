@@ -52,15 +52,6 @@ class UsersTest {
     }
 
     @Test
-    void getPasswordHash() {
-
-    }
-
-    @Test
-    void setPasswordHash() {
-    }
-
-    @Test
     void getScoreClientId() {
         assertEquals(scoreClientId, user.getScoreClientId());
     }
