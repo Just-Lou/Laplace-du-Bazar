@@ -15,12 +15,15 @@
 
 /* logo à gérer plus tard */
 #navbar-icon {
+    display: flex;
+    align-items: center;
     align-content: center;
     width: 15%;
     margin-left: 5%;
 }
+
 #navbar-icon img {
-    height: 75%;
+    height: 90%;
 }
 
 /* gestion des onglets*/
@@ -99,37 +102,4 @@
 #menu-buy > a > div:hover {
     background-color: whitesmoke;
     color: mediumseagreen;
-}
-
-
-
-#page {
-    margin-top: 100px;
-    padding: 40px;
-    text-align: center;
-}
-
-#test-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: seagreen;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-
-#data-textbox {
-    margin-top: 20px;
-    padding: 20px;
-    min-height: 50px;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: lightgreen;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    font-size: 18px;
 }
