@@ -5,15 +5,15 @@
 <mapper namespace="mapper.UsersMapper">
 
     <select id="getAllUsers" resultType="business.Users">
-        SELECT id, firstName, lastName, email, passwordHash
+        SELECT userid, firstName, lastName, email, passwordHash, scoreclientid, scoresellerid
         FROM app.Users;
     </select>
 
 
     <select id="getUserById" resultType="business.Users">
-        SELECT id, firstName, lastName, email, passwordHash
+        SELECT userid, firstName, lastName, email, passwordHash, scoreclientid, scoresellerid
         FROM app.Users
-        WHERE id = coalesce(#{id}, id)
+        WHERE userid = coalesce(#{id}, userid);
     </select>
 
 </mapper>

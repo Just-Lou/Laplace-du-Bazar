@@ -19,7 +19,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 
 
-@Path("/users")
+@Path("/laplace/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UsersService {
@@ -42,6 +42,4 @@ public class UsersService {
         Users user = usersMapper.getUserById(id);
         return user;
     }
-
-    // @G
 }

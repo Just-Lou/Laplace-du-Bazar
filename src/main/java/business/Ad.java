@@ -2,15 +2,17 @@ package business;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import business.Users;
 
 public class Ad {
-    protected UUID adId;
+    protected final UUID adId;
     protected String title;
     protected String description;
     protected LocalDate publicationDate;
     protected float price;
     protected int flagQty;
     protected String folderPath;
+    protected Users user;
 
     public Ad(String title, String description, LocalDate publicationDate, float price, String folderPath) {
         this.adId = UUID.randomUUID();
@@ -34,4 +36,6 @@ public class Ad {
     public void setFolderPath(String folderPath) { this.folderPath = folderPath; }
     public int getFlagQty() { return flagQty; }
     public void setFlagQty(int flagQty) { this.flagQty = flagQty; }
+    public Users getUser() { return user; }
+    public void setUser(Users user) { this.user = user; }
 }
