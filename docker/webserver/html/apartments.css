@@ -121,6 +121,29 @@ h1 {
     transform: scale(1.02);
 }
 
+.flag-options {
+    width:fit-content;
+    height: 30px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+
+}
+
+.flag-options i {
+    margin-left: 10px;
+}
+
+.fa-bookmark-o:hover {
+    color: purple;
+    
+}
+
+
+
 .ad-image-container {
     height: 300px;
     aspect-ratio: 1;
