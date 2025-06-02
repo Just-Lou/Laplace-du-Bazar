@@ -41,12 +41,18 @@ CREATE TABLE app.Categories(
                            PRIMARY KEY(categoryId)
 );
 
+CREATE TABLE app.Programs(
+                      programId UUID,
+                      program TEXT,
+                      PRIMARY KEY(programId)
+);
+
 CREATE TABLE app.Users(
                       userId UUID,
                       firstName TEXT,
                       lastName TEXT,
                       email TEXT,
-                      passwordHash TEXT,
+                      passwordHash TEXT NOT NULL,
                       phoneNumber TEXT,
                       creationDate TIMESTAMP,
                       enabled BOOLEAN,
@@ -94,6 +100,17 @@ CREATE TABLE app.Books(
                       PRIMARY KEY(bookId),
                       FOREIGN KEY(categoryId) REFERENCES app.Categories(categoryId),
                       FOREIGN KEY(adId) REFERENCES app.Ads(adId)
+);
+
+CREATE TABLE app.Equipments(
+                          equipmentId UUID,
+                          categoryId UUID,
+                          programID UUID,
+                          adId UUID,
+                          PRIMARY KEY(equipmentId),
+                          FOREIGN KEY(categoryId) REFERENCES app.Categories(categoryId),
+                          FOREIGN KEY(programId) REFERENCES app.Programs(programId),
+                          FOREIGN KEY(adId) REFERENCES app.Ads(adId)
 );
 
 -- First create scores for clients and sellers

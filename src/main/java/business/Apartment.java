@@ -1,5 +1,25 @@
 package business;
 
+import java.util.UUID;
+import java.time.LocalDate;
+
 public class Apartment extends Ad{
-    private String rentLength;
+    private UUID apartmentId;
+    private LocalDate disponibility;
+    private String adress;
+    // ajouter apt size (heritage)
+
+    public Apartment(String title, String description, LocalDate publicationDate, float price, String folderPath, LocalDate disponibility, String adress) {
+        super(title, description, publicationDate, price, folderPath);
+        this.apartmentId = UUID.randomUUID();
+        this.disponibility = disponibility;
+        this.adress = adress;
+    }
+
+    public UUID getApartmentId() { return apartmentId; }
+    public LocalDate getDisponibility() { return disponibility; }
+    public void setDisponibility(LocalDate disponibility) { this.disponibility = disponibility; }
+    public String getAdress() { return adress; }
+    public void setAdress(String adress) { this.adress = adress; }
+
 }

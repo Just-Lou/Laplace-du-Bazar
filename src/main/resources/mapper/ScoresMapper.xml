@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ScoresMapper">
+
+    <select id="getScoreById" resultType="business.Score">
+        SELECT scoreId, score, number
+        FROM app.Scores
+        WHERE scoreId = coalesce(#{id}, scoreId);
+    </select>
+
+    <select id="getAllScores" resultType="business.Score">
+        SELECT scoreId, score, number
+        FROM app.Scores;
+    </select>
+
+    <update id="updateScore">
+        UPDATE app.scores
+        SET score = #{score}, number = #{number}
+        WHERE scoreId = coalesce(#{id}, scoreId);
+    </update>
+
+</mapper>

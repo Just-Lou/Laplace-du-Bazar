@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Laplace du Bazar - Appartements</title>
+    <link rel="icon" type="image/png" href="laplaceDuBazarLogo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="apartments.css">
+</head>
+<body>
+<div id="navbar"></div>
+<div id="background">
+    <div id="background-fade"></div>
+</div>
+<div id="container">
+    <div id="filter-row">
+        <div>
+            <label for="size">Taille :</label>
+            <select id="size" name="choix">
+                <option value="all">Toutes</option>
+                <option value="3">3 1/2</option>
+                <option value="4">4 1/2</option>
+                <option value="5">5 1/2</option>
+            </select>
+        </div>
+        <div>
+            <label>Prix :</label>
+            <input id="price-start-range" value="0"/>
+            <p> à </p>
+            <input id="price-end-range" value="0"/>
+        </div>
+        <div>
+            <label>Disponible à partir de :</label>
+            <input type="date">
+        </div>
+        <button id="apply-button">
+            Appliquer
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div id="ads-listing">
+        <div class="ad">
+            <div class="ad-image-container loading">
+
+            </div>
+            <div class="ad-text-container">
+                <div class="title loading">
+                    <h1></h1>
+                </div>
+                <div class="description loading">
+
+                </div>
+            </div>
+            <div class="ad-seller-profile">
+                <div class="stars-container">
+                    <div class="stars-rating">
+                        <div class="rating-full-stars">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="rating-empty-stars">
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <p>Georges Beaupelage</p>
+                </div>
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="ad">
+            <div class="ad-image-container loading">
+
+            </div>
+            <div class="ad-text-container">
+                <div class="title loading">
+                    <h1></h1>
+                </div>
+                <div class="description loading">
+
+                </div>
+            </div>
+        </div>
+        <div class="ad">
+            <div class="ad-image-container loading">
+
+            </div>
+            <div class="ad-text-container">
+                <div class="title loading">
+                    <h1></h1>
+                </div>
+                <div class="description loading">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="page-navigation-row">
+
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    fetch("navbar.html")
+        .then(response => response.text())
+        .then(html => document.getElementById("navbar").innerHTML = html);
+
+    window.addEventListener("scroll", function () {
+        let scrolled = window.scrollY;
+        document.getElementById("background").style.transform = "translateY(" + scrolled * 0.5 + "px)";
+    });
+
+</script>
