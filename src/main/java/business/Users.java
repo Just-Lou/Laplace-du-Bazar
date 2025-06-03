@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
 public class Users {
-    private final UUID Id;
+    private final UUID usersId;
     private String firstName;
     private String lastName;
     private String email;
@@ -15,7 +15,7 @@ public class Users {
     private Score scoreSeller;
 
     public Users(UUID id, String firstName, String lastName, String email, String password, UUID scoreClientId, UUID scoreSellerId) {
-        this.Id = id;
+        this.usersId = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -24,7 +24,7 @@ public class Users {
         this.scoreSeller = new Score(scoreSellerId, 0, 0);
     }
 
-    public UUID getId() { return Id; }
+    public UUID getUsersId() { return usersId; }
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public String getLastName() { return lastName; }

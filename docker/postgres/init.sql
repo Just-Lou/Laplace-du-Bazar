@@ -113,6 +113,22 @@ CREATE TABLE app.Equipments(
                           FOREIGN KEY(adId) REFERENCES app.Ads(adId)
 );
 
+CREATE TABLE app.Reports(
+                    userId  UUID,
+                    adId UUID,
+                    PRIMARY KEY(userId, adId),
+                    FOREIGN KEY(userId) REFERENCES app.Users(userId),
+                    FOREIGN KEY(adId) REFERENCES app.Ads(adId)
+);
+
+CREATE TABLE app.Favorites(
+                    userId UUID,
+                    adId UUID,
+                    PRIMARY KEY(userId, adId),
+                    FOREIGN KEY(userId) REFERENCES app.USERS(userId),
+                    FOREIGN KEY(adId) REFERENCES app.Ads(adId)
+);
+
 -- First create scores for clients and sellers
 INSERT INTO app.Scores (scoreId, score, number)
 VALUES

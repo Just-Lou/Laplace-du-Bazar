@@ -42,87 +42,221 @@
         </button>
     </div>
     <div id="ads-listing">
-        <div class="ad">
-            <div class="flag-options">
-                <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                <i class="fa fa-flag-o" aria-hidden="true"></i>
-            </div>
-            <div class="ad-image-container loading">
+        <!--        <div class="ad" id="">-->
+        <!--            <div class="flag-options empty-flags">-->
+        <!--                <div class="flag-empty-save" onclick="saveAd(this)">-->
+        <!--                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>-->
+        <!--                </div>-->
+        <!--                <div class="flag-empty-report" onclick="reportAd(this)">-->
+        <!--                    <i class="fa fa-flag-o" aria-hidden="true"></i>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="flag-options full-flags">-->
+        <!--                <div class="flag-full-save" onclick="unsaveAd(this)">-->
+        <!--                    <i class="fa fa-bookmark" aria-hidden="true"></i>-->
+        <!--                </div>-->
+        <!--                <div class="flag-full-report" onclick="unreportAd(this)">-->
+        <!--                    <i class="fa fa-flag" aria-hidden="true"></i>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="ad-image-container loading">-->
 
-            </div>
-            <div class="ad-text-container">
-                <div class="title loading">
-                    <h1></h1>
-                </div>
-                <div class="description loading">
+        <!--            </div>-->
+        <!--            <div class="ad-text-container">-->
+        <!--                <div class="title loading">-->
+        <!--                    <h1></h1>-->
+        <!--                </div>-->
+        <!--                <div class="description loading">-->
 
-                </div>
-            </div>
-            <div class="ad-seller-profile">
-                <div class="stars-container">
-                    <div class="stars-rating">
-                        <div class="rating-full-stars">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <div class="rating-empty-stars">
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <p>Georges Beaupelage</p>
-                </div>
-                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-            </div>
-        </div>
-        <div class="ad">
-            <div class="ad-image-container loading">
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="ad-seller-profile">-->
+        <!--                <div class="stars-container">-->
+        <!--                    <div class="stars-rating">-->
+        <!--                        <div class="rating-full-stars">-->
+        <!--                            <i class="fa fa-star" aria-hidden="true"></i>-->
+        <!--                            <i class="fa fa-star" aria-hidden="true"></i>-->
+        <!--                            <i class="fa fa-star" aria-hidden="true"></i>-->
+        <!--                            <i class="fa fa-star" aria-hidden="true"></i>-->
+        <!--                            <i class="fa fa-star" aria-hidden="true"></i>-->
+        <!--                        </div>-->
+        <!--                        <div class="rating-empty-stars">-->
+        <!--                            <i class="fa fa-star-o" aria-hidden="true"></i>-->
+        <!--                            <i class="fa fa-star-o" aria-hidden="true"></i>-->
+        <!--                            <i class="fa fa-star-o" aria-hidden="true"></i>-->
+        <!--                            <i class="fa fa-star-o" aria-hidden="true"></i>-->
+        <!--                            <i class="fa fa-star-o" aria-hidden="true"></i>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                    <p>Georges Beaupelage</p>-->
+        <!--                </div>-->
+        <!--                <i class="fa fa-user-circle-o" aria-hidden="true"></i>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="ad">-->
+        <!--            <div class="ad-image-container loading">-->
 
-            </div>
-            <div class="ad-text-container">
-                <div class="title loading">
-                    <h1></h1>
-                </div>
-                <div class="description loading">
+        <!--            </div>-->
+        <!--            <div class="ad-text-container">-->
+        <!--                <div class="title loading">-->
+        <!--                    <h1></h1>-->
+        <!--                </div>-->
+        <!--                <div class="description loading">-->
 
-                </div>
-            </div>
-        </div>
-        <div class="ad">
-            <div class="ad-image-container loading">
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="ad">-->
+        <!--            <div class="ad-image-container loading">-->
 
-            </div>
-            <div class="ad-text-container">
-                <div class="title loading">
-                    <h1></h1>
-                </div>
-                <div class="description loading">
+        <!--            </div>-->
+        <!--            <div class="ad-text-container">-->
+        <!--                <div class="title loading">-->
+        <!--                    <h1></h1>-->
+        <!--                </div>-->
+        <!--                <div class="description loading">-->
 
-                </div>
-            </div>
-        </div>
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
     <div id="page-navigation-row">
 
+    </div>
+    <div id="tmp-message">
+        <p></p>
     </div>
 </div>
 </body>
 </html>
 
 <script>
-    fetch("navbar.html")
+    fetch('navbar.html')
         .then(response => response.text())
         .then(html => document.getElementById("navbar").innerHTML = html);
 
-    window.addEventListener("scroll", function () {
+    window.addEventListener('scroll', () => {
         let scrolled = window.scrollY;
         document.getElementById("background").style.transform = "translateY(" + scrolled * 0.5 + "px)";
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+       loadAds();
+    });
+
+    function reportAd(element) {
+        const elementAd = element.closest('.ad');
+        const adId = elementAd.id;
+        const elementFullReport = elementAd.querySelector('.flag-full-report');
+
+        elementFullReport.style.height = '30px';
+        //faire une requête pour ajouter une signalement de cette annonce
+
+        displayMessage('Cette annonce a été signalée aux administrateurs');
+    }
+
+    function unreportAd(element) {
+        element.style.height = '0';
+        //faire une requête pour enlever un siganlement de cette annonce
+
+        displayMessage('Le signalement de cette annonce a été retiré');
+    }
+
+    function saveAd(element) {
+        const elementAd = element.closest('.ad');
+        const elementFullSave = elementAd.querySelector('.flag-full-save');
+
+        elementFullSave.style.height = '30px';
+        //faire une requête pour ajouter cette annonce dans les annonces enregistrées par l'utilisateur
+
+        displayMessage('Cette annonce a été ajoutée à vos enregistrements');
+    }
+
+    function unsaveAd(element) {
+        element.style.height = '0';
+        //faire une requête pour enlever cette annonces des annonces enregistrées par l'utilisateur
+
+        displayMessage('Cette annonce a été retirée de vos enregistrements');
+    }
+
+    function displayMessage(text) {
+        const msgBox = document.getElementById('tmp-message');
+        const msg = msgBox.querySelector('p');
+
+        msg.innerHTML = text;
+
+        msgBox.style.bottom = '20px';
+        setTimeout(() => {
+            msgBox.style.width = '100%';
+        }, 500);
+
+        setTimeout(() => {
+            msg.style.opacity = '100%'
+        }, 900);
+
+        setTimeout(() => {
+            msg.style.opacity = '0'
+        }, 5000);
+
+        setTimeout(() => {
+            msgBox.style.width = '20px';
+        }, 5000);
+
+        setTimeout(() => {
+            msgBox.style.bottom = '-100px';
+        }, 5900);
+    }
+
+    function loadAds() {
+        fetch('http://localhost:8080/laplace/ads/getAllAds', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(response.status);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                document.getElementById('ads-listing').innerHTML = '';
+                if (data) {
+                    data.forEach((ad) => {
+                        console.log(ad);
+
+                        var adId = ad['adId'];
+                        var adTitle = ad['title'];
+                        var adDescription = ad['description'];
+                        var sellerName = ad['firstName'] + ' ' + ad['lastName'];
+                        var sellerScore = ad['sellerScore'];
+
+                        fetch('ad.html')
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById('ads-listing').innerHTML += eval('`' + html + '`');
+                                document.getElementById(adId).querySelector('.rating-full-stars').style.width = eval("'" + (sellerScore / 5 * 90) + "px'");
+                            });
+
+                    });
+                } else {
+                    document.getElementById('ads-listing').innerHTML =
+                        '<div id="no-result">' +
+                        '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>' +
+                        '<p>Aucune annonce ne correspond à votre recherche</p>' +
+                        '</div>';
+                }
+            })
+            .catch(error => {
+                console.error("Erreur lors de la requête :", error);
+                document.getElementById('ads-listing').innerHTML =
+                    '<div id="no-result">' +
+                    '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>' +
+                    '<p>Une erreur lors de la récupération des annonces est survenue...</p>' +
+                    '</div>';
+            });
+    }
 
 </script>

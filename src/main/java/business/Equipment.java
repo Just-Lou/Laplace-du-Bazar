@@ -5,12 +5,22 @@ import java.util.UUID;
 
 public class Equipment extends Ad{
     private UUID equipmentId;
+    private String equipmentName;
 
-    public Equipment(String title, String description, LocalDate publicationDate, float price, String folderPath) {
+    private Category equipmentCategory;
+
+    public Equipment(String title, String description, LocalDate publicationDate, float price, String folderPath, String equipmentName, UUID equipmentCategoryId, String equipmentCategoryName) {
         super(title, description, publicationDate, price, folderPath);
         this.equipmentId = UUID.randomUUID();
+        this.equipmentName = equipmentName;
+        this.equipmentCategory = new Category(equipmentCategoryId, equipmentCategoryName);
     }
 
     public UUID getEquipmentId() { return equipmentId; }
+    public String getEquipmentName() { return equipmentName; }
+    public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
+    public UUID getEquipmentCategoryId() { return equipmentCategory.getCategoryId(); }
+    public String getEquipmentCategoryName() { return equipmentCategory.getCategoryName(); }
+
 }
 

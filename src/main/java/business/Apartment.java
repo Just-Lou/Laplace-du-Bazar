@@ -7,13 +7,14 @@ public class Apartment extends Ad{
     private UUID apartmentId;
     private LocalDate disponibility;
     private String adress;
-    // ajouter apt size (heritage)
+    private ApartmentSize apartmentSize;
 
-    public Apartment(String title, String description, LocalDate publicationDate, float price, String folderPath, LocalDate disponibility, String adress) {
+    public Apartment(String title, String description, LocalDate publicationDate, float price, String folderPath, LocalDate disponibility, String adress, UUID apartmentSizeId, double apartmentSize) {
         super(title, description, publicationDate, price, folderPath);
         this.apartmentId = UUID.randomUUID();
         this.disponibility = disponibility;
         this.adress = adress;
+        this.apartmentSize = new ApartmentSize(apartmentSizeId, apartmentSize);
     }
 
     public UUID getApartmentId() { return apartmentId; }
@@ -21,5 +22,6 @@ public class Apartment extends Ad{
     public void setDisponibility(LocalDate disponibility) { this.disponibility = disponibility; }
     public String getAdress() { return adress; }
     public void setAdress(String adress) { this.adress = adress; }
-
+    public double getApartmentSize() { return apartmentSize.getApartmentSize(); }
+    public void setApartmentSize(double apartmentSize) { this.apartmentSize.setApartmentSize(apartmentSize); }
 }

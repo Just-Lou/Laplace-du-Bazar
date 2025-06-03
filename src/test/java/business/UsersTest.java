@@ -15,7 +15,7 @@ class UsersTest {
 
     @Test
     void getId() {
-        assertEquals(id, user.getId());
+        assertEquals(id, user.getUsersId());
     }
 
     @Test
@@ -49,15 +49,6 @@ class UsersTest {
     void setEmail() {
         user.setEmail("al@yeah.com");
         assertEquals("al@yeah.com", user.getEmail());
-    }
-
-    @Test
-    void getPasswordHash() {
-
-    }
-
-    @Test
-    void setPasswordHash() {
     }
 
     @Test
