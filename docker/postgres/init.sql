@@ -139,11 +139,12 @@ VALUES
   ('55555555-5555-5555-5555-555555555555', 4.7, 12),
   ('66666666-6666-6666-6666-666666666666', 3.5, 3);
 
+
 -- Create user types
 INSERT INTO app.UsersTypes (userTypeId, userType)
 VALUES
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Student'),
-  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Professor'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'StandardUser'),
+  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'ExternalUser'),
   ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'Administrator');
 
 -- Create the dummy users
