@@ -9,12 +9,12 @@ public class Book extends Ad{
     private String bookTitle;
     private Category bookCategory;
 
-    public Book(String title, String description, LocalDate publicationDate, float price, String folderPath, String author, String bookTitle, String categoryName, UUID categoryId) {
+    public Book(String title, String description, LocalDate publicationDate, float price, String folderPath, String author, String bookTitle, String bookCategoryName, UUID bookCategoryId) {
         super(title, description, publicationDate, price, folderPath);
         this.bookId = UUID.randomUUID();
         this.author = author;
         this.bookTitle = bookTitle;
-        this.bookCategory = new Category(categoryId, categoryName);
+        this.bookCategory = new Category(bookCategoryId, bookCategoryName);
     }
 
     public UUID getBookId() { return bookId; }
