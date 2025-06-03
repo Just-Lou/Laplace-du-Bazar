@@ -39,19 +39,14 @@ output = {
 with open('/app/docker/data/users.json', 'w') as file:
     json.dump(output, file, indent=2)
 
-with open('/app/docker/data/users.json', 'r') as f1, open('/app/docker/data/site.json', 'r') as f2:
+with open('/app/docker/data/users.json', 'r') as f1, open('/app/docker/data/realm-export.json', 'r') as f2:
     users_data = json.load(f1)
     site_data = json.load(f2)
 
-merged = {
-    "realm": users_data.get("realm", "users"),
-    "enabled": users_data.get("enabled", True),
-    "users": users_data.get("users", []),
-    "clients": [site_data]
-}
+site_data["users"] = users_data.get("users", [])
 
 with open('/app/docker/data/import/merged.json', 'w') as outfile:
-    json.dump(merged, outfile, indent=2)
+    json.dump(site_data, outfile, indent=2)
     
 
 cur.close()
