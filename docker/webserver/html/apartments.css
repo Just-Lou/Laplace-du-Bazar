@@ -40,6 +40,7 @@ h1 {
     height: 1000px;
 }
 
+/*section des fitres*/
 #filter-row {
     display: flex;
     height: 50px;
@@ -99,12 +100,13 @@ h1 {
     width: 30px;
     height: 30px;
 }
-
+/*=======================*/
 #ads-listing {
     width: 100%;
     height: auto;
 }
 
+/*section pour une annonce*/
 .ad {
     position: relative;
     display: flex;
@@ -236,8 +238,9 @@ h1 {
     width: 90px;
     text-align: left;
 }
+/*=====================*/
 
-
+/*section de chargement*/
 .loading {
     position: relative;
     background-color: darkgrey;
@@ -259,4 +262,51 @@ h1 {
 @keyframes wave {
     0% { left: -200%; }
     100% { left: 100%; }
+}
+/*=======================*/
+
+/*section de boite de message*/
+#tmp-message {
+    align-items: center;
+    width: 20px;
+    height: 40px;
+    max-width: 400px;
+    justify-content: center;
+    display: flex;
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 10;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    transition: width 0.8s ease-in-out, bottom 0.4s ease-in-out;
+}
+
+#tmp-message p {
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+/*====================*/
+
+/*section de message sans résultat*/
+#no-result {
+    width: 100%;
+    height: 600px;
+    justify-content: center;
+    color: darkgray;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+#no-result i {
+    font-size: 120px;
+}
+#no-result p {
+    font-family: "Titillium Web", sans-serif;
+    font-size: 24px;
 }
