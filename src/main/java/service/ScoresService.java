@@ -2,6 +2,7 @@ package service;
 
 import business.Score;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,7 +23,7 @@ public class ScoresService {
 
     @GET
     @Path("getScore/{id}")
-    @PermitAll
+    @RolesAllowed({"StandardUser", "Administrator"})
     public Score getScoreById(@PathParam("id") UUID id) {
         Score score = scoresMapper.getScoreById(id);
         return score;
@@ -30,7 +31,7 @@ public class ScoresService {
 
     @GET
     @Path("getAllScores")
-    @PermitAll
+    @RolesAllowed("Administrator")
     public List<Score> getAllScores() {
         List<Score> scores = scoresMapper.getAllScores();
         return scores;
@@ -38,7 +39,7 @@ public class ScoresService {
 
     @PUT
     @Path("updateScore/{id}")
-    @PermitAll
+    @RolesAllowed("Administrator")
     public boolean updateScore(@PathParam("id") UUID id, @QueryParam("score") float score, int number) {
         scoresMapper.updateScore(id, score, number);
         return true;
