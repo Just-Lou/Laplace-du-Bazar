@@ -1,0 +1,51 @@
+<div class="ad" id="${adId}">
+    <div class="flag-options empty-flags">
+        <div class="flag-empty-save" onclick="saveAd(this)">
+            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+        </div>
+        <div class="flag-empty-report" onclick="reportAd(this)">
+            <i class="fa fa-flag-o" aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="flag-options full-flags">
+        <div class="flag-full-save" onclick="unsaveAd(this)">
+            <i class="fa fa-bookmark" aria-hidden="true"></i>
+        </div>
+        <div class="flag-full-report" onclick="unreportAd(this)">
+            <i class="fa fa-flag" aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="ad-image-container loading">
+
+    </div>
+    <div class="ad-text-container">
+        <div class="title loading">
+            <h1>${adTitle}</h1>
+        </div>
+        <div class="description loading">
+            ${adDescription}
+        </div>
+    </div>
+    <div class="ad-seller-profile">
+        <div class="stars-container">
+            <div class="stars-rating">
+                <div class="rating-full-stars">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </div>
+                <div class="rating-empty-stars">
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                </div>
+            </div>
+            <p>${sellerName}</p>
+        </div>
+        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+    </div>
+</div>

@@ -2,7 +2,7 @@
   "realm": "users",
   "users": [
     {
-      "id": "88c4ee63-ad8a-4045-a8fc-c8b3f22ef561",
+      "id": "fe8ac79a-cad2-40f3-b05a-1c3e1db4b01e",
       "firstName": "John",
       "lastName": "Doe",
       "email": "john.doe@example.com",
@@ -15,10 +15,13 @@
       ],
       "createdTimestamp": 1673771400000,
       "enabled": true,
-      "username": "john.doe@example.com"
+      "username": "john.doe@example.com",
+      "realmRoles": [
+        "StandardUser"
+      ]
     },
     {
-      "id": "d267898b-9bf7-45b3-ae17-11530a9e82cb",
+      "id": "55c4be12-3d93-4c46-814a-c9e9c555ea08",
       "firstName": "Jane",
       "lastName": "Smith",
       "email": "jane.smith@example.com",
@@ -31,13 +34,16 @@
       ],
       "createdTimestamp": 1676904300000,
       "enabled": true,
-      "username": "jane.smith@example.com"
+      "username": "jane.smith@example.com",
+      "realmRoles": [
+        "ExternalUser"
+      ]
     },
     {
-      "id": "b3322b6f-b1c4-46bc-b324-30b536f53a96",
-      "firstName": "Bob",
-      "lastName": "Johnson",
-      "email": "bob.johnson@example.com",
+      "id": "dd5063c7-2805-4081-bb9f-9d5b7d08f16f",
+      "firstName": "Laplace",
+      "lastName": "Admin",
+      "email": "admin@laplace.com",
       "credentials": [
         {
           "type": "password",
@@ -45,9 +51,12 @@
           "temporary": true
         }
       ],
-      "createdTimestamp": 1678446900000,
-      "enabled": false,
-      "username": "bob.johnson@example.com"
+      "createdTimestamp": 1000,
+      "enabled": true,
+      "username": "admin@laplace.com",
+      "realmRoles": [
+        "Administrator"
+      ]
     }
   ],
   "enabled": true

@@ -25,18 +25,9 @@
 
 <script>
     function getAllUsers() {
-        if (!checkAuthStatus()) { // mini modif pour pas donner acces si pas logged in
-            return;
-        }
-
         var textBox = document.getElementById("data-textbox");
         textBox.innerHTML = "";
-        fetch('http://localhost:8080/laplace/users/getAllUsers', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        fetch('http://localhost:8080/laplace/users/getAllUsers')
             .then(response => {
                 if (!response.ok) {
                     textBox.innerHTML = `HTTP error! Status: ${response.status}`;
@@ -62,74 +53,12 @@
             });
     }
 
-    function checkAuthStatus() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-
-        const token = localStorage.getItem('keycloak_token');
-
-        const isAuthenticated = token !== null;
-        const button = document.getElementById("test-button");
-
-        if (!isAuthenticated) {
-            button.disabled = true;
-            button.style.backgroundColor = "gray";
-            button.style.cursor = "not-allowed";
-
-            document.getElementById("data-textbox").innerHTML =
-                "Veuillez vous connecter pour acceder aux donnes. <a href='login.html'>Se connecter</a>";
-        } else {
-            button.disabled = false;
-        }
-        return isAuthenticated;
-    }
 
     document.addEventListener('DOMContentLoaded', function () {
-        checkAuthStatus();
         fetch("navbar.html")
             .then(response => response.text())
             .then(html => document.getElementById("navbar").innerHTML = html);
     });
 
-    function handleAuthCallback() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-
-        if (code) {
-            console.log("Authorization code received, exchanging for token...");
-            fetch('http://localhost:6969/realms/users/protocol/openid-connect/token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    'grant_type': 'authorization_code',
-                    'client_id': 'site',
-                    'code': code,
-                    'redirect_uri': 'http://localhost/index.html'
-                })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Token exchange failed with status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log("Token received successfully");
-                    localStorage.setItem('keycloak_token', data.access_token);
-                    window.location.href = 'index.html';
-                })
-                .catch(error => {
-                    console.error("Error exchanging code for token:", error);
-                    document.getElementById("data-textbox").innerHTML = "Error during authentication. Please try again.";
-                });
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        handleAuthCallback();
-        checkAuthStatus();
-    });
 
 </script>

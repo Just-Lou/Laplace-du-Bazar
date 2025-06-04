@@ -1,9 +1,9 @@
-package business;
-
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+//package business;
+//
+//import org.junit.jupiter.api.Test;
+//
+//import static org.junit.jupiter.api.Assertions.*;
+//
 //class AdTest {
 //    @Test
 //    void ad_priceShouldMatch() {

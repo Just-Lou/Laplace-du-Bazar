@@ -1,6 +1,7 @@
 package service;
 
 import business.Users;
+import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.core.Context;
@@ -17,6 +18,10 @@ import java.util.UUID;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import org.jboss.resteasy.reactive.NoCache;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+import java.util.Set;
+
 
 
 @Path("/laplace/users")
@@ -27,9 +32,15 @@ public class UsersService {
     @Inject
     UsersMapper usersMapper;
 
+    @Inject
+    JsonWebToken jwt;
+
+    @Inject
+    SecurityIdentity securityIdentity;
+
     @GET
     @Path("getAllUsers")
-    @PermitAll
+    @RolesAllowed("Administrator")
     public List<Users> getAllUsers() {
         List<Users> users = usersMapper.getAllUsers();
         return users;
@@ -37,9 +48,25 @@ public class UsersService {
 
     @GET
     @Path("getUser/{id}")
-    @PermitAll
+    @RolesAllowed("Administrator")
     public Users getAllUsers(@PathParam("id") UUID id) {
         Users user = usersMapper.getUserById(id);
         return user;
+    }
+
+    @GET
+    @Path("/whoami")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public String getCurrentUser(@Context SecurityContext securityContext) {
+        return "User: " + securityContext.getUserPrincipal().getName();
+    }
+    @Inject
+    SecurityIdentity identity; //je sais pas
+
+    @GET
+    @Path("/roles")
+    @PermitAll
+    public Set<String> getRoles() {
+        return identity.getRoles();
     }
 }
