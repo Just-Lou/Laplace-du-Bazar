@@ -38,7 +38,7 @@ class EquipmentTest {
 
     @Test
     void getEquipmentCategoryName() {
-        assertEquals("Outils", equipment.getEquipmentCategoryName());
+        assertEquals("Outil", equipment.getEquipmentCategoryName());
     }
 
     // Champs hérités de Ad

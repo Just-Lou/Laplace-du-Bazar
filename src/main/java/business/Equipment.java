@@ -20,7 +20,9 @@ public class Equipment extends Ad{
     public String getEquipmentName() { return equipmentName; }
     public void setEquipmentName(String equipmentName) { this.equipmentName = equipmentName; }
     public UUID getEquipmentCategoryId() { return equipmentCategory.getCategoryId(); }
+    public void setEquipmentCategoryId(UUID equipmentCategoryId) { this.equipmentCategory.setCategoryId(equipmentCategoryId) ; }
     public String getEquipmentCategoryName() { return equipmentCategory.getCategoryName(); }
+    public void setEquipmentCategoryName(String equipmentCategoryName) { this.equipmentCategory.setCategoryName(equipmentCategoryName); }
 
 }
 
