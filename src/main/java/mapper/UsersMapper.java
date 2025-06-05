@@ -11,4 +11,6 @@ public interface UsersMapper {
     public List<Users> getAllUsers();
 
     public Users getUserById(@Param("id") UUID id);
+
+    public String getUserIdByEmail(@Param("email") String email);
 }
