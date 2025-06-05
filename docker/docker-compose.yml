@@ -23,18 +23,7 @@ services:
       KC_SPI_CORS_DEFAULT_ALLOWED_HEADERS: "Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization"
       KC_SPI_CORS_DEFAULT_EXPOSED_HEADERS: "Location,Content-Disposition"
       KC_SPI_CORS_DEFAULT_ALLOW_CREDENTIALS: "true"
-      # CA SERT A RIEN TOUT CA AHAHAHAHAHHAHAHAHAHAHAHHAHAHAHAHHA CEST TROP DROLE AHAHAH
 
-#      KC_HOSTNAME_STRICT: "false"
-#      KC_HOSTNAME_STRICT_HTTPS: "false"
-#      KC_HTTP_ENABLED: "true"
-#      KC_SPI_EVENTS_LISTENER_JBOSS_LOGGING_SUCCESS_LEVEL: "info"
-#      KC_HOSTNAME: "localhost"
-#      KC_SPI_CORS_DEFAULT_ALLOWED_ORIGINS: "http://localhost:80,http://localhost:8080,http://localhost,*"
-#      KC_SPI_CORS_DEFAULT_ALLOWED_METHODS: "GET,POST,PUT,DELETE,OPTIONS"
-#      KC_SPI_CORS_DEFAULT_ALLOWED_HEADERS: "Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization"
-#      KC_SPI_CORS_DEFAULT_EXPOSED_HEADERS: "Location,Content-Disposition"
-#      KC_SPI_CORS_DEFAULT_ALLOW_CREDENTIALS: "true"
     ports:
       - "6969:8080"
     command: start-dev  --import-realm
