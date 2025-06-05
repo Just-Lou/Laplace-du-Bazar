@@ -13,13 +13,15 @@ public class Users {
     private String passwordHash;
     private Score scoreClient;
     private Score scoreSeller;
+    private UserType userType;
 
-    public Users(UUID id, String firstName, String lastName, String email, String password, UUID scoreClientId, UUID scoreSellerId) {
+    public Users(UUID id, String firstName, String lastName, String email, String password, String userTypeName, UUID scoreClientId, UUID scoreSellerId) {
         this.usersId = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.setPasswordHash(password);
+        this.userType = new UserType(userTypeName);
         this.scoreClient = new Score(scoreClientId, 0, 0);
         this.scoreSeller = new Score(scoreSellerId, 0, 0);
     }
@@ -41,6 +43,8 @@ public class Users {
             throw new RuntimeException(e);
         }
     }
+
+    public String getUserType() { return userType.getTypeName(); }
 
     public UUID getScoreClientId() { return this.scoreClient.getScoreId(); }
     public UUID getScoreSellerId() { return this.scoreSeller.getScoreId(); }
