@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ApartmentsMapper">
+
+    <select id="getAllApartments" resultType="business.Apartment">
+        SELECT apartmentId, disponibility, address, apartmentSizeId, adId
+        FROM app.Apartments;
+    </select>
+
+
+    <select id="getApartmentById" resultType="business.Apartment">
+        SELECT apartmentId, disponibility, address, apartmentSizeId, adId
+        FROM app.Apartments
+        WHERE apartmentId = coalesce(#{id}, apartmentId);
+    </select>
+
+
+</mapper>
