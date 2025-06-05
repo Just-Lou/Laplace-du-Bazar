@@ -4,9 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.ApartmentsMapper">
 
-    <select id="getAllApartments" resultType="business.Apartment">
-        SELECT apartmentId, disponibility, address, apartmentSizeId, adId
-        FROM app.Apartments;
+    <select id="getAllApartments" resultType="business.ApartmentViewModel">
+        SELECT ads.adid, ads.title, ads.description, ads.price, CONCAT(u.firstname, ' ', u.lastname) AS adSellerName, s.score, ads.folderpath, CASE WHEN f.adid IS NOT NULL THEN true ELSE false END AS isSaved, CASE WHEN r.adid IS NOT NULL THEN true ELSE false END AS isReported
+        FROM app.apartments AS ap INNER JOIN app.ads AS ads ON ap.adid = ads.adid
+                                  INNER JOIN app.users AS u ON ads.userid = u.userid
+                                  INNER JOIN app.scores AS s ON u.scoresellerid = s.scoreid
+                                  LEFT JOIN app.favorites AS f ON #{userId} = f.userid AND ads.adid = f.adid
+                                  LEFT JOIN app.reports AS r ON #{userId} = r.userid AND ads.adid = r.adid
     </select>
 
 

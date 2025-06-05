@@ -16,4 +16,10 @@
         WHERE userid = coalesce(#{id}, userid);
     </select>
 
+    <select id="getUserIdByEmail" resultType="java.lang.String">
+        SELECT userId::text
+        FROM app.users
+        WHERE email = #{email}
+    </select>
+
 </mapper>

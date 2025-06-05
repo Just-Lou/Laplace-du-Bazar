@@ -46,7 +46,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: laplacebazardDB #bazar avec un 'd' de plus? -zak
+      POSTGRES_DB: laplacebazardDB
     networks:
       acad-net:
 

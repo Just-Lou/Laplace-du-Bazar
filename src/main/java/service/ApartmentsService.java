@@ -1,7 +1,11 @@
 package service;
 
 import business.Apartment;
+import business.ApartmentViewModel;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.SecurityContext;
 import mapper.ApartmentsMapper;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -13,6 +17,7 @@ import java.util.UUID;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import mapper.UsersMapper;
 
 
 @Path("/laplace/apartments")
@@ -23,11 +28,20 @@ public class ApartmentsService {
     @Inject
     ApartmentsMapper apartmentsMapper;
 
+    @Inject
+    UsersMapper usersMapper;
+
     @GET
     @Path("getAllApartments")
-    @PermitAll
-    public List<Apartment> getAllApartments() {
-        List<Apartment> apartments = apartmentsMapper.getAllApartments();
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public List<ApartmentViewModel> getAllApartments(@Context SecurityContext securityContext) {
+        String userEmail = securityContext.getUserPrincipal().getName();
+
+        String userId = usersMapper.getUserIdByEmail(userEmail);
+
+        UUID userUUID = UUID.fromString(userId);
+
+        List<ApartmentViewModel> apartments = apartmentsMapper.getAllApartments(userUUID);
         return apartments;
     }
 
