@@ -27,7 +27,7 @@
     function getAllUsers() {
         var textBox = document.getElementById("data-textbox");
         textBox.innerHTML = "";
-        fetch('http://localhost:8080/laplace/users/getAllUsers')
+        fetch('http://localhost:8080/laplace/users/getAllUsers',{ credentials: 'include' })
             .then(response => {
                 if (!response.ok) {
                     textBox.innerHTML = `HTTP error! Status: ${response.status}`;

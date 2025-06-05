@@ -55,12 +55,7 @@ public class UsersService {
         return user;
     }
 
-    @GET
-    @Path("/whoami2")
-    @RolesAllowed({"StandardUser", "Administrator"})
-    public String getCurrentUser(@Context SecurityContext securityContext) {
-        return "User: " + securityContext.getUserPrincipal().getName();
-    }
+
 
     @GET
     @Path("/whoami")
