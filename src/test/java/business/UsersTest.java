@@ -11,7 +11,7 @@ class UsersTest {
     UUID id = UUID.randomUUID();
     UUID scoreClientId = UUID.randomUUID();
     UUID scoreSellerId = UUID.randomUUID();
-    Users user = new Users(id, "Maina", "Clermont", "mc@yeah.com", "abc", scoreClientId, scoreSellerId);
+    Users user = new Users(id, "Maina", "Clermont", "mc@yeah.com", "abc", "Admin", scoreClientId, scoreSellerId);
 
     @Test
     void getId() {
@@ -50,6 +50,9 @@ class UsersTest {
         user.setEmail("al@yeah.com");
         assertEquals("al@yeah.com", user.getEmail());
     }
+
+    @Test
+    void getType() { assertEquals("Admin", user.getUserType()); }
 
     @Test
     void getScoreClientId() {
