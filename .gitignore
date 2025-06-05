@@ -42,4 +42,3 @@ bin/
 .DS_Store
 
 ### Zak ###
-/docker/data/users.json
