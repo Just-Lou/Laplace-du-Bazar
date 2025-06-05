@@ -9,9 +9,9 @@ public class Apartment extends Ad{
     private String adress;
     private ApartmentSize apartmentSize;
 
-    public Apartment(String title, String description, LocalDate publicationDate, float price, String folderPath, LocalDate disponibility, String adress, UUID apartmentSizeId, double apartmentSize) {
+    public Apartment(UUID apartmentId, String title, String description, LocalDate publicationDate, float price, String folderPath, LocalDate disponibility, String adress, UUID apartmentSizeId, double apartmentSize) {
         super(title, description, publicationDate, price, folderPath);
-        this.apartmentId = UUID.randomUUID();
+        this.apartmentId = apartmentId;
         this.disponibility = disponibility;
         this.adress = adress;
         this.apartmentSize = new ApartmentSize(apartmentSizeId, apartmentSize);

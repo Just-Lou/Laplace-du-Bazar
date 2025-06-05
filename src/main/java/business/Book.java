@@ -23,6 +23,8 @@ public class Book extends Ad{
     public String getBookTitle() { return bookTitle; }
     public void setBookTitle(String bookTitle) { this.bookTitle = bookTitle; }
     public UUID getBookCategoryId() { return bookCategory.getCategoryId(); }
+    public void setBookCategoryId(UUID bookCategoryId) { this.bookCategory.setCategoryId(bookCategoryId); }
     public String getBookCategoryName() { return bookCategory.getCategoryName(); }
+    public void setBookCategoryName(String bookCategoryName) { this.bookCategory.setCategoryName(bookCategoryName); }
 
 }

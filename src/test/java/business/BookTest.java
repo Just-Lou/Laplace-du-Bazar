@@ -101,13 +101,13 @@ public class BookTest {
 
     @Test
     void getFolderPath() {
-        assertEquals("/images/livre1", book.getFolderPath());
+        assertEquals("/image/livre1", book.getFolderPath());
     }
 
     @Test
     void setFolderPath() {
-        book.setFolderPath("/images/livre2");
-        assertEquals("/images/livre2", book.getFolderPath());
+        book.setFolderPath("/image/livre2");
+        assertEquals("/image/livre2", book.getFolderPath());
     }
 
 

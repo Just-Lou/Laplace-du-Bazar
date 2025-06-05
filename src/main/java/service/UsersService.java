@@ -19,6 +19,8 @@ import java.util.UUID;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import org.jboss.resteasy.reactive.NoCache;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import java.util.Set;
 
 
@@ -30,6 +32,12 @@ public class UsersService {
 
     @Inject
     UsersMapper usersMapper;
+
+    @Inject
+    JsonWebToken jwt;
+
+    @Inject
+    SecurityIdentity securityIdentity;
 
     @GET
     @Path("getAllUsers")

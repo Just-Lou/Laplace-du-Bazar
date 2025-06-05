@@ -14,6 +14,7 @@ public class Category {
     public UUID getCategoryId() { return categoryId; }
     public String getCategoryName() { return categoryName; }
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
+    public void setCategoryId(UUID categoryId) { this.categoryId = categoryId; }
 
 
 }
