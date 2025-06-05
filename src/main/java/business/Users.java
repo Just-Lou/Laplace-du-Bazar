@@ -15,13 +15,14 @@ public class Users {
     private Score scoreSeller;
     private UserType userType;
 
-    public Users(UUID id, String firstName, String lastName, String email, String password, String userTypeName, UUID scoreClientId, UUID scoreSellerId) {
+    public Users(UUID id, String firstName, String lastName, String email,
+                 String password, String userType, UUID scoreClientId, UUID scoreSellerId) {
         this.usersId = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.setPasswordHash(password);
-        this.userType = new UserType(userTypeName);
+        this.userType = new UserType(userType);
         this.scoreClient = new Score(scoreClientId, 0, 0);
         this.scoreSeller = new Score(scoreSellerId, 0, 0);
     }

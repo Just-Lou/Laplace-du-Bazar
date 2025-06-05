@@ -5,7 +5,7 @@
 <mapper namespace="mapper.UsersMapper">
 
     <select id="getAllUsers" resultType="business.Users">
-        SELECT userid, firstName, lastName, email, passwordHash, scoreclientid, scoresellerid
+        SELECT userid, firstName, lastName, email, passwordHash, userTypeId, scoreclientid, scoresellerid
         FROM app.Users;
     </select>
 
@@ -15,5 +15,16 @@
         FROM app.Users
         WHERE userid = coalesce(#{id}, userid);
     </select>
+
+    <update id="updateUser">
+        UPDATE app.users
+        SET firstname = #{firstName}, lastname = #{lastName}, email = #{email}, passwordhash = #{password}
+        WHERE userId = coalesce(#{id}, userId)
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM app.users
+        WHERE userId = coalesce(#{id}, userId)
+    </delete>
 
 </mapper>

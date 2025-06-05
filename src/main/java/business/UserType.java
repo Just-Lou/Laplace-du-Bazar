@@ -11,6 +11,10 @@ public class UserType {
         this.typeName = typeName;
     }
 
+    UserType(UUID typeId) {
+        this.typeId = typeId;
+    }
+
     public UUID getTypeId() {
         return typeId;
     }

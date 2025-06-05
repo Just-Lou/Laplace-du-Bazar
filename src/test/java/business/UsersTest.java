@@ -1,5 +1,6 @@
 package business;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -11,7 +12,12 @@ class UsersTest {
     UUID id = UUID.randomUUID();
     UUID scoreClientId = UUID.randomUUID();
     UUID scoreSellerId = UUID.randomUUID();
-    Users user = new Users(id, "Maina", "Clermont", "mc@yeah.com", "abc", "Admin", scoreClientId, scoreSellerId);
+    Users user;
+
+    @BeforeEach
+    void setUp() {
+        user = new Users(id, "Maina", "Clermont", "mc@yeah.com", "abc", "admin", scoreClientId, scoreSellerId);
+    }
 
     @Test
     void getId() {
@@ -52,7 +58,7 @@ class UsersTest {
     }
 
     @Test
-    void getType() { assertEquals("Admin", user.getUserType()); }
+    void getType() { assertEquals("admin", user.getUserType()); }
 
     @Test
     void getScoreClientId() {

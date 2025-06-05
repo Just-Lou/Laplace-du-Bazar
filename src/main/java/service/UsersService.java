@@ -55,7 +55,27 @@ public class UsersService {
         return user;
     }
 
+    @GET
+    @Path("updateUser/{id}")
+    @RolesAllowed({"Administrator", "StandardUser"})
+    public Response updateUser(@PathParam("id") UUID id,
+                           @QueryParam("firstName") String firstName,
+                           @QueryParam("lastName") String lastName,
+                           @QueryParam("email") String email,
+                           @QueryParam("password") String password) {
+        usersMapper.updateUser(id, firstName, lastName, email, password);
 
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("deleteUser/{id}")
+    @RolesAllowed({"Administrator", "StandardUser"})
+    public Response deleteUser(@PathParam("id") UUID id) {
+
+        usersMapper.deleteUser(id);
+        return Response.ok().build();
+    }
 
     @GET
     @Path("/whoami")
