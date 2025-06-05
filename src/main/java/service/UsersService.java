@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import jakarta.ws.rs.GET;
@@ -47,11 +48,20 @@ public class UsersService {
     }
 
     @GET
-    @Path("/whoami")
+    @Path("/whoami2")
     @RolesAllowed({"StandardUser", "Administrator"})
     public String getCurrentUser(@Context SecurityContext securityContext) {
         return "User: " + securityContext.getUserPrincipal().getName();
     }
+
+    @GET
+    @Path("/whoami")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public String whoami(@Context SecurityContext securityContext) {
+        String username = securityContext.getUserPrincipal().getName();
+        return username;
+    }
+
     @Inject
     SecurityIdentity identity; //je sais pas
 
@@ -60,5 +70,25 @@ public class UsersService {
     @PermitAll
     public Set<String> getRoles() {
         return identity.getRoles();
+    }
+
+    // Necessaire pour logger avec quarkus, puis ensuire rediriger vers la page d'origine (pour le momement on force back a /login.html)
+    @Path("/login")
+    @GET
+    @RolesAllowed({"StandardUser", "Administrator"}) //Ne pas mettre PermitAll, a la place mettre tous les roles autorises
+    public Response redirectToWebsite() {
+        return Response.status(Response.Status.FOUND)
+                .header("Location", "http://localhost/login.html")
+                .build();
+    }
+
+
+    @GET
+    @Path("/logout")
+    @PermitAll
+    public Response appLogout() {
+        return Response.ok() // ca marche pas jsp pourquoi
+                .header("Set-Cookie", "quarkus-credential=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax")
+                .build();
     }
 }

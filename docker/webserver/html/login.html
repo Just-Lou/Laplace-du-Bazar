@@ -2,9 +2,50 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Login - Laplace du Bazar</title>
+  <title>Laplace du Bazar</title>
+  <link rel="icon" type="image/png" href="laplaceDuBazarLogo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="index.css"/>
+  <link rel="stylesheet" href="navbar.css"/>
 </head>
 <body>
-<h2>Non authentifier</h2>
-<button id="login-btn" onclick="window.location.href='http://localhost:8080/laplace/users/whoami'">Login</button></body>
+<div id="navbar"></div>
+<div>
+  <h2>
+    A
+    <br>
+    <br>
+    Alo
+  </h2>
+</div>
+<div id="login-text">
+    <h1>Non connecter</h1>
+</div>
+<button id="login-btn"  onclick="window.location.href='http://localhost:6969/realms/users/protocol/openid-connect/auth?client_id=site&response_type=code&scope=openid&redirect_uri=http://localhost:8080/laplace/users/login'">Login</button>
+<button id="logout-btn" onclick="window.location.href='http://localhost:6969/realms/users/protocol/openid-connect/logout?redirect_uri=http://localhost:8080/laplace/users/logout'">Logout</button>
+
+<script>
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch("navbar.html")
+            .then(response => response.text())
+            .then(html => document.getElementById("navbar").innerHTML = html);
+
+
+  fetch('http://localhost:8080/laplace/users/whoami', { credentials: 'include' })
+            .then(response => {
+              if (response.ok) return response.text();
+              throw new Error('Non authenifier');
+            })
+            .then(data => {
+              document.getElementById('login-text').innerHTML = `Connecter en tant que: ${data}`;
+            })
+            .catch(() => {
+            });
+  });
+
+
+</script>
+</body>
 </html>
