@@ -14,8 +14,8 @@ public class Ad {
     protected String folderPath;
     protected Users user;
 
-    public Ad(String title, String description, LocalDate publicationDate, float price, String folderPath) {
-        this.adId = UUID.randomUUID();
+    public Ad(UUID adId, String title, String description, LocalDate publicationDate, float price, String folderPath) {
+        this.adId = adId;
         this.title = title;
         this.description = description;
         this.publicationDate = publicationDate;

@@ -49,7 +49,7 @@ public class Users {
     public UUID getScoreClientId() { return this.scoreClient.getScoreId(); }
     public UUID getScoreSellerId() { return this.scoreSeller.getScoreId(); }
 
-    public float getTotalScoreClient() {
+    public float getScoreClient() {
         return this.scoreClient.getScore();
     }
 
@@ -57,16 +57,7 @@ public class Users {
         return this.scoreClient.getScoreNumber();
     }
 
-    public float getAverageScoreClient() {
-        if (this.scoreClient.getScoreNumber() == 0) {
-            return 0f;
-        }
-        else {
-            float result = this.scoreClient.getScore() / this.scoreClient.getScoreNumber();
-            return result;
-        }
-    }
-
+    // Écrase scoreClient présent pour remplacer par score en paramètre
     public void setScoreClient(float score){
         if (score < 0f) {
             score = 0f;
@@ -77,6 +68,14 @@ public class Users {
         this.scoreClient.setScore(score);
     }
 
+    public void setNumberScoreClient(int number){
+        if (number < 0) {
+            number = 0;
+        }
+        this.scoreClient.setScoreNumber(number);
+    }
+
+    // Ajoute un scoreClient et recalcule son score moyen
     public void addScoreClient(float score) {
         if (score < 0f) {
             score = 0f;
@@ -84,11 +83,13 @@ public class Users {
         if (score > 5f) {
             score = 5f;
         }
-        this.scoreClient.setScore(this.scoreClient.getScore() + score);
-        this.scoreClient.setScoreNumber(this.scoreClient.getScoreNumber() + 1);
+        float totalScores = this.scoreClient.getScore() + score;
+        int totalNumbers = this.scoreClient.getScoreNumber() + 1;
+        this.scoreClient.setScore(totalScores/totalNumbers);
+        this.scoreClient.setScoreNumber(totalNumbers);
     }
 
-    public float getTotalScoreSeller() {
+    public float getScoreSeller() {
         return this.scoreSeller.getScore();
     }
 
@@ -96,16 +97,7 @@ public class Users {
         return this.scoreSeller.getScoreNumber();
     }
 
-    public float getAverageScoreSeller() {
-        if(this.scoreSeller.getScoreNumber() == 0){
-            return 0f;
-        }
-        else {
-            float result = this.scoreSeller.getScore()/this.scoreSeller.getScoreNumber();
-            return result;
-        }
-    }
-
+    // Écrase scoreSeller présent pour remplacer par score en paramètre
     public void setScoreSeller(float score) {
         if (score < 0f) {
             score = 0f;
@@ -116,6 +108,14 @@ public class Users {
         this.scoreSeller.setScore(score);
     }
 
+    public void setNumberScoreSeller(int number){
+        if (number < 0) {
+            number = 0;
+        }
+        this.scoreSeller.setScoreNumber(number);
+    }
+
+    // Ajoute un scoreSeller et recalcule son score moyen
     public void addScoreSeller(float score) {
         if (score < 0f) {
             score = 0f;
@@ -123,7 +123,9 @@ public class Users {
         if (score > 5f) {
             score = 5f;
         }
-        this.scoreSeller.setScore(this.scoreSeller.getScore() + score);
-        this.scoreSeller.setScoreNumber(this.scoreSeller.getScoreNumber() + 1);
+        float totalScores = this.scoreSeller.getScore() + score;
+        int totalNumbers = this.scoreSeller.getScoreNumber() + 1;
+        this.scoreSeller.setScore(totalScores/totalNumbers);
+        this.scoreSeller.setScoreNumber(totalNumbers);
     }
 }

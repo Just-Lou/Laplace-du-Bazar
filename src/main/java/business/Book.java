@@ -9,9 +9,9 @@ public class Book extends Ad{
     private String bookTitle;
     private Category bookCategory;
 
-    public Book(String title, String description, LocalDate publicationDate, float price, String folderPath, String author, String bookTitle, String bookCategoryName, UUID bookCategoryId) {
-        super(title, description, publicationDate, price, folderPath);
-        this.bookId = UUID.randomUUID();
+    public Book(UUID bookId, String title, String description, LocalDate publicationDate, float price, String folderPath, String author, String bookTitle, String bookCategoryName, UUID bookCategoryId) {
+        super(bookId, title, description, publicationDate, price, folderPath);
+        this.bookId = bookId;
         this.author = author;
         this.bookTitle = bookTitle;
         this.bookCategory = new Category(bookCategoryId, bookCategoryName);

@@ -9,11 +9,12 @@ public class BookTest {
 
     LocalDate publishDate = LocalDate.of(2025, 6, 2);
 
+    UUID bookId = UUID.randomUUID();
     UUID categoryId = UUID.randomUUID();
     String categoryName = "Narratif";
     Category bookCategory = new Category(categoryId, categoryName);
 
-    Book book = new Book("livre usagé crazy", "f jk rowling", publishDate, 25.00f, "/image/livre1", "jk rowling", "Harry Potter et la coupe de feu", bookCategory.getCategoryName(), bookCategory.getCategoryId());
+    Book book = new Book(bookId, "livre usagé crazy", "f jk rowling", publishDate, 25.00f, "/image/livre1", "jk rowling", "Harry Potter et la coupe de feu", bookCategory.getCategoryName(), bookCategory.getCategoryId());
 
     @Test
     void getBookId() {

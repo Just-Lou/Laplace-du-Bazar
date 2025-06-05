@@ -65,8 +65,8 @@ class UsersTest {
     }
 
     @Test
-    void getTotalScoreClient() {
-        assertEquals(0f, user.getTotalScoreClient());
+    void getScoreClient() {
+        assertEquals(0f, user.getScoreClient());
     }
 
     @Test
@@ -75,26 +75,21 @@ class UsersTest {
     }
 
     @Test
-    void getAverageScoreClient() {
-        assertEquals(0f, user.getAverageScoreClient());
-    }
-
-    @Test
     void setScoreClient() {
         user.setScoreClient(1.5f);
-        assertEquals(1.5f, user.getTotalScoreClient());
+        assertEquals(1.5f, user.getScoreClient());
     }
 
     @Test
     void addScoreClient() {
         user.addScoreClient(4.5f);
         user.addScoreClient(3.5f);
-        assertEquals(4f, user.getAverageScoreClient());
+        assertEquals(4f, user.getScoreClient());
     }
 
     @Test
     void getTotalScoreSeller() {
-        assertEquals(0f, user.getTotalScoreSeller());
+        assertEquals(0f, user.getScoreSeller());
     }
 
     @Test
@@ -104,20 +99,31 @@ class UsersTest {
 
     @Test
     void getAverageScoreSeller() {
-        assertEquals(0f, user.getAverageScoreSeller());
+        assertEquals(0f, user.getScoreSeller());
     }
 
     @Test
     void setScoreSeller() {
         user.setScoreSeller(2f);
-        assertEquals(2f, user.getTotalScoreSeller());
+        assertEquals(2f, user.getScoreSeller());
     }
 
     @Test
     void addScoreSeller() {
         user.addScoreSeller(2.5f);
         user.addScoreSeller(5f);
-        assertEquals(3.75f, user.getAverageScoreSeller());
+        assertEquals(3.75f, user.getScoreSeller());
     }
 
+    @Test
+    void setNumberScoreClient() {
+        user.setNumberScoreClient(8);
+        assertEquals(8, user.getNumberScoreClient());
+    }
+
+    @Test
+    void setNumberScoreSeller() {
+        user.setNumberScoreSeller(8);
+        assertEquals(8, user.getNumberScoreSeller());
+    }
 }

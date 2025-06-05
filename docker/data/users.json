@@ -2,11 +2,7 @@
   "realm": "users",
   "users": [
     {
-<<<<<<< Updated upstream
-      "id": "a1a6007f-cb11-449c-9f17-72d8391c4df5",
-=======
-      "id": "13d4ca82-8e54-4ee9-a68e-60a1b0fa8da3",
->>>>>>> Stashed changes
+      "id": "7ac57fbd-11f7-43e5-a1e8-8f675965a1e9",
       "firstName": "John",
       "lastName": "Doe",
       "email": "john.doe@example.com",
@@ -25,11 +21,7 @@
       ]
     },
     {
-<<<<<<< Updated upstream
-      "id": "1cd3ba48-afde-4f73-8d9f-738407d793a3",
-=======
-      "id": "07759ae6-9067-439a-8bb9-14da57b906ab",
->>>>>>> Stashed changes
+      "id": "9a11f17b-49f1-46a4-a2b8-464368751f58",
       "firstName": "Jane",
       "lastName": "Smith",
       "email": "jane.smith@example.com",
@@ -48,11 +40,7 @@
       ]
     },
     {
-<<<<<<< Updated upstream
-      "id": "07ab0321-378e-4904-9f78-4cd548114e9b",
-=======
-      "id": "a2ed92f6-8067-4484-b7d9-1675c748de36",
->>>>>>> Stashed changes
+      "id": "66666666-6666-6666-6666-666666666666",
       "firstName": "Laplace",
       "lastName": "Admin",
       "email": "admin@laplace.com",

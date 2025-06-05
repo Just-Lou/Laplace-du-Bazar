@@ -40,7 +40,7 @@ public class ScoresService {
     @PUT
     @Path("updateScore/{id}")
     @RolesAllowed("Administrator")
-    public boolean updateScore(@PathParam("id") UUID id, @QueryParam("score") float score, int number) {
+    public boolean updateScore(@PathParam("id") UUID id, @QueryParam("score") float score, @QueryParam("number") int number) {
         scoresMapper.updateScore(id, score, number);
         return true;
     }

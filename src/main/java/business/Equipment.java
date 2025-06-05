@@ -9,9 +9,9 @@ public class Equipment extends Ad{
 
     private Category equipmentCategory;
 
-    public Equipment(String title, String description, LocalDate publicationDate, float price, String folderPath, String equipmentName, UUID equipmentCategoryId, String equipmentCategoryName) {
-        super(title, description, publicationDate, price, folderPath);
-        this.equipmentId = UUID.randomUUID();
+    public Equipment(UUID equipmentId, String title, String description, LocalDate publicationDate, float price, String folderPath, String equipmentName, UUID equipmentCategoryId, String equipmentCategoryName) {
+        super(equipmentId, title, description, publicationDate, price, folderPath);
+        this.equipmentId = equipmentId;
         this.equipmentName = equipmentName;
         this.equipmentCategory = new Category(equipmentCategoryId, equipmentCategoryName);
     }

@@ -43,10 +43,11 @@ services:
       - 5444:5432
     volumes:
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      #- laplace:/var/lib/postgres/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: laplacebazardDB
+      POSTGRES_DB: laplacebazarDB
     networks:
       acad-net:
 
@@ -63,11 +64,9 @@ services:
     depends_on:
       - database
 
-
-  
-
 networks:
   acad-net:
 
 volumes:
     keycloak_data:
+    #laplace:
