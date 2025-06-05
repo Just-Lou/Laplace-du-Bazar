@@ -6,12 +6,13 @@
 
     <select id="getAllUsers" resultType="business.Users">
         SELECT userid, firstName, lastName, email, passwordHash, userTypeId, scoreclientid, scoresellerid
+        SELECT userid, firstName, lastName, email, passwordHash, scoreclientid, userTypeId, scoresellerid
         FROM app.Users;
     </select>
 
 
     <select id="getUserById" resultType="business.Users">
-        SELECT userid, firstName, lastName, email, passwordHash, scoreclientid, scoresellerid
+        SELECT userid, firstName, lastName, email, passwordHash, scoreclientid, userTypeId, scoresellerid
         FROM app.Users
         WHERE userid = coalesce(#{id}, userid);
     </select>
@@ -26,5 +27,11 @@
         DELETE FROM app.users
         WHERE userId = coalesce(#{id}, userId)
     </delete>
+
+    <select id="getUserIdByEmail" resultType="java.lang.String">
+        SELECT userId::text
+        FROM app.users
+        WHERE email = #{email}
+    </select>
 
 </mapper>

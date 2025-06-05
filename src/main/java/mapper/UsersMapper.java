@@ -23,4 +23,6 @@ public interface UsersMapper {
                                @Param("password") String password);
 
     public Response deleteUser(@Param("id") UUID id);
+
+    public String getUserIdByEmail(@Param("email") String email);
 }

@@ -10,7 +10,7 @@ public class Apartment extends Ad{
     private ApartmentSize apartmentSize;
 
     public Apartment(UUID apartmentId, String title, String description, LocalDate publicationDate, float price, String folderPath, LocalDate disponibility, String adress, UUID apartmentSizeId, double apartmentSize) {
-        super(title, description, publicationDate, price, folderPath);
+        super(apartmentId, title, description, publicationDate, price, folderPath);
         this.apartmentId = apartmentId;
         this.disponibility = disponibility;
         this.adress = adress;

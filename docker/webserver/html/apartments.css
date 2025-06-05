@@ -4,6 +4,18 @@ body {
     align-items: center;
 }
 
+@media screen and (max-width: 1250px) {
+    #container {
+        width: 90% !important;
+    }
+}
+
+@media screen and (max-width: 960px){
+    #container {
+        width: 100% !important;
+    }
+}
+
 h1 {
     display: inline-block; /* Permet à text-overflow de fonctionner */
     max-width: 100%;

@@ -7,12 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EquipmentTest {
 
+    UUID equipmentId = UUID.randomUUID();
     UUID categoryId = UUID.randomUUID();
     LocalDate publishDate = LocalDate.of(2025, 6, 2);
     String categoryName = "Outil";
     Category equipmentCategory = new Category(categoryId, categoryName);
 
-    Equipment equipment = new Equipment("marteau à vendre","robuste, peu utilisé", publishDate,15.0f,"/images/outil1","Marteau", equipmentCategory.getCategoryId(), equipmentCategory.getCategoryName());
+    Equipment equipment = new Equipment(equipmentId, "marteau à vendre","robuste, peu utilisé", publishDate,15.0f,"/images/outil1","Marteau", equipmentCategory.getCategoryId(), equipmentCategory.getCategoryName());
 
 
     @Test

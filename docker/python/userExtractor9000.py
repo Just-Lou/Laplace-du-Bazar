@@ -1,7 +1,7 @@
 import psycopg2
 import json
 
-conn = psycopg2.connect(dbname="laplacebazardDB", user="postgres", password="postgres", host="database", port="5432")
+conn = psycopg2.connect(dbname="laplacebazarDB", user="postgres", password="postgres", host="database", port="5432")
 cur = conn.cursor()
 
 cur.execute("SELECT * FROM app.Users")
