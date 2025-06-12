@@ -112,4 +112,17 @@ public class ApartmentTest {
         assertEquals("/images/appart2", apt.getFolderPath());
     }
 
+    @Test
+    void archiveApartement() {
+        apt.archive();
+        assertTrue(apt.isArchived());
+    }
+
+    @Test
+    void unarchiveApartement() {
+        apt.unArchive();
+        assertFalse(apt.isArchived());
+    }
+
+
 }

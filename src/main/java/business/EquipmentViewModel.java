@@ -2,7 +2,8 @@ package business;
 
 import java.util.UUID;
 
-public class ApartmentViewModel {
+public class EquipmentViewModel {
+
     private UUID adId;
     private String adTitle;
     private String adDescription;
@@ -14,7 +15,7 @@ public class ApartmentViewModel {
     private boolean reported;
     private boolean isArchived;
 
-    ApartmentViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported, boolean isArchived) {
+    EquipmentViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported, boolean isArchived) {
         this.adId = adId;
         this.adTitle = adTitle;
         this.adDescription = adDescription;

@@ -11,4 +11,7 @@ public interface BooksMapper {
     public List<Book> getAllBooks();
 
     public Book getBookById(@Param("id") UUID id);
+
+    public void deleteBook(@Param("id") UUID id);
+
 }
