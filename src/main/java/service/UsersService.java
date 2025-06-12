@@ -36,6 +36,7 @@ public class UsersService {
     @Inject
     JsonWebToken jwt;
 
+
     @Inject
     SecurityIdentity securityIdentity;
 
@@ -80,10 +81,19 @@ public class UsersService {
     @GET
     @Path("/whoami")
     @RolesAllowed({"StandardUser", "Administrator"})
-    public String whoami(@Context SecurityContext securityContext) {
-        String username = securityContext.getUserPrincipal().getName();
-        return username;
+    public Map<String, Object> whoami() {
+        Map<String, Object> userInfo = Map.of(
+//                "jwt", jwt.getRawToken(),
+                "username", jwt.getName(),
+                "email", jwt.getClaim("email"),
+                "firstName", jwt.getClaim("given_name"),
+                "lastName", jwt.getClaim("family_name"),
+                "roles", securityIdentity.getRoles()
+
+        );
+        return userInfo;
     }
+
 
     @Inject
     SecurityIdentity identity; //je sais pas
