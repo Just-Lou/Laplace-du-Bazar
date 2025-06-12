@@ -95,6 +95,7 @@ public class UsersService {
     public Map<String, Object> whoami() {
         Map<String, Object> userInfo = Map.of(
 //                "jwt", jwt.getRawToken(),
+                "userId", jwt.getSubject(),
                 "username", jwt.getName(),
                 "email", jwt.getClaim("email"),
                 "firstName", jwt.getClaim("given_name"),
