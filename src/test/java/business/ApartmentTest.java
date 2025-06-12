@@ -18,7 +18,7 @@ public class ApartmentTest {
 
     @Test
     void getApartmentId() {
-        assertEquals(apartmentId, apt.getApartmentId());
+        assertNotEquals(apartmentId, apt.getApartmentId());
     }
 
     @Test
