@@ -5,7 +5,6 @@
 <mapper namespace="mapper.UsersMapper">
 
     <select id="getAllUsers" resultType="business.Users">
-        SELECT userid, firstName, lastName, email, passwordHash, userTypeId, scoreclientid, scoresellerid
         SELECT userid, firstName, lastName, email, passwordHash, scoreclientid, userTypeId, scoresellerid
         FROM app.Users;
     </select>
