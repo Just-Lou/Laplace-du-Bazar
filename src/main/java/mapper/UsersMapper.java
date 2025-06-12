@@ -2,6 +2,8 @@ package mapper;
 
 import business.Users;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.SecurityContext;
 import org.apache.ibatis.annotations.*;
 import org.jose4j.http.Response;
 
@@ -14,13 +16,16 @@ public interface UsersMapper {
 
     public Users getUserById(@Param("id") UUID id);
 
-    //public Users createUser(Users user);
+    public Response createUser(@Param("id") UUID id,
+                               @Param("firstName") String firstName,
+                               @Param("lastName") String lastName,
+                               @Param("email") String email,
+                               @Param("role") String[] role);
 
     public Response updateUser(@Param("id") UUID id,
                                @Param("firstName") String firstName,
                                @Param("lastName") String lastName,
-                               @Param("email") String email,
-                               @Param("password") String password);
+                               @Param("email") String email);
 
     public Response deleteUser(@Param("id") UUID id);
 
