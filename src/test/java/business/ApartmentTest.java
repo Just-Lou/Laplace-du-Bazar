@@ -15,11 +15,10 @@ public class ApartmentTest {
     LocalDate dispoDate = LocalDate.of(2025, 7, 1);
 
     Apartment apt = new Apartment(apartmentId,"Superbe 4 1/2 à louer", "Près de l'uni, trop cool", publishDate, 1600.0f, "/images/appart1", dispoDate, "123 rue X, Sherbrooke", sizeId, 4.5);
-
-    // À CHANGER LORSQUE LES TESTS FONCTIONNERONT POUR REVERT PUSH
+    
     @Test
     void getApartmentId() {
-        assertNotEquals(apartmentId, apt.getApartmentId());
+        assertEquals(apartmentId, apt.getApartmentId());
     }
 
     @Test
