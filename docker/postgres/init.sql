@@ -83,6 +83,7 @@ CREATE TABLE app.Ads
     flagQty         INT,
     price           FLOAT,
     userId          UUID,
+    isArchived      BOOLEAN,
     PRIMARY KEY (adId),
     FOREIGN KEY (userId) REFERENCES app.Users (userId)
 );
@@ -140,6 +141,42 @@ CREATE TABLE app.Favorites
     FOREIGN KEY (userId) REFERENCES app.USERS (userId),
     FOREIGN KEY (adId) REFERENCES app.Ads (adId)
 );
+
+
+-- ========== créer les données de base dans les tables ========== --
+insert into app.apartmentsizes
+values (gen_random_uuid(), '3 1/2'),
+       (gen_random_uuid(), '4 1/2'),
+       (gen_random_uuid(), '5 1/2'),
+       (gen_random_uuid(), '6 1/2');
+
+-- catégories de livres
+insert into app.categories
+values (gen_random_uuid(), 'Narratif'),
+       (gen_random_uuid(), 'Électricité'),
+       (gen_random_uuid(), 'Chimie'),
+       (gen_random_uuid(), 'Thermodynamique'),
+       (gen_random_uuid(), 'Environnement'),
+       (gen_random_uuid(), 'Programmation');
+
+-- catégories d'équipements
+insert into app.categories
+values (gen_random_uuid(), 'Outils'),
+       (gen_random_uuid(), 'Équipement de protection'),
+       (gen_random_uuid(), 'Laboratoire');
+
+insert into app.programs
+values (gen_random_uuid(), 'Génie biotechnologique'),
+       (gen_random_uuid(), 'Génie civil'),
+       (gen_random_uuid(), 'Génie chimique'),
+       (gen_random_uuid(), 'Génie du bâtiment'),
+       (gen_random_uuid(), 'Génie électrique'),
+       (gen_random_uuid(), 'Génie informatique'),
+       (gen_random_uuid(), 'Génie mécanique'),
+       (gen_random_uuid(), 'Génie robotique');
+
+
+
 
 -- First create scores for clients and sellers
 INSERT INTO app.Scores (scoreId, score, number)

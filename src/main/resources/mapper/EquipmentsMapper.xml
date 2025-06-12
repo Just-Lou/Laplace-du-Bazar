@@ -16,5 +16,10 @@
         WHERE equipmentId = coalesce(#{id}, equipmentId);
     </select>
 
+    <select id="deleteEquipment">
+        DELETE FROM app.Equipments
+        WHERE equipmentId = coalesce(#{id}, equipmentId);
+    </select>
+
 
 </mapper>
