@@ -13,7 +13,7 @@ public class Ad {
     protected int flagQty;
     protected String folderPath;
     protected Users user;
-    boolean archived;
+    protected boolean archived;
 
     public Ad(UUID adId, String title, String description, LocalDate publicationDate, float price, String folderPath) {
         this.adId = adId;

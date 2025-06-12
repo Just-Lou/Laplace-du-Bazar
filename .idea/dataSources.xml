@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< Updated upstream
     <data-source source="LOCAL" name="postgres@localhost" uuid="79085fbe-df91-4f12-8871-134f5cd6dca8">
+=======
+    <data-source source="LOCAL" name="postgres@localhost" uuid="2c44722b-1af6-4e8e-bdad-5421325b4b30">
+>>>>>>> Stashed changes
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

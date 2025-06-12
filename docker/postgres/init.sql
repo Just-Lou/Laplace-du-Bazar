@@ -203,17 +203,17 @@ VALUES (gen_random_uuid(), 'John', 'Doe', 'john.doe@example.com', 'hashedpasswor
        (gen_random_uuid(), 'Jane', 'Smith', 'jane.smith@example.com', 'hashedpassword2', '555-987-6543',
         '2023-02-20 14:45:00', TRUE, '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
         '55555555-5555-5555-5555-555555555555'),
-       ('66666666-6666-6666-6666-666666666666', 'Laplace', 'Admin', 'admin@laplace.com', 'motdepasse', '555-456-7890', '1970-01-01 00:00:01',
+       (gen_random_uuid(), 'Laplace', 'Admin', 'admin@laplace.com', 'motdepasse', '555-456-7890', '1970-01-01 00:00:01',
         true, '33333333-3333-3333-3333-333333333333', 'cccccccc-cccc-cccc-cccc-cccccccccccc',
         '66666666-6666-6666-6666-666666666666');
 
 
 --tests pour les annonces
 insert into app.apartmentsizes (apartmentsizeid, apartmentsize)
-values ('66666666-6666-6666-6666-666666666666', '3 1/2');
+values (gen_random_uuid(), '3 1/2');
 
 insert into app.ads (adid, title, description, publicationdate, price, userid)
-values ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Annonce 1', 'description annonce 1', '2023-01-15 08:30:00', 1300, '66666666-6666-6666-6666-666666666666');
+values (gen_random_uuid(), 'Annonce 1', 'description annonce 1', '2023-01-15 08:30:00', 1300, '0d9fe705-30c3-4ce3-bfea-e03302fcf9e3');
 
 insert into app.apartments (apartmentid, disponibility, address, apartmentsizeid, adid)
-values (gen_random_uuid(), '2023-01-15 08:30:00', '123 rue x, sherbrooke', '66666666-6666-6666-6666-666666666666', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
+values (gen_random_uuid(), '2023-01-15 08:30:00', '123 rue x, sherbrooke', '8cc08d3c-8f4b-49f7-b3ff-b5108a7eb6af', 'b25be342-5a7c-45ec-9134-461b6f86b496');
