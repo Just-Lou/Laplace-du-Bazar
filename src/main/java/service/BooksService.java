@@ -42,4 +42,11 @@ public class BooksService {
         Book book = booksMapper.getBookById(id);
         return book;
     }
+
+    @GET
+    @Path("deleteBook")
+    @PermitAll
+    public void deleteBook(@QueryParam("id") UUID id) {
+        booksMapper.deleteBook(id);
+    }
 }

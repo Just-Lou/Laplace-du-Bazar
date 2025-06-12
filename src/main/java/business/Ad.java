@@ -13,6 +13,7 @@ public class Ad {
     protected int flagQty;
     protected String folderPath;
     protected Users user;
+    protected boolean archived;
 
     public Ad(UUID adId, String title, String description, LocalDate publicationDate, float price, String folderPath) {
         this.adId = adId;
@@ -38,4 +39,7 @@ public class Ad {
     public void setFlagQty(int flagQty) { this.flagQty = flagQty; }
     public Users getUser() { return user; }
     public void setUser(Users user) { this.user = user; }
+    public void archive() { archived = true; }
+    public void unArchive() { archived = false; }
+    public boolean isArchived() { return archived; }
 }

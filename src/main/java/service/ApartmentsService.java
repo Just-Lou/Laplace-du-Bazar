@@ -53,4 +53,10 @@ public class ApartmentsService {
         return apartment;
     }
 
+    @GET
+    @Path("deleteApartment")
+    @PermitAll
+    public void deleteApartment(@QueryParam("id") UUID id) {
+        apartmentsMapper.deleteApartment(id);
+    }
 }
