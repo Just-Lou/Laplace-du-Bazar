@@ -20,5 +20,10 @@
         WHERE apartmentId = coalesce(#{id}, apartmentId);
     </select>
 
+    <select id="deleteApartment">
+        DELETE FROM app.Apartments
+        WHERE apartmentId = coalesce(#{id}, apartmentId);
+    </select>
+
 
 </mapper>

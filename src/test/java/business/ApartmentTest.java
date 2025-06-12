@@ -15,7 +15,7 @@ public class ApartmentTest {
     LocalDate dispoDate = LocalDate.of(2025, 7, 1);
 
     Apartment apt = new Apartment(apartmentId,"Superbe 4 1/2 à louer", "Près de l'uni, trop cool", publishDate, 1600.0f, "/images/appart1", dispoDate, "123 rue X, Sherbrooke", sizeId, 4.5);
-
+    
     @Test
     void getApartmentId() {
         assertEquals(apartmentId, apt.getApartmentId());
@@ -111,5 +111,18 @@ public class ApartmentTest {
         apt.setFolderPath("/images/appart2");
         assertEquals("/images/appart2", apt.getFolderPath());
     }
+
+    @Test
+    void archiveApartement() {
+        apt.archive();
+        assertTrue(apt.isArchived());
+    }
+
+    @Test
+    void unarchiveApartement() {
+        apt.unArchive();
+        assertFalse(apt.isArchived());
+    }
+
 
 }

@@ -8,7 +8,10 @@ import java.util.UUID;
 
 @Mapper
 public interface ApartmentsMapper {
+
     public List<ApartmentViewModel> getAllApartments(@Param("userId") UUID userUUID);
 
     public Apartment getApartmentById(@Param("id") UUID id);
+
+    public void deleteApartment(@Param("id") UUID id);
 }

@@ -16,5 +16,10 @@
         WHERE bookId = coalesce(#{id}, bookId);
     </select>
 
+    <select id="deleteBook">
+        DELETE FROM app.Books
+        WHERE bookId = coalesce(#{id}, bookId);
+    </select>
+
 
 </mapper>

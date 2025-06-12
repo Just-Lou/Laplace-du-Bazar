@@ -111,6 +111,16 @@ public class BookTest {
         assertEquals("/image/livre2", book.getFolderPath());
     }
 
+    @Test
+    void archiveBook() {
+        book.archive();
+        assertTrue(book.isArchived());
+    }
 
+    @Test
+    void unarchiveBook() {
+        book.unArchive();
+        assertFalse(book.isArchived());
+    }
 
 }

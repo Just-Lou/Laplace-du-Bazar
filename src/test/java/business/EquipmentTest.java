@@ -99,4 +99,16 @@ class EquipmentTest {
         equipment.setFolderPath("/images/outil2");
         assertEquals("/images/outil2", equipment.getFolderPath());
     }
+
+    @Test
+    void archiveEquipment() {
+        equipment.archive();
+        assertTrue(equipment.isArchived());
+    }
+
+    @Test
+    void unarchiveEquipment() {
+        equipment.unArchive();
+        assertFalse(equipment.isArchived());
+    }
 }
