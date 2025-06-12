@@ -42,4 +42,6 @@ bin/
 .DS_Store
 
 ### Zak ###
+/docker/data/import/merged.json
+/docker/data/users.json
 .idea/dataSources.xml
