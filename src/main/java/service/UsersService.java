@@ -62,7 +62,7 @@ public class UsersService {
     @RolesAllowed("Administrator")
     public Response createUser() {
         usersMapper.createUser(jwt.getClaim(""), jwt.getClaim("given_name"), jwt.getClaim("family_name"),
-                               jwt.getClaim("email"), jwt.getClaim("roles"));
+                               jwt.getClaim("email"), securityIdentity.getRoles().toArray(new String[0]));
 
         return Response.ok().build();
     }
@@ -100,21 +100,20 @@ public class UsersService {
                 "email", jwt.getClaim("email"),
                 "firstName", jwt.getClaim("given_name"),
                 "lastName", jwt.getClaim("family_name"),
-                "roles", securityIdentity.getRoles()
+                "roles", securityIdentity.getRoles().toArray(new String[0])[0]
 
         );
         return userInfo;
     }
 
 
-    @Inject
-    SecurityIdentity identity; //je sais pas
+
 
     @GET
     @Path("/roles")
     @PermitAll
     public Set<String> getRoles() {
-        return identity.getRoles();
+        return securityIdentity.getRoles();
     }
 
     // Necessaire pour logger avec quarkus, puis ensuire rediriger vers la page d'origine (pour le momement on force back a /login.html)

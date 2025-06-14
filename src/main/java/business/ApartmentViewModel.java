@@ -26,7 +26,7 @@ public class ApartmentViewModel {
     private boolean reported;
     private boolean isArchived;
 
-    ApartmentViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported) {
+    ApartmentViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported, boolean isArchived) {
         this.adId = adId;
         this.adTitle = adTitle;
         this.adDescription = adDescription;
