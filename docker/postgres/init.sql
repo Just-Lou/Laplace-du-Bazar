@@ -207,8 +207,6 @@ VALUES (gen_random_uuid(), 'John', 'Doe', 'john.doe@example.com', 'hashedpasswor
         true, '33333333-3333-3333-3333-333333333333', 'cccccccc-cccc-cccc-cccc-cccccccccccc',
         '66666666-6666-6666-6666-666666666666');
 
-<<<<<<< Updated upstream
-
 --tests pour les annonces
 insert into app.apartmentsizes (apartmentsizeid, apartmentsize)
 values (gen_random_uuid(), '3 1/2');
@@ -218,5 +216,3 @@ values (gen_random_uuid(), 'Annonce 1', 'description annonce 1', '2023-01-15 08:
 
 insert into app.apartments (apartmentid, disponibility, address, apartmentsizeid, adid)
 values (gen_random_uuid(), '2023-01-15 08:30:00', '123 rue x, sherbrooke', '66666666-6666-6666-6666-666666666666', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
-=======
->>>>>>> Stashed changes
