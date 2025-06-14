@@ -1,32 +1,20 @@
 package business;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.UUID;
 
-public class ApartmentViewModel {
-
-    @JsonProperty("adId")
+public class BookViewModel {
     private UUID adId;
-    @JsonProperty("adTitle")
     private String adTitle;
-    @JsonProperty("adDescription")
     private String adDescription;
-    @JsonProperty("adPrice")
     private float adPrice;
-    @JsonProperty("adSellerName")
     private String adSellerName;
-    @JsonProperty("adSellerScore")
     private float adSellerScore;
-    @JsonProperty("adImagesPath")
     private String adImagesPath;
-    @JsonProperty("saved")
     private boolean saved;
-    @JsonProperty("reported")
     private boolean reported;
     private boolean isArchived;
 
-    ApartmentViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported) {
+    BookViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported, boolean isArchived) {
         this.adId = adId;
         this.adTitle = adTitle;
         this.adDescription = adDescription;

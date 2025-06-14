@@ -11,6 +11,7 @@
                                   INNER JOIN app.scores AS s ON u.scoresellerid = s.scoreid
                                   LEFT JOIN app.favorites AS f ON #{userId} = f.userid AND ads.adid = f.adid
                                   LEFT JOIN app.reports AS r ON #{userId} = r.userid AND ads.adid = r.adid
+        WHERE ads.isarchived = false
     </select>
 
 
@@ -22,6 +23,11 @@
                                   LEFT JOIN app.favorites AS f ON #{userId} = f.userid AND ads.adid = f.adid
                                   LEFT JOIN app.reports AS r ON #{userId} = r.userid AND ads.adid = r.adid
         WHERE ads.adid = #{id}
+    </select>
+
+    <select id="deleteApartment">
+        DELETE FROM app.Apartments
+        WHERE apartmentId = coalesce(#{id}, apartmentId);
     </select>
 
 

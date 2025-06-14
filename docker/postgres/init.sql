@@ -83,6 +83,7 @@ CREATE TABLE app.Ads
     flagQty         INT,
     price           FLOAT,
     userId          UUID,
+    isArchived      BOOLEAN,
     PRIMARY KEY (adId),
     FOREIGN KEY (userId) REFERENCES app.Users (userId)
 );
@@ -141,6 +142,42 @@ CREATE TABLE app.Favorites
     FOREIGN KEY (adId) REFERENCES app.Ads (adId)
 );
 
+
+-- ========== créer les données de base dans les tables ========== --
+insert into app.apartmentsizes
+values (gen_random_uuid(), '3 1/2'),
+       (gen_random_uuid(), '4 1/2'),
+       (gen_random_uuid(), '5 1/2'),
+       (gen_random_uuid(), '6 1/2');
+
+-- catégories de livres
+insert into app.categories
+values (gen_random_uuid(), 'Narratif'),
+       (gen_random_uuid(), 'Électricité'),
+       (gen_random_uuid(), 'Chimie'),
+       (gen_random_uuid(), 'Thermodynamique'),
+       (gen_random_uuid(), 'Environnement'),
+       (gen_random_uuid(), 'Programmation');
+
+-- catégories d'équipements
+insert into app.categories
+values (gen_random_uuid(), 'Outils'),
+       (gen_random_uuid(), 'Équipement de protection'),
+       (gen_random_uuid(), 'Laboratoire');
+
+insert into app.programs
+values (gen_random_uuid(), 'Génie biotechnologique'),
+       (gen_random_uuid(), 'Génie civil'),
+       (gen_random_uuid(), 'Génie chimique'),
+       (gen_random_uuid(), 'Génie du bâtiment'),
+       (gen_random_uuid(), 'Génie électrique'),
+       (gen_random_uuid(), 'Génie informatique'),
+       (gen_random_uuid(), 'Génie mécanique'),
+       (gen_random_uuid(), 'Génie robotique');
+
+
+
+
 -- First create scores for clients and sellers
 INSERT INTO app.Scores (scoreId, score, number)
 VALUES ('11111111-1111-1111-1111-111111111111', 4.5, 10),
@@ -166,17 +203,20 @@ VALUES (gen_random_uuid(), 'John', 'Doe', 'john.doe@example.com', 'hashedpasswor
        (gen_random_uuid(), 'Jane', 'Smith', 'jane.smith@example.com', 'hashedpassword2', '555-987-6543',
         '2023-02-20 14:45:00', TRUE, '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
         '55555555-5555-5555-5555-555555555555'),
-       ('66666666-6666-6666-6666-666666666666', 'Laplace', 'Admin', 'admin@laplace.com', 'motdepasse', '555-456-7890', '1970-01-01 00:00:01',
+       (gen_random_uuid(), 'Laplace', 'Admin', 'admin@laplace.com', 'motdepasse', '555-456-7890', '1970-01-01 00:00:01',
         true, '33333333-3333-3333-3333-333333333333', 'cccccccc-cccc-cccc-cccc-cccccccccccc',
         '66666666-6666-6666-6666-666666666666');
 
+<<<<<<< Updated upstream
 
 --tests pour les annonces
 insert into app.apartmentsizes (apartmentsizeid, apartmentsize)
-values ('66666666-6666-6666-6666-666666666666', '3 1/2');
+values (gen_random_uuid(), '3 1/2');
 
 insert into app.ads (adid, title, description, publicationdate, price, userid)
-values ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Annonce 1', 'description annonce 1', '2023-01-15 08:30:00', 1300, '66666666-6666-6666-6666-666666666666');
+values (gen_random_uuid(), 'Annonce 1', 'description annonce 1', '2023-01-15 08:30:00', 1300, '0d9fe705-30c3-4ce3-bfea-e03302fcf9e3');
 
 insert into app.apartments (apartmentid, disponibility, address, apartmentsizeid, adid)
 values (gen_random_uuid(), '2023-01-15 08:30:00', '123 rue x, sherbrooke', '66666666-6666-6666-6666-666666666666', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
+=======
+>>>>>>> Stashed changes

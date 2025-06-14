@@ -12,6 +12,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.inject.Inject;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -36,6 +37,7 @@ public class UsersService {
     @Inject
     JsonWebToken jwt;
 
+
     @Inject
     SecurityIdentity securityIdentity;
 
@@ -56,14 +58,24 @@ public class UsersService {
     }
 
     @GET
+    @Path("createUser")
+    @RolesAllowed("Administrator")
+    public Response createUser() {
+        usersMapper.createUser(jwt.getClaim(""), jwt.getClaim("given_name"), jwt.getClaim("family_name"),
+                               jwt.getClaim("email"), jwt.getClaim("roles"));
+
+        return Response.ok().build();
+    }
+
+    @GET
     @Path("updateUser/{id}")
     @RolesAllowed({"Administrator", "StandardUser"})
     public Response updateUser(@PathParam("id") UUID id,
                            @QueryParam("firstName") String firstName,
                            @QueryParam("lastName") String lastName,
-                           @QueryParam("email") String email,
-                           @QueryParam("password") String password) {
-        usersMapper.updateUser(id, firstName, lastName, email, password);
+                           @QueryParam("email") String email) {
+
+        usersMapper.updateUser(id, firstName, lastName, email);
 
         return Response.ok().build();
     }
@@ -80,10 +92,20 @@ public class UsersService {
     @GET
     @Path("/whoami")
     @RolesAllowed({"StandardUser", "Administrator"})
-    public String whoami(@Context SecurityContext securityContext) {
-        String username = securityContext.getUserPrincipal().getName();
-        return username;
+    public Map<String, Object> whoami() {
+        Map<String, Object> userInfo = Map.of(
+//                "jwt", jwt.getRawToken(),
+                "userId", jwt.getSubject(),
+                "username", jwt.getName(),
+                "email", jwt.getClaim("email"),
+                "firstName", jwt.getClaim("given_name"),
+                "lastName", jwt.getClaim("family_name"),
+                "roles", securityIdentity.getRoles()
+
+        );
+        return userInfo;
     }
+
 
     @Inject
     SecurityIdentity identity; //je sais pas

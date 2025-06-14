@@ -11,4 +11,6 @@ public interface EquipmentsMapper {
     public List<Equipment> getAllEquipments();
 
     public Equipment getEquipmentById(@Param("id") UUID id);
+
+    public void deleteEquipment(@Param("id") UUID id);
 }

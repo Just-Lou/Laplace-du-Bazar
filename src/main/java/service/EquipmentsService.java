@@ -6,6 +6,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import mapper.BooksMapper;
 import mapper.EquipmentsMapper;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -41,5 +42,12 @@ public class EquipmentsService {
     public Equipment getAllEquipments(@PathParam("id") UUID id) {
         Equipment equipment = equipmentsMapper.getEquipmentById(id);
         return equipment;
+    }
+
+    @GET
+    @Path("deleteEquipment")
+    @PermitAll
+    public void deleteEquipment(@QueryParam("id") UUID id) {
+        equipmentsMapper.deleteEquipment(id);
     }
 }
