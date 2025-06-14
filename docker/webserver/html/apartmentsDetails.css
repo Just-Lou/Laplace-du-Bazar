@@ -1,0 +1,84 @@
+.ad-details-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 1000px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ad-details-header {
+    height: 100px;
+    width: 100%;
+    padding: 10px;
+}
+
+.ad-carrousel {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-color: black;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.ad-carrousel-arrow {
+    height: 100%;
+    width: 40px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: whitesmoke;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.ad-carrousel-arrow:hover {
+    background-color: rgba(24, 81, 49, 0.3);
+    color: seagreen;
+    cursor: pointer;
+}
+
+.next {
+    position: absolute;
+    right: 0;
+}
+
+.previous {
+    position: absolute;
+    left: 0;
+}
+
+.ad-details-informations {
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.ad-details-description, .ad-seller-informations {
+    min-height: 70px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ad-seller-profile {
+    position: relative;
+    right: 0;
+}
+
+.ad-seller-profile > i{
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.stars-container {
+    justify-items: left;
+}
+
+.rating-empty-stars {
+    width: 200px;
+}

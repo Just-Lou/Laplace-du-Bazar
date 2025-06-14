@@ -133,6 +133,7 @@ h1 {
 }
 .ad:hover {
     transform: scale(1.02);
+    cursor: pointer;
 }
 
 .flag-options {
@@ -255,7 +256,7 @@ h1 {
 /*section de chargement*/
 .loading {
     position: relative;
-    background-color: darkgrey;
+    background-color: darkgrey !important;
     border-radius: 3px;
     overflow: hidden;
 }

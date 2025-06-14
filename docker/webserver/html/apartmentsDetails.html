@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Laplace du Bazar - Appartements</title>
+    <link rel="icon" type="image/png" href="laplaceDuBazarLogo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="apartments.css">
+    <link rel="stylesheet" href="apartmentsDetails.css">
+</head>
+<body>
+<div id="navbar"></div>
+<div id="background">
+    <div id="background-fade"></div>
+</div>
+<div id="container" class="ad-details-container">
+    <div class="ad-details-header">
+        <div class="flag-options empty-flags">
+            <div class="flag-empty-save" onclick="saveAd()">
+                <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+            </div>
+            <div class="flag-empty-report" onclick="reportAd()">
+                <i class="fa fa-flag-o" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="flag-options full-flags">
+            <div class="flag-full-save" onclick="unsaveAd(this)">
+                <i class="fa fa-bookmark" aria-hidden="true"></i>
+            </div>
+            <div class="flag-full-report" onclick="unreportAd(this)">
+                <i class="fa fa-flag" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="title loading">
+            <h1></h1>
+        </div>
+        <h2 id="ad-price"></h2>
+    </div>
+    <div class="ad-carrousel loading">
+        <div class="ad-carrousel-arrow previous">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="ad-carrousel-arrow next">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="ad-details-informations">
+        <h2>Description:</h2>
+        <div class="ad-details-description loading">
+        </div>
+        <hr/>
+        <h2>Informations sur le vendeur:</h2>
+        <div class="ad-seller-informations loading">
+            <div class="ad-seller-profile">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                <div class="stars-container">
+                    <div class="stars-rating">
+                        <div class="rating-full-stars">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="rating-empty-stars">
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <p id="seller-name"></p>
+                </div>
+            </div>
+            <p id="seller-phone"></p>
+            <p id="seller-email"></p>
+        </div>
+    </div>
+    <div id="tmp-message">
+        <p></p>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    function reportAd() {
+
+        const elementFullReport = document.querySelector('.flag-full-report');
+
+        elementFullReport.style.height = '30px';
+        //faire une requête pour ajouter une signalement de cette annonce
+
+        displayMessage('Cette annonce a été signalée aux administrateurs');
+    }
+
+    function unreportAd(element) {
+
+        element.style.height = '0';
+        //faire une requête pour enlever un siganlement de cette annonce
+
+        displayMessage('Le signalement de cette annonce a été retiré');
+    }
+
+    function saveAd() {
+        const elementFullSave = document.querySelector('.flag-full-save');
+
+        elementFullSave.style.height = '30px';
+        //faire une requête pour ajouter cette annonce dans les annonces enregistrées par l'utilisateur
+
+        displayMessage('Cette annonce a été ajoutée à vos enregistrements');
+    }
+
+    function unsaveAd(element) {
+        element.style.height = '0';
+        //faire une requête pour enlever cette annonces des annonces enregistrées par l'utilisateur
+
+        displayMessage('Cette annonce a été retirée de vos enregistrements');
+    }
+
+    function displayMessage(text) {
+        const msgBox = document.getElementById('tmp-message');
+        const msg = msgBox.querySelector('p');
+
+        msg.innerHTML = text;
+
+        msgBox.style.bottom = '20px';
+        setTimeout(() => {
+            msgBox.style.width = '100%';
+        }, 500);
+
+        setTimeout(() => {
+            msg.style.opacity = '100%'
+        }, 900);
+
+        setTimeout(() => {
+            msg.style.opacity = '0'
+        }, 5000);
+
+        setTimeout(() => {
+            msgBox.style.width = '20px';
+        }, 5000);
+
+        setTimeout(() => {
+            msgBox.style.bottom = '-100px';
+        }, 5900);
+    }
+
+    fetch('navbar.html')
+        .then(response => response.text())
+        .then(html => document.getElementById("navbar").innerHTML = html);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadAdDetails();
+    });
+
+    function loadAdDetails() {
+        const adId = new URLSearchParams(window.location.search).get("id");
+
+        fetch(`http://localhost:8080/laplace/apartments/getApartmentById/${adId}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(response.status);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data != undefined) {
+
+                    var adId = data['adId'];
+                    var adTitle = data['adTitle'];
+                    var adPrice = data['adPrice'];
+                    var adDescription = data['adDescription'];
+                    var adSellerName = data['adSellerName'];
+                    var adSellerScore = data['adSellerScore'];
+                    var adSellerScoreCount = data['adSellerScoreCount']
+                    var adImagesPath = data['adImagesPath'];
+                    var adSellerPhone = data['adSellerPhone'];
+                    var adSellerEmail = data['adSellerEmail'];
+                    var disponibility = data['disponibility'];
+
+                    document.querySelector('.title').querySelector('h1').innerHTML = adTitle;
+                    document.getElementById('ad-price').innerHTML = adPrice + ' $';
+
+                    const descriptionElement = document.querySelector('.ad-details-description');
+                    descriptionElement.innerHTML = adDescription;
+                    descriptionElement.innerHTML += '<br/>Disponible a partir du ' + disponibility;
+
+                    document.getElementById('seller-name').innerHTML = adSellerName
+                    document.querySelector('.rating-full-stars').style.width = eval("'" + (adSellerScore / 5 * 90) + "px'");
+                    document.querySelector('.rating-empty-stars').innerHTML += `(${adSellerScoreCount})`;
+
+                    document.getElementById('seller-phone').innerHTML = 'Numéro de téléphone : ' + adSellerPhone;
+                    document.getElementById('seller-email').innerHTML = 'adresse courriel : ' + adSellerEmail;
+
+                    Array.from(document.getElementsByClassName('loading')).forEach(element => {
+                        element.classList.remove('loading');
+                    });
+                } else {
+                    document.getElementById('container').innerHTML =
+                        '<div id="no-result">' +
+                        '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>' +
+                        '<p>Cette annonce ne semble plus disponible...</p>' +
+                        '</div>';
+                }
+            })
+            .catch(error => {
+                console.error("Erreur lors de la requête :", error);
+                document.getElementById('ads-listing').innerHTML =
+                    '<div id="no-result">' +
+                    '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>' +
+                    '<p>Une erreur lors de la récupération des informations de cette annonce est survenue...</p>' +
+                    '</div>';
+            });
+    }
+</script>
