@@ -29,4 +29,14 @@
         DELETE FROM app.Apartments
         WHERE apartmentId = coalesce(#{id}, apartmentId);
     </select>
+
+    <insert id="addToFavorites">
+        INSERT INTO app.favorites(userid, adid)
+        VALUES (#{userId}, #{adId})
+    </insert>
+
+    <delete id="removeFromFavorites">
+        DELETE FROM app.favorites
+        WHERE adid = #{adId} AND userid = #{userId}
+    </delete>
 </mapper>

@@ -15,4 +15,8 @@ public interface ApartmentsMapper {
     public ApartmentDetailsViewModel getApartmentById(@Param("id") UUID id, @Param("userId") UUID userId);
 
     public void deleteApartment(@Param("id") UUID id);
+
+    public void addToFavorites(@Param("userId") UUID userId, @Param("adId") UUID adId );
+
+    public void removeFromFavorites(@Param("userId") UUID userId, @Param("adId") UUID adId);
 }
