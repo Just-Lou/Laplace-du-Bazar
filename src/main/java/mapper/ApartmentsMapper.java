@@ -17,7 +17,12 @@ public interface ApartmentsMapper {
 
     public void deleteApartment(@Param("id") UUID id);
 
-    List<ApartmentViewModel> getApartmentsByCriteria(@Param("minPrice") Float minPrice, @Param("maxPrice") Float maxPrice,
-            @Param("minScore") Float minScore, @Param("disponibilityBefore") String disponibilityBefore, @Param("apartmentSize") String apartmentSize, @Param("userId") UUID userId);
-
+    List<ApartmentViewModel> getApartmentsByCriteria(
+            @Param("minPrice") Float minPrice,
+            @Param("maxPrice") Float maxPrice,
+            @Param("minScore") Float minScore,
+            @Param("disponibilityBefore") String disponibilityBefore,
+            @Param("apartmentSize") String apartmentSize,
+            @Param("sortBy") String sortBy
+    );
 }

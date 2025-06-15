@@ -68,16 +68,16 @@ public class ApartmentsService {
     @GET
     @Path("search")
     @RolesAllowed({"StandardUser", "Administrator"})
-    public List<ApartmentViewModel> searchApartments(@QueryParam("minPrice") Float minPrice, @QueryParam("maxPrice") Float maxPrice,
-                                                     @QueryParam("minScore") Float minScore, @QueryParam("disponibilityBefore") String disponibilityBefore,
-                                                     @QueryParam("apartmentSize") String apartmentSize, @Context SecurityContext securityContext)
-    {
-        String userEmail = securityContext.getUserPrincipal().getName();
-        String userId = usersMapper.getUserIdByEmail(userEmail);
-        UUID userUUID = UUID.fromString(userId);
-
+    public List<ApartmentViewModel> searchApartments(
+            @QueryParam("minPrice") Float minPrice,
+            @QueryParam("maxPrice") Float maxPrice,
+            @QueryParam("minScore") Float minScore,
+            @QueryParam("disponibilityBefore") String disponibilityBefore,
+            @QueryParam("apartmentSize") String apartmentSize,
+            @QueryParam("sortBy") String sortBy
+    ) {
         return apartmentsMapper.getApartmentsByCriteria(
-                minPrice, maxPrice, minScore, disponibilityBefore, apartmentSize, userUUID
+                minPrice, maxPrice, minScore, disponibilityBefore, apartmentSize, sortBy
         );
     }
 
