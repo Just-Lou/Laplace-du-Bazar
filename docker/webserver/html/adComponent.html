@@ -1,21 +1,21 @@
-<div class="ad" id="${adId}">
+<div class="ad" id="${adId}" onclick="redirectToDetails('${adId}')">
     <div class="flag-options empty-flags">
-        <div class="flag-empty-save" onclick="saveAd(this)">
+        <div class="flag-empty-save" onclick="saveAd(event, this)">
             <i class="fa fa-bookmark-o" aria-hidden="true"></i>
         </div>
-        <div class="flag-empty-report" onclick="reportAd(this)">
+        <div class="flag-empty-report" onclick="reportAd(event, this)">
             <i class="fa fa-flag-o" aria-hidden="true"></i>
         </div>
     </div>
     <div class="flag-options full-flags">
-        <div class="flag-full-save" onclick="unsaveAd(this)">
+        <div class="flag-full-save" onclick="unsaveAd(event, this)">
             <i class="fa fa-bookmark" aria-hidden="true"></i>
         </div>
-        <div class="flag-full-report" onclick="unreportAd(this)">
+        <div class="flag-full-report" onclick="unreportAd(event, this)">
             <i class="fa fa-flag" aria-hidden="true"></i>
         </div>
     </div>
-    <div class="ad-image-container loading">
+    <div class="ad-image-container loading" style="background-image: url(#{adImagesPath});">
 
     </div>
     <div class="ad-text-container">
@@ -23,7 +23,8 @@
             <h1>${adTitle}</h1>
         </div>
         <div class="description loading">
-            ${adDescription}
+            <h3>${adPrice} $</h3>
+            <p>${adDescription}</p>
         </div>
     </div>
     <div class="ad-seller-profile">
@@ -44,7 +45,7 @@
                     <i class="fa fa-star-o" aria-hidden="true"></i>
                 </div>
             </div>
-            <p>${sellerName}</p>
+            <p>${adSellerName}</p>
         </div>
         <i class="fa fa-user-circle-o" aria-hidden="true"></i>
     </div>

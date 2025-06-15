@@ -1,8 +1,10 @@
 package mapper;
 
 import business.Apartment;
+import business.ApartmentDetailsViewModel;
 import business.ApartmentViewModel;
 import org.apache.ibatis.annotations.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +13,16 @@ public interface ApartmentsMapper {
 
     public List<ApartmentViewModel> getAllApartments(@Param("userId") UUID userUUID);
 
-    public Apartment getApartmentById(@Param("id") UUID id);
+    public ApartmentDetailsViewModel getApartmentById(@Param("id") UUID id, @Param("userId") UUID userId);
 
     public void deleteApartment(@Param("id") UUID id);
+
+    List<ApartmentViewModel> getApartmentsByCriteria(
+            @Param("minPrice") Float minPrice,
+            @Param("maxPrice") Float maxPrice,
+            @Param("minScore") Float minScore,
+            @Param("disponibilityBefore") String disponibilityBefore,
+            @Param("apartmentSize") String apartmentSize,
+            @Param("sortBy") String sortBy
+    );
 }

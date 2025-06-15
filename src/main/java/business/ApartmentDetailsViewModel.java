@@ -2,10 +2,10 @@ package business;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
-public class ApartmentViewModel {
-
+public class ApartmentDetailsViewModel {
     @JsonProperty("adId")
     private UUID adId;
     @JsonProperty("adTitle")
@@ -24,9 +24,16 @@ public class ApartmentViewModel {
     private boolean saved;
     @JsonProperty("reported")
     private boolean reported;
-    private boolean isArchived;
+    @JsonProperty("adSellerEmail")
+    private String adSellerEmail;
+    @JsonProperty("adSellerPhone")
+    private String adSellerPhone;
+    @JsonProperty("disponibility")
+    private LocalDate disponibility;
+    @JsonProperty("adSellerScoreCount")
+    private int adSellerScoreCount;
 
-    ApartmentViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported) {
+    public ApartmentDetailsViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported, String adSellerEmail, String adSellerPhone, LocalDate disponibility, int adSellerScoreCount) {
         this.adId = adId;
         this.adTitle = adTitle;
         this.adDescription = adDescription;
@@ -36,6 +43,9 @@ public class ApartmentViewModel {
         this.adImagesPath = adImagesPath;
         this.saved = isSaved;
         this.reported = isReported;
-        this.isArchived = isArchived;
+        this.adSellerEmail = adSellerEmail;
+        this.adSellerPhone = adSellerPhone;
+        this.disponibility = disponibility;
+        this.adSellerScoreCount = adSellerScoreCount;
     }
 }

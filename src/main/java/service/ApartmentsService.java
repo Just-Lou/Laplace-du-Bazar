@@ -1,6 +1,7 @@
 package service;
 
 import business.Apartment;
+import business.ApartmentDetailsViewModel;
 import business.ApartmentViewModel;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
@@ -46,11 +47,15 @@ public class ApartmentsService {
     }
 
     @GET
-    @Path("getApartment/{id}")
-    @PermitAll
-    public Apartment getApartmentById(@PathParam("id") UUID id) {
-        Apartment apartment = apartmentsMapper.getApartmentById(id);
-        return apartment;
+    @Path("getApartmentById/{id}")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public ApartmentDetailsViewModel getApartmentById(@PathParam("id") UUID id, @Context SecurityContext securityContext) {
+        String userEmail = securityContext.getUserPrincipal().getName();
+
+        String userId = usersMapper.getUserIdByEmail(userEmail);
+
+        UUID userUUID = UUID.fromString(userId);
+        return apartmentsMapper.getApartmentById(id, userUUID);
     }
 
     @GET
@@ -59,4 +64,21 @@ public class ApartmentsService {
     public void deleteApartment(@QueryParam("id") UUID id) {
         apartmentsMapper.deleteApartment(id);
     }
+
+    @GET
+    @Path("search")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public List<ApartmentViewModel> searchApartments(
+            @QueryParam("minPrice") Float minPrice,
+            @QueryParam("maxPrice") Float maxPrice,
+            @QueryParam("minScore") Float minScore,
+            @QueryParam("disponibilityBefore") String disponibilityBefore,
+            @QueryParam("apartmentSize") String apartmentSize,
+            @QueryParam("sortBy") String sortBy
+    ) {
+        return apartmentsMapper.getApartmentsByCriteria(
+                minPrice, maxPrice, minScore, disponibilityBefore, apartmentSize, sortBy
+        );
+    }
+
 }
