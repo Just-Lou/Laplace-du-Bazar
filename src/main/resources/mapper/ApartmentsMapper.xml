@@ -30,7 +30,7 @@
         WHERE apartmentId = coalesce(#{id}, apartmentId);
     </select>
 
-    <insert id="addToFavorites">
+	<insert id="addToFavorites">
         INSERT INTO app.favorites(userid, adid)
         VALUES (#{userId}, #{adId})
     </insert>
@@ -39,4 +39,50 @@
         DELETE FROM app.favorites
         WHERE adid = #{adId} AND userid = #{userId}
     </delete>
+
+    <select id="getApartmentsByCriteria" resultType="business.ApartmentViewModel">
+        select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, concat(u.firstname, ' ', u.lastname) as adSellerName,
+        s.score, s.number, ads.folderpath, ap.disponibility, ap.address, apSize.apartmentSize
+        from app.apartments as ap
+        inner join app.ads as ads on ap.adid = ads.adid
+        inner join app.users as u on ads.userid = u.userid
+        inner join app.scores as s on u.scoresellerid = s.scoreid
+        inner join app.apartmentsizes as apSize on ap.apartmentSizeId = apSize.apartmentSizeId
+        where ads.isarchived is distinct from true;
+
+        <if test="minPrice != null">
+            and ads.price &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            and ads.price &lt;= #{maxPrice}
+        </if>
+        <if test="minScore != null">
+            and s.score &gt;= #{minScore}
+        </if>
+        <if test="disponibilityBefore != null">
+            and ap.disponibility &lt;= #{disponibilityBefore}
+        </if>
+        <if test="apartmentSize != null">
+            and apSize.apartmentSize = #{apartmentSize}
+        </if>
+
+        <choose>
+            <when test="sortBy == 'price_asc'">
+                order by ads.price asc
+            </when>
+            <when test="sortBy == 'price_desc'">
+                order by ads.price desc
+            </when>
+            <when test="sortBy == 'publication_asc'">
+                order by ads.publicationdate asc
+            </when>
+            <when test="sortBy == 'publication_desc'">
+                order by ads.publicationdate desc
+            </when>
+            <otherwise>
+                order by ads.price asc, ads.publicationdate desc
+            </otherwise>
+        </choose>
+    </select>
+
 </mapper>

@@ -104,4 +104,20 @@ public class ApartmentsService {
 
         return Response.ok("Ajouté au favoris avec succès").build();
     }
+
+	@GET
+    @Path("search")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public List<ApartmentViewModel> searchApartments(
+            @QueryParam("minPrice") Float minPrice,
+            @QueryParam("maxPrice") Float maxPrice,
+            @QueryParam("minScore") Float minScore,
+            @QueryParam("disponibilityBefore") String disponibilityBefore,
+            @QueryParam("apartmentSize") String apartmentSize,
+            @QueryParam("sortBy") String sortBy
+    ) {
+        return apartmentsMapper.getApartmentsByCriteria(
+                minPrice, maxPrice, minScore, disponibilityBefore, apartmentSize, sortBy
+        );
+    }
 }
