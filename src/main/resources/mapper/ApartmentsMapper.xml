@@ -29,4 +29,35 @@
         DELETE FROM app.Apartments
         WHERE apartmentId = coalesce(#{id}, apartmentId);
     </select>
+
+    <select id="getApartmentsByCriteria" resultType="business.ApartmentViewModel">
+        select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate,
+        CONCAT(u.firstname, ' ', u.lastname) as adSellerName,
+        s.score, s.number, ads.folderpath, ap.disponibility, ap.address, apSize.apartmentSize
+        from app.apartments as ap
+        inner join app.ads as ads on ap.adid = ads.adid
+        inner join app.users as u on ads.userid = u.userid
+        inner join app.scores as s on u.scoresellerid = s.scoreid
+        inner join app.apartmentsizes as apSize on ap.apartmentSizeId = apSize.apartmentSizeId
+        where ads.isarchived is distinct from true
+
+        <if test="minPrice != null">
+            and ads.price &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            and ads.price &lt;= #{maxPrice}
+        </if>
+        <if test="minScore != null">
+            and s.score &gt;= #{minScore}
+        </if>
+        <if test="disponibilityBefore != null">
+            and ap.disponibility &lt;= #{disponibilityBefore}
+        </if>
+        <if test="apartmentSize != null">
+            and apSize.apartmentSize = #{apartmentSize}
+        </if>
+
+        order by ads.price asc, s.score desc, ads.publicationdate desc
+    </select>
+
 </mapper>
