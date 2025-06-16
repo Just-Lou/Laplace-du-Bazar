@@ -1,32 +1,107 @@
-
-#page {
-    margin-top: 100px;
-    padding: 40px;
-    text-align: center;
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#test-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: seagreen;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+@media screen and (max-width: 1250px) {
+    #container {
+        width: 90% !important;
+    }
 }
 
+@media screen and (max-width: 960px){
+    #container {
+        width: 100% !important;
+    }
+}
 
-#data-textbox {
-    margin-top: 20px;
-    padding: 20px;
-    min-height: 50px;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: lightgreen;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    font-size: 18px;
+#container {
     font-family: "Titillium Web", sans-serif;
+    position: relative;
+    top: 200px;
+    width: 70%;
+    height: fit-content;
+    box-sizing: border-box;
+}
+
+.category-button {
+    position: relative;
+    max-width: 100%;
+    flex-grow: 1;
+    border-radius: 10px;
+    margin: 10px;
+    box-sizing: border-box;
+    transition: transform 0.05s linear, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    font-size: 24px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.category-button:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+.category-button:hover > .button-icon-full {
+    height: 80px;
+}
+
+.button-title {
+    margin-left: 30px
+}
+
+.button-icon, .button-icon-full {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    right: 40px;
+    top: 10px;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 80px;
+}
+.button-icon-full {
+    overflow: hidden;
+    height: 0;
+    transition: height 0.2s ease-in-out;
+}
+
+.background-icon {
+    position: absolute;
+    right: -30px;
+    top: -20px;
+    width: 150px;
+    height: 150px;
+    color: darkgray;
+    filter: blur(2px);
+    opacity: 0.5;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    font-size: 140px;
+    z-index: -2;
+}
+
+.background-fade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px -60px 50px -35px white inset;
+    z-index: -1;
+}
+
+#button-favorites:hover {
+    color: purple;
+}
+
+#button-my-ads:hover {
+    color: darkorange;
 }

@@ -6,59 +6,56 @@
     <title>Laplace du Bazar</title>
     <link rel="icon" type="image/png" href="laplaceDuBazarLogo.png">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="index.css"/>
     <link rel="stylesheet" href="navbar.css"/>
 </head>
 
 <body>
-
 <div id="navbar"></div>
+<div id="container">
+    <div class="category-button" style="height: 250px;"></div>
+    <div style="display: flex">
+        <div id="button-favorites" class="category-button" style="height: 100px;">
+            <div class="button-title">
+                Mes Favoris
+            </div>
+            <div class="button-icon">
+                <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+            </div>
+            <div class="button-icon-full">
+                <i class="fa fa-bookmark" aria-hidden="true"></i>
+            </div>
+            <div class="background-fade"></div>
+            <div class="background-icon">
+                <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div id="button-my-ads" class="category-button" style="height: 100px;">
+            <div class="button-title">
+                Mes Annonces
+            </div>
+            <div class="button-icon">
+                <i class="fa fa-folder-o" aria-hidden="true"></i>
+            </div>
+            <div class="button-icon-full">
+                <i class="fa fa-folder" aria-hidden="true"></i>
+            </div>
 
-<main id="page">
-    <button id="test-button" onclick="getAllUsers()">Afficher un élément de la database</button>
-    <div id="data-textbox"></div>
-</main>
-
+            <div class="background-fade"></div>
+            <div class="background-icon">
+                <i class="fa fa-folder-o" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-
 </html>
 
 <script>
-    function getAllUsers() {
-        var textBox = document.getElementById("data-textbox");
-        textBox.innerHTML = "";
-        fetch('http://localhost:8080/laplace/users/getAllUsers',{ credentials: 'include' })
-            .then(response => {
-                if (!response.ok) {
-                    textBox.innerHTML = `HTTP error! Status: ${response.status}`;
-                    console.log(response.status);
-                } else {
-                    return response.json();
-                }
-            })
-            .then(data => {
-                if (data) {
-                    data.forEach((user) => {
-                        var id = user["id"];
-                        var firstName = user["firstName"];
-                        var lastName = user["lastName"];
-                        var email = user["email"];
-                        textBox.innerHTML += `user: ${firstName} ${lastName}, ${email} (${id})<hr>`;
-                    });
-                    console.log(data);
-                }
-            })
-            .catch(error => {
-                console.error("Erreur lors de la requête :", error);
-            });
-    }
-
-
     document.addEventListener('DOMContentLoaded', function () {
         fetch("navbar.html")
             .then(response => response.text())
             .then(html => document.getElementById("navbar").innerHTML = html);
     });
-
-
 </script>
