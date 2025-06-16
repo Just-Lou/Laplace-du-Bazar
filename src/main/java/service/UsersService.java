@@ -55,10 +55,23 @@ public class UsersService {
 
     @GET
     @Path("createUser")
-    @RolesAllowed("Administrator")
+    @RolesAllowed({"Administrator", "StandardUser"})
     public Response createUser() {
-        usersMapper.createUser(jwt.getClaim(""), jwt.getClaim("given_name"), jwt.getClaim("family_name"),
+        usersMapper.createUser(UUID.fromString(jwt.getSubject()), jwt.getClaim("given_name"), jwt.getClaim("family_name"),
                                jwt.getClaim("email"), securityIdentity.getRoles().toArray(new String[0]));
+
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("createUserByAdmin")
+    @RolesAllowed("Administrator")
+    public Response createUserByAdmin(@QueryParam("firstName") String firstName,
+                                      @QueryParam("lastName") String lastName,
+                                      @QueryParam("email") String email,
+                                      @QueryParam("role") String[] roles) {
+
+        usersMapper.createUserByAdmin(UUID.randomUUID(), firstName, lastName, email, roles);
 
         return Response.ok().build();
     }

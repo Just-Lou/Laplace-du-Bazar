@@ -17,8 +17,13 @@
     </select>
 
     <insert id="createUser">
-        INSERT INTO app.Users(userId, firstName, lastName, email)
-        VALUES (#{id}, #{firstname}, #{lastname}, #{email});
+        INSERT INTO app.users(userId, firstName, lastName, email, passwordhash, phonenumber)
+        VALUES (#{id}, #{firstName}, #{lastName}, #{email}, '', '');
+    </insert>
+
+    <insert id="createUserByAdmin">
+        INSERT INTO app.users(userid, firstname, lastname, email, passwordhash, phonenumber)
+        VALUES (#{id}, #{firstName}, #{lastName}, #{email}, '', '');
     </insert>
 
     <update id="updateUser">

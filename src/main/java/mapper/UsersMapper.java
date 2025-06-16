@@ -16,18 +16,24 @@ public interface UsersMapper {
 
     public Users getUserById(@Param("id") UUID id);
 
-    public Response createUser(@Param("id") UUID id,
+    public void createUser(@Param("id") UUID id,
                                @Param("firstName") String firstName,
                                @Param("lastName") String lastName,
                                @Param("email") String email,
                                @Param("role") String[] role);
 
-    public Response updateUser(@Param("id") UUID id,
+    public void createUserByAdmin(@Param("id") UUID id,
+                                      @Param("firstName") String firstName,
+                                      @Param("lastName") String lastName,
+                                      @Param("email") String email,
+                                      @Param("role") String[] role);
+
+    public void updateUser(@Param("id") UUID id,
                                @Param("firstName") String firstName,
                                @Param("lastName") String lastName,
                                @Param("email") String email);
 
-    public Response deleteUser(@Param("id") UUID id);
+    public void deleteUser(@Param("id") UUID id);
 
     public String getUserIdByEmail(@Param("email") String email);
 
