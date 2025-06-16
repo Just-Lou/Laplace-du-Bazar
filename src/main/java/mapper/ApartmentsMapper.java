@@ -21,7 +21,9 @@ public interface ApartmentsMapper {
 
     public void removeFromFavorites(@Param("userId") UUID userId, @Param("adId") UUID adId);
 
-	List<ApartmentViewModel> getApartmentsByCriteria(
+    public List<ApartmentViewModel> getFavoriteApartments(@Param("userId") UUID userId);
+
+    List<ApartmentViewModel> getApartmentsByCriteria(
             @Param("minPrice") Float minPrice,
             @Param("maxPrice") Float maxPrice,
             @Param("minScore") Float minScore,

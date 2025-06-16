@@ -105,10 +105,21 @@ public class ApartmentsService {
         return Response.ok("Ajouté au favoris avec succès").build();
     }
 
+    @GET
+    @Path("getFavoriteApartments")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public List<ApartmentViewModel> getFavoriteApartments(@Context SecurityContext securityContext) {
+        String userEmail = securityContext.getUserPrincipal().getName();
+        String userId = usersMapper.getUserIdByEmail(userEmail);
+        UUID userUUID = UUID.fromString(userId);
+        List<ApartmentViewModel> apartments = apartmentsMapper.getFavoriteApartments(userUUID);
+        return apartments;
+    }
+
 	@GET
     @Path("search")
     @RolesAllowed({"StandardUser", "Administrator"})
-    public List<ApartmentViewModel> searchApartments(
+    public List<ApartmentViewModel> getApartmentsByCriteria(
             @QueryParam("minPrice") Float minPrice,
             @QueryParam("maxPrice") Float maxPrice,
             @QueryParam("minScore") Float minScore,

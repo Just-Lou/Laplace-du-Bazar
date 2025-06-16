@@ -49,4 +49,5 @@ public class BooksService {
     public void deleteBook(@QueryParam("id") UUID id) {
         booksMapper.deleteBook(id);
     }
+
 }

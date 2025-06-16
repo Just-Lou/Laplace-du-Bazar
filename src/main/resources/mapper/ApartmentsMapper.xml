@@ -25,6 +25,7 @@
         WHERE ads.adid = #{id}
     </select>
 
+
     <select id="deleteApartment">
         DELETE FROM app.Apartments
         WHERE apartmentId = coalesce(#{id}, apartmentId);
@@ -39,6 +40,19 @@
         DELETE FROM app.favorites
         WHERE adid = #{adId} AND userid = #{userId}
     </delete>
+
+    <select id="getFavoriteApartments" resultType="business.ApartmentViewModel">
+        select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, CONCAT(u.firstname, ' ', u.lastname) as adSellerName,
+               s.score, s.number, ads.folderpath, ap.disponibility, ap.address, apSize.apartmentSize
+        from app.favorites as f
+                 inner join app.ads as ads on f.adid = ads.adid
+                 inner join app.apartments as ap on ads.adid = ap.adid
+                 inner join app.users as u on ads.userid = u.userid
+                 inner join app.scores as s on u.scoresellerid = s.scoreid
+                 inner join app.apartmentsizes as apSize on ap.apartmentSizeId = apSize.apartmentSizeId
+        where f.userid = #{userId}
+          and ads.isarchived is distinct from true
+    </select>
 
     <select id="getApartmentsByCriteria" resultType="business.ApartmentViewModel">
         select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, concat(u.firstname, ' ', u.lastname) as adSellerName,
@@ -80,7 +94,7 @@
                 order by ads.publicationdate desc
             </when>
             <otherwise>
-                order by ads.price asc, ads.publicationdate desc
+                order by ads.price asc, ads.#publicationdate desc
             </otherwise>
         </choose>
     </select>
