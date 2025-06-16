@@ -5,21 +5,96 @@
 <mapper namespace="mapper.BooksMapper">
 
     <select id="getAllBooks" resultType="business.Book">
-        SELECT bookId, bookTitle, author, categoryId, adId
-        FROM app.Books;
+        select ads.adid, ads.title, ads.description, ads.price, CONCAT(u.firstname, ' ', u.lastname) as adSellerName, s.score as adSellerScore, ads.folderpath as adImagesPath, case when f.adid is not null then true else false end as saved, case when r.adid is not null then true else false end as reported, ads.isarchived as isArchived
+        from app.books as b
+                 inner join app.ads as ads on b.adid = ads.adid
+                 inner join app.users as u on ads.userid = u.userid
+                 inner join app.scores as s on u.scoresellerid = s.scoreid
+                 left join app.favorites as f on #{userId} = f.userid and ads.adid = f.adid
+                 left join app.reports as r on #{userId} = r.userid and ads.adid = r.adid
+        where ads.isarchived = false
     </select>
 
 
     <select id="getBookById" resultType="business.Book">
-        SELECT bookId, bookTitle, author, categoryId, adId
-        FROM app.Books
-        WHERE bookId = coalesce(#{id}, bookId);
+        select ads.adid, ads.title, ads.description, ads.price, CONCAT(u.firstname, ' ', u.lastname) as adSellerName, s.score as adSellerScore, ads.folderpath as adImagesPath, case when f.adid is not null then true else false end as saved, case when r.adid is not null then true else false end as reported, ads.isarchived as isArchived
+        from app.books as b
+                 inner join app.ads as ads on b.adid = ads.adid
+                 inner join app.users as u on ads.userid = u.userid
+                 inner join app.scores as s on u.scoresellerid = s.scoreid
+                 left join app.favorites as f on #{userId} = f.userid and ads.adid = f.adid
+                 left join app.reports as r on #{userId} = r.userid and ads.adid = r.adid
+        where ads.adid = #{id}
     </select>
 
     <select id="deleteBook">
         DELETE FROM app.Books
-        WHERE bookId = coalesce(#{id}, bookId);
+        WHERE bookId = #{id};
     </select>
 
+    <insert id="addToFavorites">
+        INSERT INTO app.favorites(userid, adid)
+        VALUES (#{userId}, #{adId})
+    </insert>
+
+    <delete id="removeFromFavorites">
+        DELETE FROM app.favorites
+        WHERE adid = #{adId} AND userid = #{userId}
+    </delete>
+
+    <select id="getFavoriteBooks" resultType="business.BookViewModel">
+        select ads.adId, ads.title, ads.description, ads.price, ads.publicationDate, CONCAT(u.firstName, ' ', u.lastName) as adSellerName, s.score,
+            s.number, ads.folderPath, b.author, b.bookTitle
+        from app.favorites as f
+                 inner join app.ads as ads on f.adid = ads.adid
+                 inner join app.books as b on ads.adid = b.adid
+                 inner join app.users as u on ads.userid = u.userid
+                 inner join app.scores as s on u.scoresellerid = s.scoreid
+        WHERE f.userId = #{userId}
+          AND ads.isArchived = false
+    </select>
+
+    <select id="getBooksByCriteria" resultType="business.BookViewModel">
+        select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, CONCAT(u.firstname, ' ', u.lastname) as adSellerName, s.score as adSellerScore, ads.folderpath as adImagesPath, case when f.adid is not null then true else false end as saved, case when r.adid is not null then true else false end as reported,
+        ads.isarchived as isArchived
+        from app.books as b
+        inner join app.ads as ads on b.adid = ads.adid
+        inner join app.users as u on ads.userid = u.userid
+        inner join app.scores as s on u.scoresellerid = s.scoreid
+        left join app.favorites as f on #{userId} = f.userid and ads.adid = f.adid
+        left join app.reports as r on #{userId} = r.userid and ads.adid = r.adid
+        where ads.isarchived is distinct from true
+
+        <if test="minPrice != null">
+            and ads.price &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            and ads.price &lt;= #{maxPrice}
+        </if>
+        <if test="minScore != null">
+            and s.score &gt;= #{minScore}
+        </if>
+        <if test="categoryId != null">
+            and b.categoryId = #{categoryId}
+        </if>
+
+        <choose>
+            <when test="sortBy == 'price_asc'">
+                order by ads.price asc
+            </when>
+            <when test="sortBy == 'price_desc'">
+                order by ads.price desc
+            </when>
+            <when test="sortBy == 'publication_asc'">
+                order by ads.publicationdate asc
+            </when>
+            <when test="sortBy == 'publication_desc'">
+                order by ads.publicationdate desc
+            </when>
+            <otherwise>
+                order by ads.price asc, ads.publicationdate desc
+            </otherwise>
+        </choose>
+    </select>
 
 </mapper>

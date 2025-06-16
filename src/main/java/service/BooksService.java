@@ -1,6 +1,7 @@
 package service;
 
 import business.Book;
+import business.BookViewModel;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.core.Context;
@@ -27,20 +28,23 @@ public class BooksService {
     @Inject
     BooksMapper booksMapper;
 
+    @Context
+    SecurityContext securityContext;
+
     @GET
     @Path("getAllBooks")
     @RolesAllowed({"StandardUser", "Administrator"})
-    public List<Book> getAllBooks() {
-        List<Book> books = booksMapper.getAllBooks();
-        return books;
+    public List<BookViewModel> getAllBooks() {
+        UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
+        return booksMapper.getAllBooks(userId);
     }
 
     @GET
     @Path("getUser/{id}")
     @RolesAllowed({"StandardUser", "Administrator"})
-    public Book getBookById(@PathParam("id") UUID id) {
-        Book book = booksMapper.getBookById(id);
-        return book;
+    public BookViewModel getBookById(@PathParam("id") UUID id) {
+        UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
+        return booksMapper.getBookById(id, userId);
     }
 
     @GET
@@ -50,4 +54,43 @@ public class BooksService {
         booksMapper.deleteBook(id);
     }
 
+    @POST
+    @Path("{id}/favorite")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public void addToFavorites(@PathParam("id") UUID adId) {
+        UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
+        booksMapper.addToFavorites(userId, adId);
+    }
+
+    @DELETE
+    @Path("{id}/favorite")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public void removeFromFavorites(@PathParam("id") UUID adId) {
+        UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
+        booksMapper.removeFromFavorites(userId, adId);
+    }
+
+    @GET
+    @Path("favorites")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public List<BookViewModel> getFavoriteBooks() {
+        UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
+        return booksMapper.getFavoriteBooks(userId);
+    }
+
+    @GET
+    @Path("search")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public List<BookViewModel> getBooksByCriteria(
+            @QueryParam("minPrice") Double minPrice,
+            @QueryParam("maxPrice") Double maxPrice,
+            @QueryParam("minScore") Double minScore,
+            @QueryParam("categoryId") UUID categoryId,
+            @QueryParam("sortBy") String sortBy
+    ) {
+        UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
+        return booksMapper.getBooksByCriteria(minPrice, maxPrice, minScore, categoryId, sortBy, userId);
+    }
 }
+
+
