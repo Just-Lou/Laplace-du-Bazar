@@ -30,4 +30,5 @@ public interface UsersMapper {
     public Response deleteUser(@Param("id") UUID id);
 
     public String getUserIdByEmail(@Param("email") String email);
+
 }

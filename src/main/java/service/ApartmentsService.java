@@ -60,7 +60,7 @@ public class ApartmentsService {
 
     @GET
     @Path("deleteApartment")
-    @PermitAll
+    @RolesAllowed({"StandardUser", "Administrator"})
     public void deleteApartment(@QueryParam("id") UUID id) {
         apartmentsMapper.deleteApartment(id);
     }

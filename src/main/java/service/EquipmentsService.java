@@ -30,7 +30,7 @@ public class EquipmentsService {
 
     @GET
     @Path("getAllEquipments")
-    @PermitAll
+    @RolesAllowed({"StandardUser", "Administrator"})
     public List<Equipment> getAllEquipments() {
         List<Equipment> equipments = equipmentsMapper.getAllEquipments();
         return equipments;
@@ -38,15 +38,15 @@ public class EquipmentsService {
 
     @GET
     @Path("getEquipment/{id}")
-    @PermitAll
-    public Equipment getAllEquipments(@PathParam("id") UUID id) {
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public Equipment getEquipmentById(@PathParam("id") UUID id) {
         Equipment equipment = equipmentsMapper.getEquipmentById(id);
         return equipment;
     }
 
     @GET
     @Path("deleteEquipment")
-    @PermitAll
+    @RolesAllowed({"StandardUser", "Administrator"})
     public void deleteEquipment(@QueryParam("id") UUID id) {
         equipmentsMapper.deleteEquipment(id);
     }

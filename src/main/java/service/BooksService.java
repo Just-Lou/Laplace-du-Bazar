@@ -29,7 +29,7 @@ public class BooksService {
 
     @GET
     @Path("getAllBooks")
-    @PermitAll
+    @RolesAllowed({"StandardUser", "Administrator"})
     public List<Book> getAllBooks() {
         List<Book> books = booksMapper.getAllBooks();
         return books;
@@ -37,15 +37,15 @@ public class BooksService {
 
     @GET
     @Path("getUser/{id}")
-    @PermitAll
-    public Book getAllBooks(@PathParam("id") UUID id) {
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public Book getBookById(@PathParam("id") UUID id) {
         Book book = booksMapper.getBookById(id);
         return book;
     }
 
     @GET
     @Path("deleteBook")
-    @PermitAll
+    @RolesAllowed({"StandardUser", "Administrator"})
     public void deleteBook(@QueryParam("id") UUID id) {
         booksMapper.deleteBook(id);
     }

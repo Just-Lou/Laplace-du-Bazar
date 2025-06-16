@@ -7,23 +7,20 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import jdk.jfr.BooleanFlag;
 import mapper.UsersMapper;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.inject.Inject;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import org.jboss.resteasy.reactive.NoCache;
 import org.eclipse.microprofile.jwt.JsonWebToken;
-import java.util.Set;
-
 
 
 @Path("/laplace/users")
@@ -36,7 +33,6 @@ public class UsersService {
 
     @Inject
     JsonWebToken jwt;
-
 
     @Inject
     SecurityIdentity securityIdentity;
@@ -52,7 +48,7 @@ public class UsersService {
     @GET
     @Path("getUser/{id}")
     @RolesAllowed("Administrator")
-    public Users getAllUsers(@PathParam("id") UUID id) {
+    public Users getUserById(@PathParam("id") UUID id) {
         Users user = usersMapper.getUserById(id);
         return user;
     }
@@ -84,7 +80,9 @@ public class UsersService {
     @Path("deleteUser/{id}")
     @RolesAllowed({"Administrator", "StandardUser"})
     public Response deleteUser(@PathParam("id") UUID id) {
-
+        if (!Objects.equals(jwt.getSubject(), id.toString()) && securityIdentity.getRoles().contains("StandardUser")) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         usersMapper.deleteUser(id);
         return Response.ok().build();
     }
@@ -106,9 +104,6 @@ public class UsersService {
         return userInfo;
     }
 
-
-
-
     @GET
     @Path("/roles")
     @PermitAll
@@ -126,7 +121,6 @@ public class UsersService {
                 .build();
     }
 
-
     @GET
     @Path("/logout")
     @PermitAll
@@ -135,4 +129,5 @@ public class UsersService {
                 .header("Set-Cookie", "quarkus-credential=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax")
                 .build();
     }
+
 }
