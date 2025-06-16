@@ -30,6 +30,16 @@
         WHERE apartmentId = coalesce(#{id}, apartmentId);
     </select>
 
+	<insert id="addToFavorites">
+        INSERT INTO app.favorites(userid, adid)
+        VALUES (#{userId}, #{adId})
+    </insert>
+
+    <delete id="removeFromFavorites">
+        DELETE FROM app.favorites
+        WHERE adid = #{adId} AND userid = #{userId}
+    </delete>
+
     <select id="getApartmentsByCriteria" resultType="business.ApartmentViewModel">
         select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, concat(u.firstname, ' ', u.lastname) as adSellerName,
         s.score, s.number, ads.folderpath, ap.disponibility, ap.address, apSize.apartmentSize
