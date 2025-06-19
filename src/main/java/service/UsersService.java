@@ -129,6 +129,16 @@ public class UsersService {
     @GET
     @RolesAllowed({"StandardUser", "Administrator"}) //Ne pas mettre PermitAll, a la place mettre tous les roles autorises
     public Response redirectToWebsite() {
+        if (usersMapper.getUserById(UUID.fromString(jwt.getSubject())) == null) {
+            try {
+                createUser();
+            } catch (Exception e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .entity("Error creating user: " + e.getMessage())
+                        .build();
+            }
+        }
+
         return Response.status(Response.Status.FOUND)
                 .header("Location", "http://localhost/login.html")
                 .build();
