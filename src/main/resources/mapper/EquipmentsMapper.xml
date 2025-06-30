@@ -4,22 +4,95 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.EquipmentsMapper">
 
-    <select id="getAllEquipments" resultType="business.Equipment">
-        SELECT equipmentId, categoryId, programID, adId
-        FROM app.Equipments;
+    <select id="getAllEquipments" resultType="business.EquipmentViewModel">
+        select ads.adid, ads.title, ads.description, ads.price, concat(u.firstname, ' ', u.lastname) as adSellerName,
+               s.score as adSellerScore, ads.folderpath as adImagesPath,
+               case when f.adid is not null then true else false end as saved,
+               case when r.adid is not null then true else false end as reported,
+               ads.isarchived as isArchived
+        from app.equipments as e
+                 inner join app.ads as ads on e.adid = ads.adid
+                 inner join app.users as u on ads.userid = u.userid
+                 inner join app.scores as s on u.scoresellerid = s.scoreid
+                 left join app.favorites as f on #{userId} = f.userid and ads.adid = f.adid
+                 left join app.reports as r on #{userId} = r.userid and ads.adid = r.adid
+        where ads.isarchived = false
     </select>
 
-
     <select id="getEquipmentById" resultType="business.Equipment">
-        SELECT equipmentId, categoryId, programID, adId
-        FROM app.Equipments
-        WHERE equipmentId = coalesce(#{id}, equipmentId);
+        select ads.adid, ads.title, ads.description, ads.publicationdate, ads.price, ads.folderpath,
+               e.equipmentid, e.equipmentname, c.categoryid, c.categoryname
+        from app.equipments as e
+                 inner join app.ads as ads on e.adid = ads.adid
+                 inner join app.categories as c on e.categoryid = c.categoryid
+        where ads.adid = #{id}
     </select>
 
     <select id="deleteEquipment">
-        DELETE FROM app.Equipments
-        WHERE equipmentId = coalesce(#{id}, equipmentId);
+        delete from app.equipments
+        where equipmentid = COALESCE(#{id}, equipmentid);
     </select>
 
+    <insert id="addToFavorites">
+        insert values app.favorites(userid, adid)
+        values (#{userId}, #{adId})
+    </insert>
+
+    <delete id="removeFromFavorites">
+        delete from app.favorites
+        where adid = #{adId} and userid = #{userId}
+    </delete>
+
+    <select id="getFavoriteEquipments" resultType="business.EquipmentViewModel">
+        select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, CONCAT(u.firstname, ' ', u.lastname) as adSellerName,
+               s.score as adSellerScore, s.number, ads.folderpath as adImagesPath,
+               e.equipmentname, e.categoryid
+        from app.favorites as f
+                 inner join app.ads as ads on f.adid = ads.adid
+                 inner join app.equipments as e on ads.adid = e.adid
+                 inner join app.users as u on ads.userid = u.userid
+                 inner join app.scores as s on u.scoresellerid = s.scoreid
+        where f.userid = #{userId}
+          and ads.isarchived is distinct from true
+    </select>
+
+    <select id="getEquipmentsByCriteria" resultType="business.EquipmentViewModel">
+        select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, CONCAT(u.firstname, ' ', u.lastname) as adSellerName,
+        s.score as adSellerScore, s.number, ads.folderpath as adImagesPath,
+        e.equipmentname, e.categoryid
+        from app.equipments as e
+        inner join app.ads as ads on e.adid = ads.adid
+        inner join app.users as u on ads.userid = u.userid
+        inner join app.scores as s on u.scoresellerid = s.scoreid
+        where ads.isarchived is distinct from true
+
+        <if test="minPrice != null">
+            and ads.price &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            and ads.price &lt;= #{maxPrice}
+        </if>
+        <if test="minScore != null">
+            and s.score &gt;= #{minScore}
+        </if>
+
+        <choose>
+            <when test="sortBy == 'price_asc'">
+                order by ads.price asc
+            </when>
+            <when test="sortBy == 'price_desc'">
+                order by ads.price asc
+            </when>
+            <when test="sortBy == 'publication_asc'">
+                order by ads.publicationdate asc
+            </when>
+            <when test="sortBy == 'publication_desc'">
+                order by ads.publicationdate desc
+            </when>
+            <otherwise>
+                order by ads.price asc, ads.publicationdate desc
+            </otherwise>
+        </choose>
+    </select>
 
 </mapper>
