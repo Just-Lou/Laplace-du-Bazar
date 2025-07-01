@@ -1,3 +1,17 @@
 .about-page-paragraph {
     text-align: justify;
 }
+
+.about-page-container {
+    width: 100%;
+    height: 100%;
+    scroll-behavior: auto;
+    padding-bottom: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+#about-page-bottom-spacer {
+    height: 150px;
+    width: 100%;
+}
