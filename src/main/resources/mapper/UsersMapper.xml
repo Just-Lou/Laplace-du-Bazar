@@ -28,7 +28,7 @@
 
     <update id="updateUser">
         UPDATE app.users
-        SET firstname = #{firstName}, lastname = #{lastName}, email = #{email}, passwordhash = #{password}
+        SET firstname = #{firstName}, lastname = #{lastName}, email = #{email}, passwordhash = ''
         WHERE userId = coalesce(#{id}, userId);
     </update>
 
