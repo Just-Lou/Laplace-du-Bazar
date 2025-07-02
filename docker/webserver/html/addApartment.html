@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Laplace du Bazar - Vendre</title>
+    <link rel="icon" type="image/png" href="laplaceDuBazarLogo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="addApartment.css">
+    <link rel="stylesheet" href="navbar.css">
+</head>
+<body>
+<div id="navbar"></div>
+<div id="container">
+    <h1>Ajouter un appartement à vendre</h1>
+    <hr/>
+    <form>
+        <div class="input-group">
+            <input type="text" id="title-input" placeholder=" " required>
+            <label for="title-input">Titre</label>
+        </div>
+        <div class="input-group">
+            <input type="number" id="price-input" placeholder=" " required>
+            <label for="price-input">Prix</label>
+        </div>
+        <div style="display: flex; flex-direction: row">
+            <div class="input-group">
+                <input type="date" id="disponibility-input" placeholder=" " required>
+                <label for="disponibility-input">Date de disponibilité</label>
+            </div>
+            <div class="input-group">
+                <select id="size-input" required>
+
+                </select>
+                <label for="size-input">Taille</label>
+            </div>
+        </div>
+        <div class="input-group">
+            <textarea id="description-input" placeholder=" " required></textarea>
+            <label for="description-input">Description</label>
+        </div>
+        <div id="image-upload-group">
+            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+            Sélectionnez un dossier d'images à téléverser
+        </div>
+        <div id="image-selected-group">
+            
+        </div>
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+    fetch('navbar.html')
+        .then(response => response.text())
+        .then(html => document.getElementById("navbar").innerHTML = html);
+</script>

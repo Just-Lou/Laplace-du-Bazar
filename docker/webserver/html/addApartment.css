@@ -1,0 +1,136 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: whitesmoke;
+}
+
+@media screen and (max-width: 1250px) {
+    #container {
+        width: 90% !important;
+    }
+}
+
+@media screen and (max-width: 960px){
+    #container {
+        width: 100% !important;
+    }
+}
+
+#container {
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
+    top: 200px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 1000px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-family: "Titillium Web", sans-serif;
+}
+
+hr {
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+    height: 200px;
+}
+
+.input-group {
+    position: relative;
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+    width: 100%;
+    font-size: 20px;
+    font-family: "Titillium Web", sans-serif;
+    background-color: whitesmoke;
+    border: 1px solid white;
+    border-bottom: 2px solid darkgray;
+    padding: 14px 10px 6px 10px;
+    border-radius: 5px;
+    transition: border 0.2s ease-in-out;
+    box-sizing: border-box;
+    resize: vertical; /* pour les textarea */
+    min-height: 50px; /* utile pour éviter qu’il soit trop petit */
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    border: 1px solid darkgray;
+    border-bottom: 2px solid seagreen !important;
+    outline: none;
+}
+
+.input-group label {
+    position: absolute;
+    left: 10px;
+    top: 14px;
+    font-size: 20px;
+    font-family: "Titillium Web", sans-serif;
+    color: gray;
+    pointer-events: none;
+    background-color: whitesmoke;
+    padding: 0 4px;
+    transition: 0.2s ease all;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label,
+.input-group input:valid + label,
+.input-group textarea:focus + label,
+.input-group textarea:not(:placeholder-shown) + label,
+.input-group textarea:valid + label,
+.input-group select:focus + label,
+.input-group select:valid + label {
+    top: -10px;
+    left: 5px;
+    font-size: 14px;
+    color: seagreen;
+}
+
+#image-upload-group {
+    margin-top: 30px;
+    color: darkgray;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 5px;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+#image-upload-group > i {
+    font-size: 50px;
+    margin-right: 20px;
+}
+
+#image-upload-group:hover{
+    background-color: whitesmoke;
+    color: seagreen;
+    cursor: pointer;
+}
+
+#image-selected-group {
+    display: flex;
+    width: 100%;
+}
+
+#image-selected-group > img {
+    height: 100px;
+}
