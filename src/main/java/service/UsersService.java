@@ -148,8 +148,10 @@ public class UsersService {
     @Path("/logout")
     @PermitAll
     public Response appLogout() {
-        return Response.ok() // ca marche pas jsp pourquoi
+        return Response.status(Response.Status.FOUND)
+                .header("Location", "http://localhost:6969/realms/users/protocol/openid-connect/logout?redirect_uri=http://localhost/login.html")
                 .header("Set-Cookie", "quarkus-credential=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax")
+                .header("Set-Cookie", "q_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax")
                 .build();
     }
 
