@@ -24,7 +24,7 @@ public class ScoresService {
 
     @GET
     @Path("getScore/{id}")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public Score getScoreById(@PathParam("id") UUID id) {
         Score score = scoresMapper.getScoreById(id);
         return score;

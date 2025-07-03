@@ -38,7 +38,7 @@ public class ApartmentsService {
 
     @GET
     @Path("getAllApartments")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentViewModel> getAllApartments(@Context SecurityContext securityContext) {
         String userEmail = securityContext.getUserPrincipal().getName();
 
@@ -52,7 +52,7 @@ public class ApartmentsService {
 
     @GET
     @Path("getApartmentById/{id}")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public ApartmentDetailsViewModel getApartmentById(@PathParam("id") UUID id, @Context SecurityContext securityContext) {
         String userEmail = securityContext.getUserPrincipal().getName();
 
@@ -64,7 +64,7 @@ public class ApartmentsService {
 
     @GET
     @Path("deleteApartment")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"Administrator"})
     public void deleteApartment(@QueryParam("id") UUID id) {
         apartmentsMapper.deleteApartment(id);
     }
@@ -72,6 +72,7 @@ public class ApartmentsService {
     @POST
     @Path("addToFavorites")
     @Consumes("application/json")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public Response addToFavorites(String jsonBody, @Context SecurityContext securityContext) {
         JsonObject json = Json.createReader(new StringReader(jsonBody)).readObject();
         UUID adId = UUID.fromString(json.getString("adId"));
@@ -90,6 +91,7 @@ public class ApartmentsService {
     @POST
     @Path("removeFromFavorites")
     @Consumes("application/json")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public Response removeFromFavorites(String jsonBody, @Context SecurityContext securityContext) {
         JsonObject json = Json.createReader(new StringReader(jsonBody)).readObject();
         UUID adId = UUID.fromString(json.getString("adId"));
@@ -107,7 +109,7 @@ public class ApartmentsService {
 
     @GET
     @Path("getFavoriteApartments")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentViewModel> getFavoriteApartments(@Context SecurityContext securityContext) {
         String userEmail = securityContext.getUserPrincipal().getName();
         String userId = usersMapper.getUserIdByEmail(userEmail);
@@ -118,7 +120,7 @@ public class ApartmentsService {
 
 	@GET
     @Path("search")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentViewModel> getApartmentsByCriteria(
             @QueryParam("minPrice") Float minPrice,
             @QueryParam("maxPrice") Float maxPrice,

@@ -59,7 +59,7 @@ public class UsersService {
 
     @GET
     @Path("createUser")
-    @RolesAllowed({"Administrator", "StandardUser"})
+    @RolesAllowed({"Administrator", "StandardUser", "ExternalUser"})
     public Response createUser() {
 
         UUID sellerId = UUID.randomUUID();
@@ -90,7 +90,7 @@ public class UsersService {
 
     @GET
     @Path("updateUser/{id}")
-    @RolesAllowed({"Administrator", "StandardUser"})
+    @RolesAllowed({"Administrator", "StandardUser", "ExternalUser"})
     public Response updateUser(@PathParam("id") UUID id,
                            @QueryParam("firstName") String firstName,
                            @QueryParam("lastName") String lastName,
@@ -103,7 +103,7 @@ public class UsersService {
 
     @GET
     @Path("deleteUser/{id}")
-    @RolesAllowed({"Administrator", "StandardUser"})
+    @RolesAllowed({"Administrator"})
     public Response deleteUser(@PathParam("id") UUID id) {
         if (!Objects.equals(jwt.getSubject(), id.toString()) && securityIdentity.getRoles().contains("StandardUser")) {
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -139,7 +139,7 @@ public class UsersService {
     // Necessaire pour logger avec quarkus, puis ensuire rediriger vers la page d'origine (pour le momement on force back a /login.html)
     @Path("/login")
     @GET
-    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"}) //Ne pas mettre PermitAll, a la place mettre tous les roles autorises
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"}) //(Juste dans cette fonction) Ne pas mettre PermitAll, a la place mettre tous les roles autorises
     public Response redirectToWebsite() {
         if (usersMapper.getUserById(UUID.fromString(jwt.getSubject())) == null) {
             try {
