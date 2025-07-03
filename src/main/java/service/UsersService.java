@@ -102,7 +102,7 @@ public class UsersService {
 
     @GET
     @Path("/whoami")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public Map<String, Object> whoami() {
         Map<String, Object> userInfo = Map.of(
 //                "jwt", jwt.getRawToken(),
@@ -127,7 +127,7 @@ public class UsersService {
     // Necessaire pour logger avec quarkus, puis ensuire rediriger vers la page d'origine (pour le momement on force back a /login.html)
     @Path("/login")
     @GET
-    @RolesAllowed({"StandardUser", "Administrator"}) //Ne pas mettre PermitAll, a la place mettre tous les roles autorises
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"}) //Ne pas mettre PermitAll, a la place mettre tous les roles autorises
     public Response redirectToWebsite() {
         if (usersMapper.getUserById(UUID.fromString(jwt.getSubject())) == null) {
             try {

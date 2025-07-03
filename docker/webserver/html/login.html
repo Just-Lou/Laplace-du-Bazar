@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <title>Laplace du Bazar</title>
   <link rel="icon" type="image/png" href="laplaceDuBazarLogo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="index.css"/>
   <link rel="stylesheet" href="navbar.css"/>
+  <link rel="stylesheet" href="login.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 <div id="navbar"></div>
@@ -17,34 +19,196 @@
     <br>
   </h2>
 </div>
-<div id="login-text">
-    <h1>Non connecté</h1>
+<div id="container">
+  <div class="card">
+    <div class="user-details">
+      <h1 id="user-name">Non connecté</h1>
+      <p id="user-role" class="title">Visiteur</p>
+      <p id="user-description" class="description">Bienvenue sur Laplace du Bazar</p>
+    </div>
+    
+    <div class="user-info">
+      <p id="user-email" class="info-item"></p>
+      <p id="user-joined" class="info-item"></p>
+    </div>
+    
+    <div class="user-stats">
+      <div class="stat">
+        <span id="posts-count" class="stat-number">0</span>
+        <span class="stat-label">Posts</span>
+      </div>
+      <div class="stat">
+        <span id="rating-count" class="stat-number">☆☆✮☆☆</span>
+        <span class="stat-label">Note</span>
+      </div>
+    </div>
+    
+    <div class="card-actions">
+      <button id="login-btn" class="btn btn-primary" onclick="window.location.href='http://localhost:8080/laplace/users/login'">
+        <i class="fas fa-sign-in-alt"></i> Se connecter
+      </button>
+      <button id="logout-btn" class="btn btn-secondary" style="display: none;" onclick="window.location.href='http://localhost:8080/laplace/users/logout'">
+        <i class="fas fa-sign-out-alt"></i> Se déconnecter
+      </button>
+    </div>
+  </div>
 </div>
-<button id="login-btn"  onclick="window.location.href='http://localhost:8080/laplace/users/login'">Login</button>
-<button id="logout-btn" onclick="window.location.href='http://localhost:8080/laplace/users/logout'">Logout</button>
-
 <script>
-
-
   document.addEventListener('DOMContentLoaded', function () {
     fetch("navbar.html")
-            .then(response => response.text())
-            .then(html => document.getElementById("navbar").innerHTML = html);
+        .then(response => response.text())
+        .then(html => document.getElementById("navbar").innerHTML = html);
 
+    // Fonction pour mettre à jour l'interface utilisateur
+    function updateUserInterface(userData) {
+        const isConnected = userData !== null;
+        
+        // Éléments de base
+        document.getElementById('user-name').innerHTML = isConnected ? userData.firstName + ' ' + userData.lastName : 'Non connecté';
+        document.getElementById('user-role').innerHTML = isConnected ? formatRole(userData.roles) : 'Visiteur';
+        document.getElementById('user-description').innerHTML = isConnected ? 
+            (userData.description || 'Membre actif de Laplace du Bazar') : 'Bienvenue sur Laplace du Bazar';
+        
+        // Email
+        if (isConnected && userData.email) {
+            document.getElementById('user-email').innerHTML = `<i class="fas fa-envelope"></i> ${userData.email}`;
+        } else {
+            document.getElementById('user-email').innerHTML = '';
+        }
+        
+        // Date d'inscription
+        if (isConnected && userData.joinDate) {
+            document.getElementById('user-joined').innerHTML = `<i class="fas fa-calendar-alt"></i> Membre depuis ${userData.joinDate}`;
+        } else {
+            document.getElementById('user-joined').innerHTML = '';
+        }
+        
+        // Statistiques
+        if (isConnected) {
+            document.getElementById('posts-count').textContent = userData.posts || '0';
+            document.getElementById('rating-count').textContent = userData.rating || '☆☆☆☆☆';
+        }
+        
+        // Boutons
+        document.getElementById('login-btn').style.display = isConnected ? 'none' : 'block';
+        document.getElementById('logout-btn').style.display = isConnected ? 'block' : 'none';
+    }
 
-  fetch('http://localhost:8080/laplace/users/whoami', { credentials: 'include' })
-            .then(response => {
-              if (response.ok) return response.text();
-              throw new Error('Non authenifier');
-            })
-            .then(data => {
-              document.getElementById('login-text').innerHTML = `Connecter en tant que: ${data}`;
-            })
-            .catch(() => {
-            });
-  });
+    // Récupération des données utilisateur
+    fetch('http://localhost:8080/laplace/users/whoami', { 
+        credentials: 'include'
+    })
+    .then(response => {
+        if (response.ok) return response.json();
+        throw new Error('Non authentifié');
+    })
+    .then(userData => {
+        updateUserInterface(userData);
+    })
+    .catch(() => {
+        updateUserInterface(null);
+    });
+});
+// Fonction pour formater l'affichage du rôle
+function formatRole(role) {
+    if (!role) return 'Visiteur';
+    
+    // Mapping des rôles techniques vers des noms français lisibles
+    const roleMap = {
+        'administrator': 'Administrateur',
+        'standarduser': 'Utilisateur',
+        'externaluser': 'Utilisateur externe'
+    };
+    
+    // Convertir en minuscules pour la comparaison
+    const lowerRole = role.toLowerCase();
+    
+    // Retourner la version française ou capitaliser la première lettre
+    return roleMap[lowerRole] || role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
+}
+// Fonction pour formater la note en étoiles
+function formatRating(rating) {
+    if (!rating && rating !== 0) return '☆☆☆☆☆'; // Pas de note
+    
+    // Convertir en nombre si c'est une chaîne
+    const numRating = parseFloat(rating);
+    
+    // Vérifier que c'est un nombre valide
+    if (isNaN(numRating)) return '☆☆☆☆☆';
+    
+    // Limiter entre 0 et 5
+    const clampedRating = Math.max(0, Math.min(5, numRating));
+    
+    // Générer les étoiles
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(clampedRating)) {
+            stars += '★'; // Étoile pleine
+        } else if (i === Math.ceil(clampedRating) && clampedRating % 1 !== 0) {
+            stars += '☆'; // Demi-étoile (ou étoile vide pour simplifier)
+        } else {
+            stars += '☆'; // Étoile vide
+        }
+    }
+    
+    return stars;
+}
 
+// Fonction avancée avec demi-étoiles
+function formatRatingAdvanced(rating) {
+    if (!rating && rating !== 0) return '☆☆☆☆☆';
+    
+    const numRating = parseFloat(rating);
+    if (isNaN(numRating)) return '☆☆☆☆☆';
+    
+    const clampedRating = Math.max(0, Math.min(5, numRating));
+    let stars = '';
+    
+    for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(clampedRating)) {
+            stars += '★'; // Étoile pleine
+        } else if (i === Math.ceil(clampedRating) && clampedRating % 1 >= 0.5) {
+            stars += '✮'; // Demi-étoile
+        } else {
+            stars += '☆'; // Étoile vide
+        }
+    }
+    
+    return stars;
+}
 
+// Fonction avec note numérique et étoiles
+function formatRatingWithNumber(rating) {
+    if (!rating && rating !== 0) return 'Non noté';
+    
+    const numRating = parseFloat(rating);
+    if (isNaN(numRating)) return 'Non noté';
+    
+    const clampedRating = Math.max(0, Math.min(5, numRating));
+    const stars = formatRating(clampedRating);
+    
+    return `${stars} (${clampedRating.toFixed(1)}/5)`;
+}
+
+// Fonction avec couleurs CSS
+function formatRatingWithColor(rating) {
+    if (!rating && rating !== 0) return '<span style="color: #bdc3c7;">☆☆☆☆☆</span>';
+    
+    const numRating = parseFloat(rating);
+    if (isNaN(numRating)) return '<span style="color: #bdc3c7;">☆☆☆☆☆</span>';
+    
+    const clampedRating = Math.max(0, Math.min(5, numRating));
+    
+    // Couleurs selon la note
+    let color = '#bdc3c7'; // Gris par défaut
+    if (clampedRating >= 4.5) color = '#2ecc71'; // Vert excellent
+    else if (clampedRating >= 3.5) color = '#f39c12'; // Orange bon
+    else if (clampedRating >= 2.5) color = '#e67e22'; // Orange moyen
+    else if (clampedRating >= 1) color = '#e74c3c'; // Rouge mauvais
+    
+    const stars = formatRating(clampedRating);
+    return `<span style="color: ${color};">${stars}</span>`;
+}
 </script>
 </body>
 </html>
