@@ -21,4 +21,9 @@
         WHERE scoreId = coalesce(#{id}, scoreId);
     </update>
 
+    <insert id="createScore">
+        INSERT INTO app.scores(scoreId, score, number)
+        VALUES (#{id}, #{score}, 0);
+    </insert>
+
 </mapper>

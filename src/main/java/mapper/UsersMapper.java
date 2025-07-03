@@ -20,7 +20,9 @@ public interface UsersMapper {
                                @Param("firstName") String firstName,
                                @Param("lastName") String lastName,
                                @Param("email") String email,
-                               @Param("role") String[] role);
+                               @Param("role") String[] role,
+                               @Param("buyerId") UUID buyerId,
+                               @Param("sellerId") UUID sellerId);
 
     public void createUserByAdmin(@Param("id") UUID id,
                                       @Param("firstName") String firstName,

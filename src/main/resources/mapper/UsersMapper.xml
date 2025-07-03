@@ -5,7 +5,7 @@
 <mapper namespace="mapper.UsersMapper">
 
     <select id="getAllUsers" resultType="business.Users">
-        SELECT userid, firstName, lastName, email, passwordHash, scoreclientid, userTypeId, scoresellerid
+        SELECT userid, firstName, lastName, email, passwordHash, userTypeId, scoreclientid, scoresellerid
         FROM app.Users;
     </select>
 
@@ -17,8 +17,8 @@
     </select>
 
     <insert id="createUser">
-        INSERT INTO app.users(userId, firstName, lastName, email, passwordhash, phonenumber)
-        VALUES (#{id}, #{firstName}, #{lastName}, #{email}, '', '');
+        INSERT INTO app.users(userId, firstName, lastName, email, passwordhash, phonenumber, enabled, scoreclientid, scoresellerid)
+        VALUES (#{id}, #{firstName}, #{lastName}, #{email}, '', '', true, #{buyerId}, #{sellerId});
     </insert>
 
     <insert id="createUserByAdmin">

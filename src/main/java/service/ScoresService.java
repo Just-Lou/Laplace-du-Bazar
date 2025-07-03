@@ -6,6 +6,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import mapper.ScoresMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -43,5 +44,13 @@ public class ScoresService {
     public boolean updateScore(@PathParam("id") UUID id, @QueryParam("score") float score, @QueryParam("number") int number) {
         scoresMapper.updateScore(id, score, number);
         return true;
+    }
+
+    @PUT
+    @Path("createScore/{id}")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public Response createScore(@PathParam("id") UUID id, float score) {
+        scoresMapper.createScore(id, score);
+        return Response.ok().build();
     }
 }

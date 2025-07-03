@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jdk.jfr.BooleanFlag;
+import mapper.ScoresMapper;
 import mapper.UsersMapper;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -30,6 +31,9 @@ public class UsersService {
 
     @Inject
     UsersMapper usersMapper;
+
+    @Inject
+    ScoresMapper scoresMapper;
 
     @Inject
     JsonWebToken jwt;
@@ -57,8 +61,16 @@ public class UsersService {
     @Path("createUser")
     @RolesAllowed({"Administrator", "StandardUser"})
     public Response createUser() {
-        usersMapper.createUser(UUID.fromString(jwt.getSubject()), jwt.getClaim("given_name"), jwt.getClaim("family_name"),
-                               jwt.getClaim("email"), securityIdentity.getRoles().toArray(new String[0]));
+
+        UUID sellerId = UUID.randomUUID();
+        UUID buyerId = UUID.randomUUID();
+
+        Users user = new Users(UUID.fromString(jwt.getSubject()), jwt.getClaim("given_name"), jwt.getClaim("family_name"),
+                               jwt.getClaim("email"), "", "", buyerId, sellerId);
+
+        scoresMapper.createScore(buyerId, 0);
+        scoresMapper.createScore(sellerId, 0);
+        usersMapper.createUser(user.getUsersId(), user.getFirstName(), user.getLastName(), user.getEmail(), securityIdentity.getRoles().toArray(new String[0]), buyerId, sellerId);
 
         return Response.ok().build();
     }
