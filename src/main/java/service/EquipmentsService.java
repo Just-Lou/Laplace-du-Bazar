@@ -28,7 +28,7 @@ public class EquipmentsService {
 
     @GET
     @Path("getAllEquipments")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<EquipmentViewModel> getAllEquipments(@Context SecurityContext securityContext) {
         String userEmail = securityContext.getUserPrincipal().getName();
         UUID userUUID = UUID.fromString(usersMapper.getUserIdByEmail(userEmail));
@@ -37,7 +37,7 @@ public class EquipmentsService {
 
     @GET
     @Path("getEquipmentById/{id}")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public Equipment getEquipmentById(@PathParam("id") UUID id, @Context SecurityContext securityContext) {
         String userEmail = securityContext.getUserPrincipal().getName();
         UUID userUUID = UUID.fromString(usersMapper.getUserIdByEmail(userEmail));
@@ -46,13 +46,14 @@ public class EquipmentsService {
 
     @GET
     @Path("deleteEquipment")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"Administrator"})
     public void deleteEquipment(@QueryParam("id") UUID id) {
         equipmentsMapper.deleteEquipment(id);
     }
 
     @POST
     @Path("addToFavorites")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public Response addToFavorites(String jsonBody, @Context SecurityContext securityContext) {
         JsonObject json = Json.createReader(new StringReader(jsonBody)).readObject();
         UUID adId = UUID.fromString(json.getString("adId"));
@@ -63,6 +64,7 @@ public class EquipmentsService {
 
     @POST
     @Path("removeFromFavorites")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public Response removeFromFavorites(String jsonBody, @Context SecurityContext securityContext) {
         JsonObject json = Json.createReader(new StringReader(jsonBody)).readObject();
         UUID adId = UUID.fromString(json.getString("adId"));
@@ -73,7 +75,7 @@ public class EquipmentsService {
 
     @GET
     @Path("getFavoriteEquipments")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<EquipmentViewModel> getFavoriteEquipments(@Context SecurityContext securityContext) {
         UUID userUUID = UUID.fromString(usersMapper.getUserIdByEmail(securityContext.getUserPrincipal().getName()));
         return equipmentsMapper.getFavoriteEquipments(userUUID);
@@ -81,7 +83,7 @@ public class EquipmentsService {
 
     @GET
     @Path("search")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<EquipmentViewModel> getEquipmentsByCriteria(
             @QueryParam("minPrice") Float minPrice,
             @QueryParam("maxPrice") Float maxPrice,

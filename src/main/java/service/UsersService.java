@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jdk.jfr.BooleanFlag;
+import mapper.ScoresMapper;
 import mapper.UsersMapper;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -30,6 +31,9 @@ public class UsersService {
 
     @Inject
     UsersMapper usersMapper;
+
+    @Inject
+    ScoresMapper scoresMapper;
 
     @Inject
     JsonWebToken jwt;
@@ -55,10 +59,18 @@ public class UsersService {
 
     @GET
     @Path("createUser")
-    @RolesAllowed({"Administrator", "StandardUser"})
+    @RolesAllowed({"Administrator", "StandardUser", "ExternalUser"})
     public Response createUser() {
-        usersMapper.createUser(UUID.fromString(jwt.getSubject()), jwt.getClaim("given_name"), jwt.getClaim("family_name"),
-                               jwt.getClaim("email"), securityIdentity.getRoles().toArray(new String[0]));
+
+        UUID sellerId = UUID.randomUUID();
+        UUID buyerId = UUID.randomUUID();
+
+        Users user = new Users(UUID.fromString(jwt.getSubject()), jwt.getClaim("given_name"), jwt.getClaim("family_name"),
+                               jwt.getClaim("email"), "", "", buyerId, sellerId);
+
+        scoresMapper.createScore(buyerId, 0);
+        scoresMapper.createScore(sellerId, 0);
+        usersMapper.createUser(user.getUsersId(), user.getFirstName(), user.getLastName(), user.getEmail(), securityIdentity.getRoles().toArray(new String[0]), buyerId, sellerId);
 
         return Response.ok().build();
     }
@@ -78,7 +90,7 @@ public class UsersService {
 
     @GET
     @Path("updateUser/{id}")
-    @RolesAllowed({"Administrator", "StandardUser"})
+    @RolesAllowed({"Administrator", "StandardUser", "ExternalUser"})
     public Response updateUser(@PathParam("id") UUID id,
                            @QueryParam("firstName") String firstName,
                            @QueryParam("lastName") String lastName,
@@ -91,7 +103,7 @@ public class UsersService {
 
     @GET
     @Path("deleteUser/{id}")
-    @RolesAllowed({"Administrator", "StandardUser"})
+    @RolesAllowed({"Administrator"})
     public Response deleteUser(@PathParam("id") UUID id) {
         if (!Objects.equals(jwt.getSubject(), id.toString()) && securityIdentity.getRoles().contains("StandardUser")) {
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -127,7 +139,7 @@ public class UsersService {
     // Necessaire pour logger avec quarkus, puis ensuire rediriger vers la page d'origine (pour le momement on force back a /login.html)
     @Path("/login")
     @GET
-    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"}) //Ne pas mettre PermitAll, a la place mettre tous les roles autorises
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"}) //(Juste dans cette fonction) Ne pas mettre PermitAll, a la place mettre tous les roles autorises
     public Response redirectToWebsite() {
         if (usersMapper.getUserById(UUID.fromString(jwt.getSubject())) == null) {
             try {
