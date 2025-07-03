@@ -100,25 +100,77 @@
     function unreportAd(element) {
 
         element.style.height = '0';
-        //faire une requête pour enlever un siganlement de cette annonce
+        //faire une requête pour enlever un signalement de cette annonce
 
         displayMessage('Le signalement de cette annonce a été retiré');
     }
 
-    function saveAd() {
-        const elementFullSave = document.querySelector('.flag-full-save');
+    function saveAd(event, element) {
+        event.stopPropagation(); // Empeche la propagation de la redirection
 
-        elementFullSave.style.height = '30px';
-        //faire une requête pour ajouter cette annonce dans les annonces enregistrées par l'utilisateur
+        const elementAd = element.closest('.ad');
+        const adId = elementAd.id;
 
-        displayMessage('Cette annonce a été ajoutée à vos enregistrements');
+        const elementFullSave = elementAd.querySelector('.flag-full-save');
+
+        fetch('http://localhost:8080/laplace/apartments/addToFavorites', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                adId: adId
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    displayMessage('Une erreur est survenue lors de l\'ajout à vos favoris');
+                    elementFullSave.style.height = '0';
+                    throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+                }
+                displayMessage('Cette annonce a été ajoutée à vos enregistrements');
+                elementFullSave.style.height = '30px';
+            })
+            .catch(error => {
+                displayMessage("Une erreur est survenue lors de l'ajout à vos favoris");
+                elementFullSave.style.height = '0';
+                throw new Error(`Erreur: ${error}`);
+            });
     }
 
-    function unsaveAd(element) {
-        element.style.height = '0';
-        //faire une requête pour enlever cette annonces des annonces enregistrées par l'utilisateur
+    function unsaveAd(event, element) {
+        event.stopPropagation(); // Empeche la propagation de la redirection
 
-        displayMessage('Cette annonce a été retirée de vos enregistrements');
+        const elementAd = element.closest('.ad');
+        const adId = elementAd.id;
+
+        const elementFullSave = elementAd.querySelector('.flag-full-save');
+
+        fetch('http://localhost:8080/laplace/apartments/removeFromFavorites', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                adId: adId
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    displayMessage('Une erreur est survenue lors du retrait de vos favoris');
+                    elementFullSave.style.height = '30px';
+                    throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+                }
+                displayMessage('Cette annonce a été retirée de vos enregistrements');
+                elementFullSave.style.height = '0';
+            })
+            .catch(error => {
+                displayMessage("Une erreur est survenue lors de du retrait de vos favoris");
+                elementFullSave.style.height = '30px';
+                throw new Error(`Erreur: ${error}`);
+            });
     }
 
     function displayMessage(text) {

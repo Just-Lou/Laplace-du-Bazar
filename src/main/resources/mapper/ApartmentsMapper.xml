@@ -41,16 +41,13 @@
     </delete>
 
     <select id="getFavoriteApartments" resultType="business.ApartmentViewModel">
-        select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, CONCAT(u.firstname, ' ', u.lastname) as adSellerName,
-               s.score, s.number, ads.folderpath, ap.disponibility, ap.address, apSize.apartmentSize
-        from app.favorites as f
-                 inner join app.ads as ads on f.adid = ads.adid
-                 inner join app.apartments as ap on ads.adid = ap.adid
-                 inner join app.users as u on ads.userid = u.userid
-                 inner join app.scores as s on u.scoresellerid = s.scoreid
-                 inner join app.apartmentsizes as apSize on ap.apartmentSizeId = apSize.apartmentSizeId
-        where f.userid = #{userId}
-          and ads.isarchived is distinct from true
+        SELECT ads.adid, ads.title, ads.description, ads.price, CONCAT(u.firstname, ' ', u.lastname) AS adSellerName, s.score, ads.folderpath, CASE WHEN f.adid IS NOT NULL THEN true ELSE false END AS isSaved, CASE WHEN r.adid IS NOT NULL THEN true ELSE false END AS isReported
+        FROM app.apartments AS ap INNER JOIN app.ads AS ads ON ap.adid = ads.adid
+                                  INNER JOIN app.users AS u ON ads.userid = u.userid
+                                  INNER JOIN app.scores AS s ON u.scoresellerid = s.scoreid
+                                  INNER JOIN app.favorites AS f ON #{userId} = f.userid AND ads.adid = f.adid
+                                  LEFT JOIN app.reports AS r ON #{userId} = r.userid AND ads.adid = r.adid
+        WHERE ads.isarchived is distinct from true
     </select>
 
     <select id="getApartmentsByCriteria" resultType="business.ApartmentViewModel">
