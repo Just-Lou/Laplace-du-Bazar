@@ -28,13 +28,23 @@
         </div>
         <div>
             <label>Prix :</label>
-            <input id="price-start-range" value="0"/>
+            <input id="price-start-range" type="number" value="0"/>
             <p> à </p>
-            <input id="price-end-range" value="0"/>
+            <input id="price-end-range" type="number" value="0"/>
         </div>
         <div>
             <label>Disponible à partir de :</label>
             <input type="date">
+        </div>
+        <div>
+            <label for="sort-by">Trier par :</label>
+            <select id="sort-by">
+                <option value="">-- Aucun --</option>
+                <option value="price_asc">Prix croissant</option>
+                <option value="price_desc">Prix décroissant</option>
+                <option value="publication_asc">Date croissante</option>
+                <option value="publication_desc">Date décroissante</option>
+            </select>
         </div>
         <button id="apply-button">
             Appliquer
@@ -109,7 +119,8 @@
         });
 
     document.addEventListener('DOMContentLoaded', () => {
-
+        const applyButton = document.getElementById("apply-button");
+        applyButton.addEventListener("click", applyFilters);
     });
 
     function reportAd(event, element) {
@@ -297,5 +308,72 @@
     function redirectToDetails(id) {
         window.location.href = `apartmentsDetails.html?id=${id}`;
     }
+
+    function applyFilters() {
+        const size = document.getElementById("size").value;
+        const minPrice = document.getElementById("price-start-range").value;
+        const maxPrice = document.getElementById("price-end-range").value;
+        const disponibility = document.querySelector('input[type="date"]').value;
+        const sortBy = document.getElementById("sort-by").value;
+
+        let query = `http://localhost:8080/laplace/apartments/search?`;
+
+        if (minPrice && minPrice !== "0") query += `minPrice=${minPrice}&`;
+        if (maxPrice && maxPrice !== "0") query += `maxPrice=${maxPrice}&`;
+        if (disponibility) query += `disponibilityBefore=${disponibility}&`;
+        if (size && size !== "all") query += `apartmentSize=${size}&`;
+        if (sortBy) query += `sortBy=${sortBy}&`;
+
+        query = query.replace(/[&?]$/, '');
+
+        fetch(query, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ads-listing').innerHTML = '';
+                if (data.length > 0) {
+                    data.forEach((ad) => {
+                        var adId = ad['adId'];
+                        var adTitle = ad['adTitle'];
+                        var adPrice = ad['adPrice'];
+                        var adDescription = ad['adDescription'];
+                        var adSellerName = ad['adSellerName'];
+                        var adSellerScore = ad['adSellerScore'];
+                        var adImagesPath = ad['adImagesPath'];
+                        var adInFavorites = ad['saved'];
+
+                        fetch('adComponent.html?' + new Date().getTime())
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById('ads-listing').innerHTML += eval('`' + html + '`');
+                                document.getElementById(adId).querySelector('.rating-full-stars').style.width = eval("'" + (adSellerScore / 5 * 90) + "px'");
+                                if(adInFavorites) {
+                                    const elementAd = document.getElementById(adId);
+                                    const elementFullSave = elementAd.querySelector('.flag-full-save');
+                                    elementFullSave.style.height = '30px';
+                                }
+                                Array.from(document.getElementById(adId).getElementsByClassName('loading')).forEach(element => {
+                                    element.classList.remove('loading');
+                                });
+                            });
+                    });
+                } else {
+                    document.getElementById('ads-listing').innerHTML =
+                        '<div id="no-result">' +
+                        '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>' +
+                        '<p>Aucune annonce ne correspond à votre recherche</p>' +
+                        '</div>';
+                }
+            })
+            .catch(error => {
+                console.error("Erreur lors de l'application des filtres :", error);
+            });
+    }
+
 
 </script>
