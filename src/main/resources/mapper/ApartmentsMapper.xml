@@ -58,7 +58,7 @@
         inner join app.users as u on ads.userid = u.userid
         inner join app.scores as s on u.scoresellerid = s.scoreid
         inner join app.apartmentsizes as apSize on ap.apartmentSizeId = apSize.apartmentSizeId
-        where ads.isarchived is distinct from true;
+        where ads.isarchived is distinct from true
 
         <if test="minPrice != null">
             and ads.price &gt;= #{minPrice}
