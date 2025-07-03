@@ -33,7 +33,7 @@ public class BooksService {
 
     @GET
     @Path("getAllBooks")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<BookViewModel> getAllBooks() {
         UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
         return booksMapper.getAllBooks(userId);
@@ -41,7 +41,7 @@ public class BooksService {
 
     @GET
     @Path("getUser/{id}")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public BookViewModel getBookById(@PathParam("id") UUID id) {
         UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
         return booksMapper.getBookById(id, userId);
@@ -49,14 +49,14 @@ public class BooksService {
 
     @GET
     @Path("deleteBook")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"Administrator"})
     public void deleteBook(@QueryParam("id") UUID id) {
         booksMapper.deleteBook(id);
     }
 
     @POST
     @Path("{id}/favorite")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public void addToFavorites(@PathParam("id") UUID adId) {
         UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
         booksMapper.addToFavorites(userId, adId);
@@ -64,7 +64,7 @@ public class BooksService {
 
     @DELETE
     @Path("{id}/favorite")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public void removeFromFavorites(@PathParam("id") UUID adId) {
         UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
         booksMapper.removeFromFavorites(userId, adId);
@@ -72,7 +72,7 @@ public class BooksService {
 
     @GET
     @Path("favorites")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<BookViewModel> getFavoriteBooks() {
         UUID userId = UUID.fromString(securityContext.getUserPrincipal().getName());
         return booksMapper.getFavoriteBooks(userId);
@@ -80,7 +80,7 @@ public class BooksService {
 
     @GET
     @Path("search")
-    @RolesAllowed({"StandardUser", "Administrator"})
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<BookViewModel> getBooksByCriteria(
             @QueryParam("minPrice") Double minPrice,
             @QueryParam("maxPrice") Double maxPrice,
