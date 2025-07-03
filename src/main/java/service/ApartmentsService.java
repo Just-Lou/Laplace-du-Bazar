@@ -148,8 +148,9 @@ public class ApartmentsService {
         UUID adId = UUID.randomUUID();
         String title = json.getString("title");
         String description = json.getString("description");
+        String folderPath = json.getString("folderPath", null);
         float price = json.getJsonNumber("price").bigDecimalValue().floatValue();
-        apartmentsMapper.createAd(adId, title, description, price, UUID.fromString(jwt.getSubject()));
+        apartmentsMapper.createAd(adId, title, description, folderPath, price, UUID.fromString(jwt.getSubject()));
 
         UUID apartmentId = UUID.randomUUID();
         Timestamp disponibility = new Timestamp(System.currentTimeMillis());

@@ -89,8 +89,27 @@
         document.getElementById("background").style.transform = "translateY(" + scrolled * 0.5 + "px)";
     });
 
+    fetch('http://localhost:8080/laplace/users/checkAuth', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => {
+            if (response.ok) {
+                loadAds();
+            } else {
+                window.location.href = "http://localhost:8080/laplace/users/login";
+            }
+        })
+        .catch(error => {
+            console.error("Erreur veri auth :", error);
+            window.location.href = "http://localhost:8080/laplace/users/login";
+        });
+
     document.addEventListener('DOMContentLoaded', () => {
-        loadAds();
+
     });
 
     function reportAd(event, element) {

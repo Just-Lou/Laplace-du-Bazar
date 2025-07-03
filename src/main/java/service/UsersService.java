@@ -167,4 +167,16 @@ public class UsersService {
                 .build();
     }
 
+    @GET
+    @Path("/checkAuth")
+    @PermitAll
+    public Response checkAuth() {
+        if (jwt.getSubject() == null) {
+            return Response.status(Response.Status.FOUND)
+                    .header("Location", "http://localhost/login.html")
+                    .build();
+        }
+        return null;
+    }
+
 }

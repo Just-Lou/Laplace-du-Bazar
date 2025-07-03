@@ -37,6 +37,7 @@ public interface ApartmentsMapper {
             @Param("id") UUID id,
             @Param("title") String title,
             @Param("description") String description,
+            @Param(("folderPath")) String folderPath,
             @Param("price") Float price,
             @Param("userId") UUID userId
     );
