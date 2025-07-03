@@ -10,10 +10,11 @@ body{
     position:absolute;
     top:0;left:0;
     width:100%;height:700px;
-    background:url("sherbrooke.jpg") center/cover no-repeat;
+    background:url("rueSherbrooke.jpeg") center/cover no-repeat;
     opacity:.5;
     filter:blur(2px);
 }
+
 #background-fade{
     width:100%;height:100%;
     box-shadow:0 -300px 200px -25px #fff inset;
@@ -102,26 +103,4 @@ h1{
 }
 .rating-empty-stars{
     color:lightgray;
-}
-
-#tmp-message{
-    position:fixed;
-    bottom:-100px;
-    left:50%;
-    transform:translateX(-50%);
-    background:rgba(0,0,0,.75);
-    color:#fff;
-    padding:15px 30px;
-    border-radius:10px;
-    transition:bottom .5s;
-}
-
-#no-result{
-    text-align:center;
-    padding:100px 0;
-    color:gray;
-}
-#no-result i{
-    font-size:100px;
-    margin-bottom:20px;
 }

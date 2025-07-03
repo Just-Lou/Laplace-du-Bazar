@@ -69,7 +69,6 @@
 #menu-buy {
     height: 0px;
     opacity: 0%;
-    border: none;
     background-color: mediumseagreen;
     transition: height 0.3s, opacity 0.3s;
     overflow: hidden;
