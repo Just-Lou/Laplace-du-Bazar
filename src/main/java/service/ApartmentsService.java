@@ -160,4 +160,18 @@ public class ApartmentsService {
 
         return Response.ok().build();
     }
+
+    @GET
+    @Path("getAllApartmentsFromUser")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public List<ApartmentViewModel> getAllApartmentsFromUser(@Context SecurityContext securityContext) {
+        String userEmail = securityContext.getUserPrincipal().getName();
+        String userId = usersMapper.getUserIdByEmail(userEmail);
+        UUID userUUID = UUID.fromString(userId);
+
+        List<ApartmentViewModel> apartments = apartmentsMapper.getAllApartmentsFromUser(userUUID);
+        return apartments;
+    }
+
+
 }

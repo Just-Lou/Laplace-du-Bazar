@@ -49,4 +49,6 @@ public interface ApartmentsMapper {
             @Param("apartmentSizeId") UUID apartmentSizeId,
             @Param("adId") UUID adId
     );
+
+    public List<ApartmentViewModel> getAllApartmentsFromUser(@Param("userId") UUID userUUID);
 }
