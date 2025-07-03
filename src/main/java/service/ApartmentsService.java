@@ -7,15 +7,13 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.*;
 import mapper.ApartmentsMapper;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.inject.Inject;
 
 import java.io.StringReader;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +21,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import mapper.UsersMapper;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 
 @Path("/laplace/apartments")
@@ -35,6 +34,11 @@ public class ApartmentsService {
 
     @Inject
     UsersMapper usersMapper;
+
+    @Inject
+    JsonWebToken jwt;
+    @Inject
+    Application application;
 
     @GET
     @Path("getAllApartments")
@@ -130,5 +134,27 @@ public class ApartmentsService {
         return apartmentsMapper.getApartmentsByCriteria(
                 minPrice, maxPrice, minScore, disponibilityBefore, apartmentSize, sortBy
         );
+    }
+
+    @POST
+    @Path("createApartment")
+    @RolesAllowed({"Administrator", "StandardUser"})
+    @Consumes("application/json")
+    public Response createApartment(String jsonBody) {
+        JsonObject json = Json.createReader(new StringReader(jsonBody)).readObject();
+
+        UUID adId = UUID.randomUUID();
+        String title = json.getString("title");
+        String description = json.getString("description");
+        float price = json.getJsonNumber("price").bigDecimalValue().floatValue();
+        apartmentsMapper.createAd(adId, title, description, price, UUID.fromString(jwt.getSubject()));
+
+        UUID apartmentId = UUID.randomUUID();
+        Timestamp disponibility = new Timestamp(System.currentTimeMillis());
+        String address = json.getString("address");
+        UUID apartmentSizeId = UUID.fromString(json.getString("apartmentSizeId"));
+        apartmentsMapper.createApartment(apartmentId, disponibility, address, apartmentSizeId, adId);
+
+        return Response.ok().build();
     }
 }

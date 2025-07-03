@@ -5,6 +5,7 @@ import business.ApartmentDetailsViewModel;
 import business.ApartmentViewModel;
 import org.apache.ibatis.annotations.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,5 +31,21 @@ public interface ApartmentsMapper {
             @Param("disponibilityBefore") String disponibilityBefore,
             @Param("apartmentSize") String apartmentSize,
             @Param("sortBy") String sortBy
+    );
+
+    public void createAd(
+            @Param("id") UUID id,
+            @Param("title") String title,
+            @Param("description") String description,
+            @Param("price") Float price,
+            @Param("userId") UUID userId
+    );
+
+    public void createApartment(
+            @Param("apartmentId") UUID apartmentId,
+            @Param("disponibility") Timestamp disponibility,
+            @Param("address") String address,
+            @Param("apartmentSizeId") UUID apartmentSizeId,
+            @Param("adId") UUID adId
     );
 }

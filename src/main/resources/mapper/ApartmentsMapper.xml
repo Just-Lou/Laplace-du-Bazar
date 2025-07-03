@@ -98,4 +98,15 @@
         </choose>
     </select>
 
+    <insert id="createAd">
+        INSERT INTO app.Ads(adId, title, description, publicationDate, price, userId, isArchived)
+        VALUES (#{id}, #{title}, #{description}, CURRENT_TIMESTAMP, #{price}, #{userId}, false);
+    </insert>
+
+    <insert id="createApartment">
+    INSERT INTO app.apartments(apartmentId, disponibility, address, apartmentSizeId, adId)
+    VALUES (#{apartmentId}, #{disponibility}, #{address}, #{apartmentSizeId}, #{adId});
+    </insert>
+
+
 </mapper>
