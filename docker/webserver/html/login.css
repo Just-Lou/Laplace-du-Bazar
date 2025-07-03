@@ -5,6 +5,7 @@ body {
     min-height: 100vh;
     margin: 0;
     font-family: 'Titillium Web', sans-serif;
+    background-color: white;
 }
 
 @media screen and (max-width: 1250px) {
@@ -19,6 +20,26 @@ body {
     }
 }
 
+#background {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 700px;
+    background-image: url("lacSherbrooke.jpg");
+    opacity: 0.5;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(2px);
+}
+
+#background-fade {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px -250px 100px -100px white inset;
+}
+
 /* Position de la carte */
 #container {
     display: flex;
@@ -26,7 +47,7 @@ body {
     align-items: flex-start;
     min-height: auto;
     padding-top: 0px;
-    margin-top: -20px;
+    margin-top: -60px;
 }
 
 .card {
@@ -36,7 +57,7 @@ body {
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
-    margin: 0 auto;
+    margin: auto;
     text-align: center;
     padding: 30px;
     border-radius: 20px;
@@ -133,6 +154,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 10px;
     transition: transform 0.3s ease;
 }
 
@@ -143,15 +165,44 @@ body {
 .stat-number {
     font-size: 22px;
     font-weight: 700;
-    color: #2c3e50;
+    color: #000000;
     margin-bottom: 5px;
 }
 
 .stat-label {
     font-size: 12px;
-    color: #7f8c8d;
+    color: #000000;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+
+.stars-container {
+    justify-items: center;
+}
+
+.stars-rating {
+    position: relative;
+    display: inline-block;
+    color: black;
+    font-size: 16px;
+    margin-bottom: 13px;
+}
+
+.rating-full-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    color: #ffd700;
+    transition: width 0.3s ease;
+}
+
+.rating-empty-stars {
+    color: #000000;
+    width: 90px;
+    display: inline-block;
 }
 
 /* Boutons */
@@ -259,4 +310,17 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+#rating-count {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 18px;
+    line-height: 1;
+}
+
+#rating-count {
+    display: inline;
+    font-size: 16px;
+    letter-spacing: 2px; /* Espacement entre les étoiles */
 }

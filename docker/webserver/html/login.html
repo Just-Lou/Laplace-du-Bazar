@@ -9,9 +9,13 @@
   <link rel="stylesheet" href="navbar.css"/>
   <link rel="stylesheet" href="login.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div id="navbar"></div>
+<div id="background">
+  <div id="background-fade"></div>
+</div>
 <div>
   <h2>
     A
@@ -38,7 +42,24 @@
         <span class="stat-label">Posts</span>
       </div>
       <div class="stat">
-        <span id="rating-count" class="stat-number">☆☆✮☆☆</span>
+        <div class="stars-container">
+          <div class="stars-rating">
+            <div class="rating-full-stars">
+              <i class="fa fa-star" aria-hidden="true"></i>
+              <i class="fa fa-star" aria-hidden="true"></i>
+              <i class="fa fa-star" aria-hidden="true"></i>
+              <i class="fa fa-star" aria-hidden="true"></i>
+              <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+            <div class="rating-empty-stars">
+              <i class="fa fa-star-o" aria-hidden="true"></i>
+              <i class="fa fa-star-o" aria-hidden="true"></i>
+              <i class="fa fa-star-o" aria-hidden="true"></i>
+              <i class="fa fa-star-o" aria-hidden="true"></i>
+              <i class="fa fa-star-o" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
         <span class="stat-label">Note</span>
       </div>
     </div>
@@ -59,56 +80,125 @@
         .then(response => response.text())
         .then(html => document.getElementById("navbar").innerHTML = html);
 
-    // Fonction pour mettre à jour l'interface utilisateur
-    function updateUserInterface(userData) {
-        const isConnected = userData !== null;
-        
-        // Éléments de base
-        document.getElementById('user-name').innerHTML = isConnected ? userData.firstName + ' ' + userData.lastName : 'Non connecté';
-        document.getElementById('user-role').innerHTML = isConnected ? formatRole(userData.roles) : 'Visiteur';
-        document.getElementById('user-description').innerHTML = isConnected ? 
-            (userData.description || 'Membre actif de Laplace du Bazar') : 'Bienvenue sur Laplace du Bazar';
-        
-        // Email
-        if (isConnected && userData.email) {
-            document.getElementById('user-email').innerHTML = `<i class="fas fa-envelope"></i> ${userData.email}`;
-        } else {
-            document.getElementById('user-email').innerHTML = '';
-        }
-        
-        // Date d'inscription
-        if (isConnected && userData.joinDate) {
-            document.getElementById('user-joined').innerHTML = `<i class="fas fa-calendar-alt"></i> Membre depuis ${userData.joinDate}`;
-        } else {
-            document.getElementById('user-joined').innerHTML = '';
-        }
-        
-        // Statistiques
-        if (isConnected) {
-            document.getElementById('posts-count').textContent = userData.posts || '0';
-            document.getElementById('rating-count').textContent = userData.rating || '☆☆☆☆☆';
-        }
-        
-        // Boutons
-        document.getElementById('login-btn').style.display = isConnected ? 'none' : 'block';
-        document.getElementById('logout-btn').style.display = isConnected ? 'block' : 'none';
+    // Récupération des données utilisateur
+    fetch('http://localhost:8080/laplace/users/whoami', {
+      credentials: 'include'
+    })
+            .then(response => {
+              if (response.ok) return response.json();
+              throw new Error('Non authentifié');
+            })
+            .then(userData => {
+              updateUserInterface(userData);
+            })
+            .catch(() => {
+              updateUserInterface(null);
+            });
+
+// Modifiez votre fonction updateUserInterface pour utiliser le score
+function updateUserInterface(userData) {
+    const isConnected = userData !== null;
+    console.log(userData);
+
+    if (isConnected) {
+        // Récupération du score
+        fetch(`http://localhost:8080/laplace/scores/getScoreByUser/${userData.userId}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(scoreData => {
+            console.log('Score récupéré:', scoreData);
+            
+            // Référencer le score depuis la réponse
+            const userScore = scoreData['score'] || 0;
+            const ratingCount = scoreData['scoreNumber'] || 0;
+            
+            // Mettre à jour l'affichage des étoiles avec le score
+            updateStarsDisplay(userScore, ratingCount);
+        })
+        .catch(error => {
+            console.error('Erreur récupération score:', error);
+            // Affichage par défaut si erreur
+            updateStarsDisplay(0, 0);
+        });
     }
 
-    // Récupération des données utilisateur
-    fetch('http://localhost:8080/laplace/users/whoami', { 
-        credentials: 'include'
-    })
-    .then(response => {
-        if (response.ok) return response.json();
-        throw new Error('Non authentifié');
-    })
-    .then(userData => {
-        updateUserInterface(userData);
-    })
-    .catch(() => {
-        updateUserInterface(null);
-    });
+    // Éléments de base
+    document.getElementById('user-name').innerHTML = isConnected ? userData.firstName + ' ' + userData.lastName : 'Non connecté';
+    document.getElementById('user-role').innerHTML = isConnected ? formatRole(userData.roles) : 'Visiteur';
+    document.getElementById('user-description').innerHTML = isConnected ? 
+        (userData.description || 'Membre actif de Laplace du Bazar') : 'Bienvenue sur Laplace du Bazar';
+    
+    // Email
+    if (isConnected && userData.email) {
+        document.getElementById('user-email').innerHTML = `<i class="fas fa-envelope"></i> ${userData.email}`;
+    } else {
+        document.getElementById('user-email').innerHTML = '';
+    }
+    
+    // Date d'inscription
+    if (isConnected && userData.joinDate) {
+        document.getElementById('user-joined').innerHTML = `<i class="fas fa-calendar-alt"></i> Membre depuis ${userData.joinDate}`;
+    } else {
+        document.getElementById('user-joined').innerHTML = '';
+    }
+    
+    // Statistiques
+    if (isConnected) {
+        document.getElementById('posts-count').textContent = userData.posts || '0';
+    } else {
+        // Réinitialiser pour les visiteurs
+        document.getElementById('posts-count').textContent = '0';
+        updateStarsDisplay(0, 0);
+    }
+    
+    // Boutons
+    document.getElementById('login-btn').style.display = isConnected ? 'none' : 'block';
+    document.getElementById('logout-btn').style.display = isConnected ? 'block' : 'none';
+}
+
+// Fonction corrigée pour afficher le bon nombre d'étoiles
+function updateStarsDisplay(userRating, ratingCount) {
+    console.log(`Mise à jour étoiles: ${userRating}/5 (${ratingCount} votes)`);
+    
+    // Calculer le nombre d'étoiles pleines, à moitié et vides
+    const fullStars = Math.floor(userRating);
+    const hasHalfStar = userRating % 1 !== 0;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    
+    // Construire le HTML des étoiles dynamiquement
+    let starsHTML = '';
+    
+    // Étoiles pleines
+    for (let i = 0; i < fullStars; i++) {
+        starsHTML += '<i class="fa fa-star" aria-hidden="true"></i>';
+    }
+    
+    // Étoile à moitié (si nécessaire)
+    if (hasHalfStar) {
+        starsHTML += '<i class="fa fa-star-half-o" aria-hidden="true"></i>';
+    }
+    
+    // Étoiles vides
+    for (let i = 0; i < emptyStars; i++) {
+        starsHTML += '<i class="fa fa-star-o" aria-hidden="true"></i>';
+    }
+    
+    // Ajouter le nombre de votes
+    starsHTML += ` (${ratingCount})`;
+    
+    // Mettre à jour l'affichage
+    const starsContainer = document.querySelector('.stars-rating');
+    if (starsContainer) {
+        starsContainer.innerHTML = starsHTML;
+    }
+}
 });
+
 // Fonction pour formater l'affichage du rôle
 function formatRole(role) {
     if (!role) return 'Visiteur';
@@ -125,89 +215,6 @@ function formatRole(role) {
     
     // Retourner la version française ou capitaliser la première lettre
     return roleMap[lowerRole] || role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
-}
-// Fonction pour formater la note en étoiles
-function formatRating(rating) {
-    if (!rating && rating !== 0) return '☆☆☆☆☆'; // Pas de note
-    
-    // Convertir en nombre si c'est une chaîne
-    const numRating = parseFloat(rating);
-    
-    // Vérifier que c'est un nombre valide
-    if (isNaN(numRating)) return '☆☆☆☆☆';
-    
-    // Limiter entre 0 et 5
-    const clampedRating = Math.max(0, Math.min(5, numRating));
-    
-    // Générer les étoiles
-    let stars = '';
-    for (let i = 1; i <= 5; i++) {
-        if (i <= Math.floor(clampedRating)) {
-            stars += '★'; // Étoile pleine
-        } else if (i === Math.ceil(clampedRating) && clampedRating % 1 !== 0) {
-            stars += '☆'; // Demi-étoile (ou étoile vide pour simplifier)
-        } else {
-            stars += '☆'; // Étoile vide
-        }
-    }
-    
-    return stars;
-}
-
-// Fonction avancée avec demi-étoiles
-function formatRatingAdvanced(rating) {
-    if (!rating && rating !== 0) return '☆☆☆☆☆';
-    
-    const numRating = parseFloat(rating);
-    if (isNaN(numRating)) return '☆☆☆☆☆';
-    
-    const clampedRating = Math.max(0, Math.min(5, numRating));
-    let stars = '';
-    
-    for (let i = 1; i <= 5; i++) {
-        if (i <= Math.floor(clampedRating)) {
-            stars += '★'; // Étoile pleine
-        } else if (i === Math.ceil(clampedRating) && clampedRating % 1 >= 0.5) {
-            stars += '✮'; // Demi-étoile
-        } else {
-            stars += '☆'; // Étoile vide
-        }
-    }
-    
-    return stars;
-}
-
-// Fonction avec note numérique et étoiles
-function formatRatingWithNumber(rating) {
-    if (!rating && rating !== 0) return 'Non noté';
-    
-    const numRating = parseFloat(rating);
-    if (isNaN(numRating)) return 'Non noté';
-    
-    const clampedRating = Math.max(0, Math.min(5, numRating));
-    const stars = formatRating(clampedRating);
-    
-    return `${stars} (${clampedRating.toFixed(1)}/5)`;
-}
-
-// Fonction avec couleurs CSS
-function formatRatingWithColor(rating) {
-    if (!rating && rating !== 0) return '<span style="color: #bdc3c7;">☆☆☆☆☆</span>';
-    
-    const numRating = parseFloat(rating);
-    if (isNaN(numRating)) return '<span style="color: #bdc3c7;">☆☆☆☆☆</span>';
-    
-    const clampedRating = Math.max(0, Math.min(5, numRating));
-    
-    // Couleurs selon la note
-    let color = '#bdc3c7'; // Gris par défaut
-    if (clampedRating >= 4.5) color = '#2ecc71'; // Vert excellent
-    else if (clampedRating >= 3.5) color = '#f39c12'; // Orange bon
-    else if (clampedRating >= 2.5) color = '#e67e22'; // Orange moyen
-    else if (clampedRating >= 1) color = '#e74c3c'; // Rouge mauvais
-    
-    const stars = formatRating(clampedRating);
-    return `<span style="color: ${color};">${stars}</span>`;
 }
 </script>
 </body>

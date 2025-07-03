@@ -12,9 +12,13 @@ import java.util.UUID;
 public interface ScoresMapper {
     public Score getScoreById(@Param("id") UUID id);
 
+    public Score getScoreByUserId(@Param("userId") UUID userId);
+
     public List<Score> getAllScores();
 
     public boolean updateScore(@Param("id") UUID id, @Param("score") float score, @Param("number") int number);
 
     public void createScore(@Param("id") UUID id, @Param("score") float score);
+
+
 }
