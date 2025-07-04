@@ -82,7 +82,7 @@
 #navbar-buy:hover #menu-buy {
     height: 160px;
     opacity: 100%;
-    border: 1px solid seagreen;
+    border: 1px solid mediumseagreen;
 }
 
 #menu-buy > a {
