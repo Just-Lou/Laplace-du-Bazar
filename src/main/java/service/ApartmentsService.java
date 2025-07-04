@@ -203,9 +203,22 @@ public class ApartmentsService {
     }
 
     @GET
-    @Path("/getSizes")
+    @Path("getAllApartmentsFromUser")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public List<ApartmentViewModel> getAllApartmentsFromUser(@Context SecurityContext securityContext) {
+        String userEmail = securityContext.getUserPrincipal().getName();
+        String userId = usersMapper.getUserIdByEmail(userEmail);
+        UUID userUUID = UUID.fromString(userId);
+
+        List<ApartmentViewModel> apartments = apartmentsMapper.getAllApartmentsFromUser(userUUID);
+        return apartments;
+    }
+	
+	@GET
+	@Path("/getSizes")
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentSize> getSizes() {
         return apartmentsMapper.getSizes();
     }
+
 }

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Laplace du Bazar - Mes Favoris</title>
+  <link rel="icon" type="image/png" href="laplaceDuBazarLogo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="apartments.css"><!-- Utilise le même style que apartments -->
+  <link rel="stylesheet" href="favoris.css">
+</head>
+<body>
+<div id="navbar"></div>
+<div id="background">
+  <div id="background-fade"></div>
+</div>
+<div id="container">
+  <h1>Mes appartements favoris</h1>
+  <div id="ads-listing"></div>
+</div>
+<div id="tmp-message"><p></p></div>
+
+<script>
+  fetch('navbar.html')
+          .then(res => res.text())
+          .then(html => document.getElementById("navbar").innerHTML = html);
+
+  window.addEventListener('scroll', () => {
+    let scrolled = window.scrollY;
+    document.getElementById("background").style.transform = "translateY(" + scrolled * 0.5 + "px)";
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchFavorites();
+  });
+
+  function fetchFavorites() {
+    fetch('http://localhost:8080/laplace/apartments/getFavoriteApartments', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+            .then(response => {
+              if (!response.ok) throw new Error("Erreur HTTP " + response.status);
+              return response.json();
+            })
+            .then(data => {
+              const adsContainer = document.getElementById("ads-listing");
+              adsContainer.innerHTML = "";
+
+              if (data.length === 0) {
+                adsContainer.innerHTML = `
+          <div id="no-result">
+            <i class="fa fa-heart-o"></i>
+            <p>Aucune annonce favorite trouvée.</p>
+          </div>`;
+                return;
+              }
+
+              data.forEach(ad => {
+                const adId = ad.adId;
+                const adTitle = ad.title;
+                const adPrice = ad.price;
+                const adDescription = ad.description;
+                const adSellerName = ad.adSellerName;
+                const adSellerScore = ad.score;
+                const adImagesPath = ad.folderPath;
+                const adInFavorites = true;
+
+                fetch('adComponent.html?' + new Date().getTime())
+                        .then(res => res.text())
+                        .then(html => {
+                          const rendered = eval('`' + html + '`');
+                          adsContainer.innerHTML += rendered;
+
+                          const element = document.getElementById(adId);
+                          if (element) {
+                            element.querySelector('.rating-full-stars').style.width = (adSellerScore / 5 * 90) + 'px';
+
+                            // Marque comme favori visuellement
+                            if (adInFavorites) {
+                              const fullSave = element.querySelector('.flag-full-save');
+                              if (fullSave) fullSave.style.height = '30px';
+                            }
+
+                            element.querySelectorAll('.loading').forEach(e => e.classList.remove('loading'));
+                          }
+                        });
+              });
+            })
+            .catch(error => {
+              console.error("Erreur :", error);
+              document.getElementById("ads-listing").innerHTML = `
+        <div id="no-result">
+          <i class="fa fa-exclamation-triangle"></i>
+          <p>Erreur lors du chargement des favoris.</p>
+        </div>`;
+            });
+  }
+</script>
+</body>
+</html>

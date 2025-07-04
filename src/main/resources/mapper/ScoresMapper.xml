@@ -10,6 +10,14 @@
         WHERE scoreId = coalesce(#{id}, scoreId);
     </select>
 
+    <select id="getScoreByUserId" resultType="business.Score">
+        SELECT scoreId, score, number
+        FROM app.Scores as s
+        INNER JOIN app.users as u
+        ON s.scoreid = u.scoresellerid
+        WHERE u.userid = #{userId}
+    </select>
+
     <select id="getAllScores" resultType="business.Score">
         SELECT scoreId, score, number
         FROM app.Scores;

@@ -4,6 +4,7 @@ import business.Users;
 import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
@@ -139,8 +140,8 @@ public class UsersService {
     // Necessaire pour logger avec quarkus, puis ensuire rediriger vers la page d'origine (pour le momement on force back a /login.html)
     @Path("/login")
     @GET
-    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"}) //(Juste dans cette fonction) Ne pas mettre PermitAll, a la place mettre tous les roles autorises
-    public Response redirectToWebsite() {
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public Response redirectToWebsite(@Context ContainerRequestContext requestContext) {
         if (usersMapper.getUserById(UUID.fromString(jwt.getSubject())) == null) {
             try {
                 createUser();
@@ -151,8 +152,11 @@ public class UsersService {
             }
         }
 
+        String referer = requestContext.getHeaderString("Referer");
+        String redirectUrl = (referer != null && !referer.isEmpty()) ? referer : "http://localhost/login.html";
+
         return Response.status(Response.Status.FOUND)
-                .header("Location", "http://localhost/login.html")
+                .header("Location", redirectUrl)
                 .build();
     }
 

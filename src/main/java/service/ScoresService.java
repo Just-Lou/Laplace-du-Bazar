@@ -31,6 +31,14 @@ public class ScoresService {
     }
 
     @GET
+    @Path("getScoreByUser/{id}")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public Score getScoreByUserId(@PathParam("id") UUID userId) {
+        Score scoreUser = scoresMapper.getScoreByUserId(userId);
+        return scoreUser;
+    }
+
+    @GET
     @Path("getAllScores")
     @RolesAllowed("Administrator")
     public List<Score> getAllScores() {
