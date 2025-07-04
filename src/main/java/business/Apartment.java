@@ -9,7 +9,7 @@ public class Apartment extends Ad{
     private String adress;
     private ApartmentSize apartmentSize;
 
-    public Apartment(UUID apartmentId, String title, String description, LocalDate publicationDate, float price, String folderPath, LocalDate disponibility, String adress, UUID apartmentSizeId, double apartmentSize) {
+    public Apartment(UUID apartmentId, String title, String description, LocalDate publicationDate, float price, String folderPath, LocalDate disponibility, String adress, UUID apartmentSizeId, String apartmentSize) {
         super(apartmentId, title, description, publicationDate, price, folderPath);
         this.apartmentId = apartmentId;
         this.disponibility = disponibility;
@@ -22,6 +22,6 @@ public class Apartment extends Ad{
     public void setDisponibility(LocalDate disponibility) { this.disponibility = disponibility; }
     public String getAdress() { return adress; }
     public void setAdress(String adress) { this.adress = adress; }
-    public double getApartmentSize() { return apartmentSize.getApartmentSize(); }
-    public void setApartmentSize(double apartmentSize) { this.apartmentSize.setApartmentSize(apartmentSize); }
+    public String getApartmentSize() { return apartmentSize.getApartmentSize(); }
+    public void setApartmentSize(String apartmentSize) { this.apartmentSize.setApartmentSize(apartmentSize); }
 }

@@ -1,9 +1,9 @@
 package service;
 
-import business.Apartment;
 import business.ApartmentDetailsViewModel;
+import business.ApartmentSize;
 import business.ApartmentViewModel;
-import jakarta.annotation.security.PermitAll;
+import io.vertx.ext.web.FileUpload;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -12,8 +12,11 @@ import mapper.ApartmentsMapper;
 import jakarta.ws.rs.*;
 import jakarta.inject.Inject;
 
-import java.io.StringReader;
-import java.sql.Timestamp;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +25,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import mapper.UsersMapper;
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jboss.resteasy.reactive.RestForm;
 
 
 @Path("/laplace/apartments")
@@ -39,6 +43,9 @@ public class ApartmentsService {
     JsonWebToken jwt;
     @Inject
     Application application;
+
+    @Context
+    io.vertx.ext.web.RoutingContext rc;
 
     @GET
     @Path("getAllApartments")
@@ -122,7 +129,7 @@ public class ApartmentsService {
         return apartments;
     }
 
-	@GET
+    @GET
     @Path("search")
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentViewModel> getApartmentsByCriteria(
@@ -139,25 +146,66 @@ public class ApartmentsService {
     }
 
     @POST
-    @Path("createApartment")
-    @RolesAllowed({"Administrator", "StandardUser"})
-    @Consumes("application/json")
-    public Response createApartment(String jsonBody) {
-        JsonObject json = Json.createReader(new StringReader(jsonBody)).readObject();
-
+    @Path("/createApartment")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response createApartment(
+            @RestForm("title") String title,
+            @RestForm("price") String price,
+            @RestForm("description") String description,
+            @RestForm("disponibility") String disponibility,
+            @RestForm("apartmentSizeId") String apartmentSizeId
+    ) {
         UUID adId = UUID.randomUUID();
-        String title = json.getString("title");
-        String description = json.getString("description");
-        String folderPath = json.getString("folderPath", null);
-        float price = json.getJsonNumber("price").bigDecimalValue().floatValue();
-        apartmentsMapper.createAd(adId, title, description, folderPath, price, UUID.fromString(jwt.getSubject()));
 
+        String folderPath = "../adsImages/" + adId;
+
+        float flPrice = Float.parseFloat(price);
+
+        //Création de l'annonce
+        apartmentsMapper.createAd(adId, title, description, folderPath, flPrice, UUID.fromString(jwt.getSubject()));
+
+        //Création de l'appartement
         UUID apartmentId = UUID.randomUUID();
-        Timestamp disponibility = new Timestamp(System.currentTimeMillis());
-        String address = json.getString("address");
-        UUID apartmentSizeId = UUID.fromString(json.getString("apartmentSizeId"));
-        apartmentsMapper.createApartment(apartmentId, disponibility, address, apartmentSizeId, adId);
+        UUID apartmentSizeUUID = UUID.fromString(apartmentSizeId);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(disponibility, formatter);
 
+        apartmentsMapper.createApartment(apartmentId, date, null, apartmentSizeUUID, adId);
+        return Response.ok(adId).build();
+    }
+
+    @POST
+    @Path("/uploadImagesForAd/{adid}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadImagesForAd(
+            @PathParam("adid") String adId,
+            @RestForm("image") File image
+    ) {
+
+        var cleanAdId = adId.replace("\"", "").trim();
+        String folderPath = apartmentsMapper.getApartmentById(UUID.fromString(cleanAdId), UUID.fromString(jwt.getSubject())).getFolderPath();
+
+        File adImageFolder = new File(folderPath);
+        adImageFolder.mkdirs();
+
+        if (!image.exists()) {
+            System.out.println("Fichier image inexistant !");
+        }
+
+        try {
+            String originalName = image.getName();
+            File destination = new File(folderPath, originalName);
+            Files.copy(image.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            return Response.serverError().entity("Erreur de lecture").build();
+        }
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("/getSizes")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public List<ApartmentSize> getSizes() {
+        return apartmentsMapper.getSizes();
     }
 }

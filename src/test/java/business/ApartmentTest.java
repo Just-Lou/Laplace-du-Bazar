@@ -10,11 +10,11 @@ public class ApartmentTest {
 
     UUID apartmentId = UUID.randomUUID();
     UUID sizeId = UUID.randomUUID();
-    ApartmentSize size = new ApartmentSize(sizeId, 4.5);
+    ApartmentSize size = new ApartmentSize(sizeId, "4 1/2");
     LocalDate publishDate = LocalDate.of(2025, 6, 2);
     LocalDate dispoDate = LocalDate.of(2025, 7, 1);
 
-    Apartment apt = new Apartment(apartmentId,"Superbe 4 1/2 à louer", "Près de l'uni, trop cool", publishDate, 1600.0f, "/images/appart1", dispoDate, "123 rue X, Sherbrooke", sizeId, 4.5);
+    Apartment apt = new Apartment(apartmentId,"Superbe 4 1/2 à louer", "Près de l'uni, trop cool", publishDate, 1600.0f, "/images/appart1", dispoDate, "123 rue X, Sherbrooke", sizeId, "4 1/2");
 
     @Test
     void getApartmentId() {
@@ -51,8 +51,8 @@ public class ApartmentTest {
 
     @Test
     void setApartmentSize() {
-        apt.setApartmentSize(5.5);
-        assertEquals(5.5, apt.getApartmentSize());
+        apt.setApartmentSize("5 1/2");
+        assertEquals("5 1/2", apt.getApartmentSize());
     }
 
 

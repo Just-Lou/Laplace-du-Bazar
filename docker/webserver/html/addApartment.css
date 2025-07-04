@@ -21,12 +21,12 @@ body {
     box-sizing: border-box;
     padding-left: 20px;
     padding-right: 20px;
+    padding-bottom: 20px;
     top: 200px;
     position: relative;
     display: flex;
     flex-direction: column;
     width: 70%;
-    height: 1000px;
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
@@ -131,6 +131,23 @@ textarea {
     width: 100%;
 }
 
-#image-selected-group > img {
-    height: 100px;
+
+#image-selected-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+#image-selected-preview > div {
+    width: 200px;
+    aspect-ratio: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#button-row {
+    display: flex;
+    justify-content: space-between;
 }

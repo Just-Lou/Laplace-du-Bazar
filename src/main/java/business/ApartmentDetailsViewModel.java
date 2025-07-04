@@ -48,4 +48,6 @@ public class ApartmentDetailsViewModel {
         this.disponibility = disponibility;
         this.adSellerScoreCount = adSellerScoreCount;
     }
+
+    public String getFolderPath() { return adImagesPath; }
 }

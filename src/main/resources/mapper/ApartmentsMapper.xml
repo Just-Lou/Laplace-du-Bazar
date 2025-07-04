@@ -108,5 +108,9 @@
     VALUES (#{apartmentId}, #{disponibility}, #{address}, #{apartmentSizeId}, #{adId});
     </insert>
 
+    <select id="getSizes" resultType="business.ApartmentSize">
+        SELECT * FROM app.apartmentsizes;
+    </select>
+
 
 </mapper>

@@ -2,10 +2,12 @@ package mapper;
 
 import business.Apartment;
 import business.ApartmentDetailsViewModel;
+import business.ApartmentSize;
 import business.ApartmentViewModel;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,9 +46,11 @@ public interface ApartmentsMapper {
 
     public void createApartment(
             @Param("apartmentId") UUID apartmentId,
-            @Param("disponibility") Timestamp disponibility,
+            @Param("disponibility") LocalDate disponibility,
             @Param("address") String address,
             @Param("apartmentSizeId") UUID apartmentSizeId,
             @Param("adId") UUID adId
     );
+
+    public List<ApartmentSize> getSizes();
 }

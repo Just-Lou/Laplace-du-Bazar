@@ -14,7 +14,7 @@
 <div id="container">
     <h1>Ajouter un appartement à vendre</h1>
     <hr/>
-    <form>
+    <form onsubmit="CreateApartmentAd(); return false;" enctype="multipart/form-data">
         <div class="input-group">
             <input type="text" id="title-input" placeholder=" " required>
             <label for="title-input">Titre</label>
@@ -43,8 +43,12 @@
             <i class="fa fa-plus-square-o" aria-hidden="true"></i>
             Sélectionnez un dossier d'images à téléverser
         </div>
-        <div id="image-selected-group">
-            
+        <input type="file" id="image-input" accept=".jpg,.png" style="display: none;" multiple>
+        <div id="image-selected-preview"></div>
+
+        <div id="button-row">
+            <button id="cancel-button">Annuler</button>
+            <button id="submit-button" type="submit">Créer</button>
         </div>
     </form>
 </div>
@@ -52,7 +56,100 @@
 </html>
 
 <script>
+    document.getElementById('image-upload-group').addEventListener('click', () => {
+        document.getElementById('image-input').click();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch("http://localhost:8080/laplace/apartments/getSizes", {
+            method: "GET",
+            credentials: "include"
+        }).then(response => {
+            if (!response.ok) {
+                console.log(response.status);
+            } else {
+                return response.json();
+            }
+        })
+            .then(data => {
+                const elementSize = document.getElementById('size-input');
+                Array.from(data).forEach(size => {
+                    const elementOption = document.createElement('option');
+                    elementOption.text = size.apartmentSize;
+                    elementOption.value = size.apartmentSizeId;
+                    elementSize.appendChild(elementOption);
+                });
+            })
+    });
+
+    document.getElementById('image-input').addEventListener('change', function () {
+        const files = this.files;
+        const elementPreview = document.getElementById('image-selected-preview');
+
+        for (let i = 0; i < files.length; i++) {
+            console.log('Fichier ' + (i + 1) + ': ' + files[i].name);
+
+            const imageElement = document.createElement('div');
+            imageElement.style.backgroundImage = `url("${URL.createObjectURL(files[i])}")`;
+
+            elementPreview.appendChild(imageElement);
+        }
+    });
+
     fetch('navbar.html')
         .then(response => response.text())
         .then(html => document.getElementById("navbar").innerHTML = html);
+
+    async function CreateApartmentAd() {
+        const formData = new FormData();
+
+        formData.append("title", document.getElementById("title-input").value);
+        formData.append("price", document.getElementById("price-input").value);
+        formData.append("description", document.getElementById("description-input").value);
+        formData.append("apartmentSizeId", document.getElementById("size-input").value);
+        formData.append("disponibility", document.getElementById("disponibility-input").value);
+
+        var newAdId = "";
+
+        await fetch("http://localhost:8080/laplace/apartments/createApartment", {
+            method: "POST",
+            credentials: "include",
+            body: formData
+        })
+            .then(async response => {
+                if (response.ok) {
+                    console.log("Annonce créée !");
+                    newAdId = await response.text();
+                } else {
+                    console.error("Erreur lors de la création de l'annonce");
+                }
+            })
+            .catch(error => {
+                console.error("Erreur réseau :", error);
+                return;
+            });
+
+        const imageFiles = document.getElementById("image-input").files;
+        console.log(imageFiles);
+
+        for (let i = 0; i < imageFiles.length; i++) {
+            const imageData = new FormData();
+            imageData.append("image", imageFiles[i]);
+
+            await fetch(`http://localhost:8080/laplace/apartments/uploadImagesForAd/${newAdId}`, {
+                method: "POST",
+                credentials: "include",
+                body: imageData
+            }).then(response => response.text())
+                .then(result => {
+                    console.log("Réponse du serveur :", result);
+                })
+                .catch(error => {
+                    console.error("Erreur réseau :", error);
+                });
+
+        }
+        window.location.href = "myAds.html";
+    }
+
 </script>
