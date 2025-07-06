@@ -51,52 +51,49 @@
     </select>
 
     <select id="getApartmentsByCriteria" resultType="business.ApartmentViewModel">
-        SELECT ads.adid, ads.title, ads.description, ads.price, CONCAT(u.firstname, ' ', u.lastname) AS adSellerName, s.score, ads.folderpath,
-        CASE WHEN f.adid IS NOT NULL THEN true ELSE false END AS isSaved,
-        CASE WHEN r.adid IS NOT NULL THEN true ELSE false END AS isReported
-        FROM app.apartments AS ap
-        INNER JOIN app.ads AS ads ON ap.adid = ads.adid
-        INNER JOIN app.users AS u ON ads.userid = u.userid
-        INNER JOIN app.scores AS s ON u.scoresellerid = s.scoreid
-        LEFT JOIN app.favorites AS f ON #{userId} = f.userid AND ads.adid = f.adid
-        LEFT JOIN app.reports AS r ON #{userId} = r.userid AND ads.adid = r.adid
-        WHERE ads.isarchived = false
+        select ads.adid, ads.title, ads.description, ads.price, ads.publicationdate, concat(u.firstname, ' ', u.lastname) as adSellerName,
+        s.score, s.number, ads.folderpath, ap.disponibility, ap.address, apSize.apartmentSize
+        from app.apartments as ap
+        inner join app.ads as ads on ap.adid = ads.adid
+        inner join app.users as u on ads.userid = u.userid
+        inner join app.scores as s on u.scoresellerid = s.scoreid
+        inner join app.apartmentsizes as apSize on ap.apartmentSizeId = apSize.apartmentSizeId
+        where ads.isarchived is distinct from true
 
         <if test="minPrice != null">
-            AND ads.price &gt;= #{minPrice}
+            and ads.price &gt;= #{minPrice}
         </if>
         <if test="maxPrice != null">
-            AND ads.price &lt;= #{maxPrice}
+            and ads.price &lt;= #{maxPrice}
         </if>
         <if test="minScore != null">
-            AND s.score &gt;= #{minScore}
+            and s.score &gt;= #{minScore}
         </if>
         <if test="disponibilityBefore != null">
-            AND DATE(ap.disponibility) &lt;= #{disponibilityBefore}
+            and ap.disponibility &lt;= #{disponibilityBefore}
         </if>
         <if test="apartmentSize != null">
-            AND ap.apartmentSize = #{apartmentSize}
+            and apSize.apartmentSize = #{apartmentSize}
         </if>
 
         <choose>
             <when test="sortBy == 'price_asc'">
-                ORDER BY ads.price ASC
+                order by ads.price asc
             </when>
             <when test="sortBy == 'price_desc'">
-                ORDER BY ads.price DESC
+                order by ads.price desc
             </when>
             <when test="sortBy == 'publication_asc'">
-                ORDER BY ads.publicationdate ASC
+                order by ads.publicationdate asc
             </when>
             <when test="sortBy == 'publication_desc'">
-                ORDER BY ads.publicationdate DESC
+                order by ads.publicationdate desc
             </when>
             <otherwise>
-                ORDER BY ads.price ASC, ads.publicationdate DESC
+                order by ads.price asc, ads.publicationdate desc
             </otherwise>
         </choose>
     </select>
-
 
     <insert id="createAd">
         INSERT INTO app.Ads(adId, title, description, folderPath, publicationDate, price, userId, isArchived)

@@ -133,16 +133,15 @@ public class ApartmentsService {
     @Path("search")
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentViewModel> getApartmentsByCriteria(
-            @QueryParam("userId") UUID userId,
             @QueryParam("minPrice") Float minPrice,
             @QueryParam("maxPrice") Float maxPrice,
             @QueryParam("minScore") Float minScore,
-            @QueryParam("disponibilityBefore") LocalDate disponibilityBefore,
-            @QueryParam("apartmentSize") Float apartmentSize,
+            @QueryParam("disponibilityBefore") String disponibilityBefore,
+            @QueryParam("apartmentSize") String apartmentSize,
             @QueryParam("sortBy") String sortBy
     ) {
         return apartmentsMapper.getApartmentsByCriteria(
-                userId, minPrice, maxPrice, minScore, disponibilityBefore, apartmentSize, sortBy
+                minPrice, maxPrice, minScore, disponibilityBefore, apartmentSize, sortBy
         );
     }
 
