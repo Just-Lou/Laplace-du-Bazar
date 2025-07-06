@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="navbar.css">
-  <link rel="stylesheet" href="apartments.css">
+  <link rel="stylesheet" href="apartments.css"><!-- Utilise le même style que apartments -->
   <link rel="stylesheet" href="favoris.css">
 </head>
 <body>
@@ -23,7 +23,7 @@
 
 <script>
   fetch('navbar.html')
-          .then(response => response.text())
+          .then(res => res.text())
           .then(html => document.getElementById("navbar").innerHTML = html);
 
   window.addEventListener('scroll', () => {
@@ -31,89 +31,74 @@
     document.getElementById("background").style.transform = "translateY(" + scrolled * 0.5 + "px)";
   });
 
-  fetch('http://localhost:8080/laplace/users/checkAuth', {
-    method: 'GET',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' }
-  })
-          .then(response => {
-            if (response.ok) {
-              loadFavoriteAds();
-            } else {
-              window.location.href = "http://localhost:8080/laplace/users/login";
-            }
-          })
-          .catch(error => {
-            console.error("Erreur auth :", error);
-            window.location.href = "http://localhost:8080/laplace/users/login";
-          });
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchFavorites();
+  });
 
-  function loadFavoriteAds() {
+  function fetchFavorites() {
     fetch('http://localhost:8080/laplace/apartments/getFavoriteApartments', {
       method: 'GET',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
             .then(response => {
-              if (!response.ok) throw new Error(response.status);
+              if (!response.ok) throw new Error("Erreur HTTP " + response.status);
               return response.json();
             })
             .then(data => {
-              document.getElementById('ads-listing').innerHTML = '';
+              const adsContainer = document.getElementById("ads-listing");
+              adsContainer.innerHTML = "";
 
-              if (data.length > 0) {
-                data.forEach(ad => {
-                  var adId = ad['adId'];
-                  var adTitle = ad['adTitle'];
-                  var adPrice = ad['adPrice'];
-                  var adDescription = ad['adDescription'];
-                  var adSellerName = ad['adSellerName'];
-                  var adSellerScore = ad['adSellerScore'];
-                  var adImagesPath = ad['adImagesPath'];
-                  var adInFavorites = true;
-
-                  fetch('adComponent.html?' + new Date().getTime())
-                          .then(response => response.text())
-                          .then(html => {
-                            document.getElementById('ads-listing').innerHTML += eval('`' + html + '`');
-
-                            const element = document.getElementById(adId);
-                            if (element) {
-                              element.querySelector('.rating-full-stars').style.width = (adSellerScore / 5 * 90) + 'px';
-
-                              if (adInFavorites) {
-                                const fullSave = element.querySelector('.flag-full-save');
-                                if (fullSave) fullSave.style.height = '30px';
-                              }
-
-                              Array.from(element.getElementsByClassName('loading')).forEach(e => e.classList.remove('loading'));
-                            }
-                          });
-                });
-              } else {
-                document.getElementById('ads-listing').innerHTML = `
+              if (data.length === 0) {
+                adsContainer.innerHTML = `
           <div id="no-result">
             <i class="fa fa-heart-o"></i>
             <p>Aucune annonce favorite trouvée.</p>
           </div>`;
+                return;
               }
+
+              data.forEach(ad => {
+                const adId = ad.adId;
+                const adTitle = ad.title;
+                const adPrice = ad.price;
+                const adDescription = ad.description;
+                const adSellerName = ad.adSellerName;
+                const adSellerScore = ad.score;
+                const adImagesPath = ad.folderPath;
+                const adInFavorites = true;
+
+                fetch('adComponent.html?' + new Date().getTime())
+                        .then(res => res.text())
+                        .then(html => {
+                          const rendered = eval('`' + html + '`');
+                          adsContainer.innerHTML += rendered;
+
+                          const element = document.getElementById(adId);
+                          if (element) {
+                            element.querySelector('.rating-full-stars').style.width = (adSellerScore / 5 * 90) + 'px';
+
+                            // Marque comme favori visuellement
+                            if (adInFavorites) {
+                              const fullSave = element.querySelector('.flag-full-save');
+                              if (fullSave) fullSave.style.height = '30px';
+                            }
+
+                            element.querySelectorAll('.loading').forEach(e => e.classList.remove('loading'));
+                          }
+                        });
+              });
             })
             .catch(error => {
-              console.error("Erreur lors du chargement des favoris :", error);
-              document.getElementById('ads-listing').innerHTML = `
+              console.error("Erreur :", error);
+              document.getElementById("ads-listing").innerHTML = `
         <div id="no-result">
           <i class="fa fa-exclamation-triangle"></i>
           <p>Erreur lors du chargement des favoris.</p>
         </div>`;
             });
-  }
-
-</script>
-<script>
-  function redirectToDetails(adId) {
-    window.location.href = `apartmentsDetails.html?id=${adId}`;
   }
 </script>
 </body>

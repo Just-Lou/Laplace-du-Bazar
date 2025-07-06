@@ -1,188 +1,106 @@
-body {
-    font-family: "Titillium Web", sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
+body{
+    font-family:"Titillium Web",sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:0;
 }
 
-#background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 700px;
-    background: url("rueSherbrooke.jpeg") center/cover no-repeat;
-    opacity: 0.5;
-    filter: blur(2px);
+#background{
+    position:absolute;
+    top:0;left:0;
+    width:100%;height:700px;
+    background:url("rueSherbrooke.jpeg") center/cover no-repeat;
+    opacity:.5;
+    filter:blur(2px);
 }
 
-#background-fade {
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 -300px 200px -25px #fff inset;
+#background-fade{
+    width:100%;height:100%;
+    box-shadow:0 -300px 200px -25px #fff inset;
 }
 
-#container {
-    position: relative;
-    top: 200px;
-    width: 70%;
+#container{
+    position:relative;
+    top:200px;
+    width:70%;
+}
+@media(max-width:960px){
+    #container{width:90%;}
+}
+h1{
+    text-align:center;
+    font-size:32px;
+    margin-bottom:30px;
 }
 
-@media(max-width: 960px) {
-    #container {
-        width: 90%;
-    }
+#ads-listing{
+    width:100%;
 }
 
-h1 {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 30px;
+.ad{
+    position:relative;
+    display:flex;
+    background:#f5f5f5;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:20px;
+    box-shadow:0 4px 8px rgba(0,0,0,.2);
+    transition:transform .1s;
+    cursor:pointer;
+}
+.ad:hover{transform:scale(1.01);}
+
+.ad-image-container{
+    height:300px;
+    aspect-ratio:1;
+    object-fit:cover;
+    flex-shrink:0;
+    border-radius:10px 0 0 10px;
 }
 
-#ads-listing {
-    width: 100%;
+.ad-text-container{
+    padding:20px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
 }
 
-.ad {
-    position: relative;
-    display: flex;
-    background: #f5f5f5;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
-    transition: transform .1s;
-    cursor: pointer;
+.title{
+    font-size:20px;
+    margin:0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.ad:hover {
-    transform: scale(1.01);
+.description{
+    font-size:14px;
+    color:#444;
+    margin-top:10px;
+    height:60px;
+    overflow:hidden;
+    line-height:1.2em;
 }
 
-.ad-image-container {
-    height: 300px;
-    aspect-ratio: 1;
-    object-fit: cover;
-    flex-shrink: 0;
-    border-radius: 10px 0 0 10px;
+.ad-seller-profile{
+    position:absolute;
+    right:20px;
+    bottom:20px;
+    display:flex;
+    align-items:center;
 }
-
-.ad-text-container {
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.stars-rating{
+    position:relative;
+    width:90px;
 }
-
-.title {
-    font-size: 20px;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.rating-full-stars{
+    position:absolute;
+    top:0;
+    color:goldenrod;
+    white-space:nowrap;
+    overflow:hidden;
 }
-
-.description {
-    width: 100%;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #444;
-    line-height: 1.4em;
-    height: auto;
-    overflow: visible;
-}
-
-.ad-seller-profile {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    display: flex;
-    align-items: center;
-}
-
-.stars-rating {
-    position: relative;
-    width: 90px;
-}
-
-.rating-full-stars {
-    position: absolute;
-    top: 0;
-    color: goldenrod;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.rating-empty-stars {
-    color: lightgray;
-}
-
-.loading {
-    position: relative;
-    background-color: darkgrey !important;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.loading::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-    animation: wave 4s infinite linear;
-}
-
-@keyframes wave {
-    0% { left: -200%; }
-    100% { left: 100%; }
-}
-
-#tmp-message {
-    align-items: center;
-    width: 20px;
-    height: 40px;
-    max-width: 400px;
-    justify-content: center;
-    display: flex;
-    position: fixed;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 10;
-    border-radius: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    transition: width 0.8s ease-in-out, bottom 0.4s ease-in-out;
-}
-
-#tmp-message p {
-    color: white;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-}
-
-#no-result {
-    width: 100%;
-    height: 600px;
-    justify-content: center;
-    color: darkgray;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-#no-result i {
-    font-size: 120px;
-}
-
-#no-result p {
-    font-family: "Titillium Web", sans-serif;
-    font-size: 24px;
+.rating-empty-stars{
+    color:lightgray;
 }
