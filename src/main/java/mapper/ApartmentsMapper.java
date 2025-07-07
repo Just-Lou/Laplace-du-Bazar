@@ -27,11 +27,12 @@ public interface ApartmentsMapper {
     public List<ApartmentViewModel> getFavoriteApartments(@Param("userId") UUID userId);
 
     List<ApartmentViewModel> getApartmentsByCriteria(
+            @Param("userId") UUID userId,
             @Param("minPrice") Float minPrice,
             @Param("maxPrice") Float maxPrice,
             @Param("minScore") Float minScore,
-            @Param("disponibilityBefore") String disponibilityBefore,
-            @Param("apartmentSize") String apartmentSize,
+            @Param("disponibilityBefore") LocalDate disponibilityBefore,
+            @Param("apartmentSize") Float apartmentSize,
             @Param("sortBy") String sortBy
     );
 
