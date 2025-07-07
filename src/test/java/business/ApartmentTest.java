@@ -46,7 +46,7 @@ public class ApartmentTest {
 
     @Test
     void getApartmentSize() {
-        assertEquals(4.5, apt.getApartmentSize());
+        assertEquals("4 1/2", apt.getApartmentSize());
     }
 
     @Test
