@@ -348,66 +348,71 @@
         window.location.href = `apartmentsDetails.html?id=${id}`;
     }
 
+
     function applyFilters() {
+        const params = new URLSearchParams();
+
         const size = document.getElementById("size").value;
         const minPrice = document.getElementById("price-start-range").value;
         const maxPrice = document.getElementById("price-end-range").value;
         const disponibility = document.querySelector('input[type="date"]').value;
         const sortBy = document.getElementById("sort-by").value;
 
-        let query = `http://localhost:8080/laplace/apartments/search?`;
+        if (size && size !== "all") params.append("apartmentSize", size);
+        if (minPrice && minPrice !== "0") params.append("minPrice", minPrice);
+        if (maxPrice && maxPrice !== "0") params.append("maxPrice", maxPrice);
+        if (disponibility) params.append("disponibilityBefore", disponibility);
+        if (sortBy) params.append("sortBy", sortBy);
 
-        if (minPrice && minPrice !== "0") query += `minPrice=${minPrice}&`;
-        if (maxPrice && maxPrice !== "0") query += `maxPrice=${maxPrice}&`;
-        if (disponibility) query += `disponibilityBefore=${disponibility}&`;
-        if (size && size !== "all") query += `apartmentSize=${size}&`;
-        if (sortBy) query += `sortBy=${sortBy}&`;
+        const url = `http://localhost:8080/laplace/apartments/search?${params.toString()}`;
 
-        query = query.replace(/[&?]$/, '');
-
-        fetch(query, {
+        fetch(url, {
             method: 'GET',
             credentials: 'include',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error("Erreur lors du fetch");
+                return response.json();
+            })
             .then(data => {
-                document.getElementById('ads-listing').innerHTML = '';
-                if (data.length > 0) {
-                    data.forEach((ad) => {
-                        var adId = ad['adId'];
-                        var adTitle = ad['adTitle'];
-                        var adPrice = ad['adPrice'];
-                        var adDescription = ad['adDescription'];
-                        var adSellerName = ad['adSellerName'];
-                        var adSellerScore = ad['adSellerScore'];
-                        var adImagesPath = ad['adImagesPath'];
-                        var adInFavorites = ad['saved'];
+                const adsContainer = document.getElementById('ads-listing');
+                adsContainer.innerHTML = '';
 
-                        fetch('adComponent.html?' + new Date().getTime())
-                            .then(response => response.text())
-                            .then(html => {
-                                document.getElementById('ads-listing').innerHTML += eval('`' + html + '`');
-                                document.getElementById(adId).querySelector('.rating-full-stars').style.width = eval("'" + (adSellerScore / 5 * 90) + "px'");
-                                if(adInFavorites) {
-                                    const elementAd = document.getElementById(adId);
-                                    const elementFullSave = elementAd.querySelector('.flag-full-save');
-                                    elementFullSave.style.height = '30px';
-                                }
-                                Array.from(document.getElementById(adId).getElementsByClassName('loading')).forEach(element => {
-                                    element.classList.remove('loading');
-                                });
-                            });
-                    });
-                } else {
-                    document.getElementById('ads-listing').innerHTML =
-                        '<div id="no-result">' +
-                        '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>' +
-                        '<p>Aucune annonce ne correspond à votre recherche</p>' +
-                        '</div>';
+                if (data.length === 0) {
+                    adsContainer.innerHTML = `
+                <div id="no-result">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <p>Aucune annonce ne correspond à votre recherche</p>
+                </div>`;
+                    return;
                 }
+
+                data.forEach(ad => {
+                    fetch('adComponent.html?' + new Date().getTime())
+                        .then(response => response.text())
+                        .then(html => {
+                            // Injecte les variables ad dans le HTML avec "with"
+                            const template = eval('with(ad) { `' + html + '` }');
+                            adsContainer.innerHTML += template;
+
+                            const adElement = document.getElementById(ad.adId);
+
+                            const ratingBar = adElement.querySelector('.rating-full-stars');
+                            if (ratingBar) {
+                                ratingBar.style.width = (ad.adSellerScore / 5 * 90) + "px";
+                            }
+
+                            if (ad.saved) {
+                                const fullSave = adElement.querySelector('.flag-full-save');
+                                if (fullSave) fullSave.style.height = '30px';
+                            }
+
+                            adElement.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
+                        });
+                });
             })
             .catch(error => {
                 console.error("Erreur lors de l'application des filtres :", error);
