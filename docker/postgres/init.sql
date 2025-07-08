@@ -145,7 +145,9 @@ CREATE TABLE app.Favorites
 
 -- ========== créer les données de base dans les tables ========== --
 insert into app.apartmentsizes
-values ('00000000-0000-0000-0000-000000000312', '3 1/2'),
+values ('00000000-0000-0000-0000-000000000112', '1 1/2'),
+       ('00000000-0000-0000-0000-000000000212', '2 1/2'),
+       ('00000000-0000-0000-0000-000000000312', '3 1/2'),
        ('00000000-0000-0000-0000-000000000412', '4 1/2'),
        ('00000000-0000-0000-0000-000000000512', '5 1/2'),
        ('00000000-0000-0000-0000-000000000612', '6 1/2');
@@ -181,12 +183,22 @@ values ('00000000-0000-0000-1111-000000000000', 'Génie biotechnologique'),
 
 -- First create scores for clients and sellers
 INSERT INTO app.Scores (scoreId, score, number)
-VALUES ('11111111-1111-1111-1111-111111111111', 4.5, 10),
+VALUES ('11111111-1111-1111-1111-111111111111', 4.3, 10),
        ('22222222-2222-2222-2222-222222222222', 3.8, 5),
        ('33333333-3333-3333-3333-333333333333', 5.0, 15),
        ('44444444-4444-4444-4444-444444444444', 4.2, 8),
        ('55555555-5555-5555-5555-555555555555', 4.7, 12),
-       ('66666666-6666-6666-6666-666666666666', 3.5, 3);
+       ('66666666-6666-6666-6666-666666666666', 3.5, 3),
+       ('77777777-7777-7777-7777-777777777777', 4.5, 20),
+       ('88888888-8888-8888-8888-888888888888', 3.1, 50),
+       ('99999999-9999-9999-9999-999999999999', 2.5, 7),
+       ('77777777-7777-7777-7777-777777777771', 4.5, 34),
+       ('77777777-7777-7777-7777-777777777772', 4.0, 18),
+       ('77777777-7777-7777-7777-777777777773', 4.6, 21),
+       ('77777777-7777-7777-7777-777777777774', 4.4, 33),
+       ('77777777-7777-7777-7777-777777777775', 2.7, 9),
+       ('77777777-7777-7777-7777-777777777776', 3.0, 4),
+       ('77777777-7777-7777-7777-777777777778', 4.2, 28);
 
 
 -- Create user types
@@ -195,22 +207,36 @@ VALUES ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'StandardUser'),
        ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'ExternalUser'),
        ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'Administrator');
 
--- Create the dummy users
+-- Create users
 INSERT INTO app.Users (userId, firstName, lastName, email, passwordHash, phoneNumber, creationDate, enabled,
                        scoreClientId, userTypeId, scoreSellerId)
 VALUES ('aaaaaaaa-bbbb-bbbb-bbbb-aaaaaaaaaaaa', 'John', 'Doe', 'john.doe@example.com', 'hashedpassword1', '555-123-4567',
         '2023-01-15 08:30:00', TRUE, '11111111-1111-1111-1111-111111111111', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
         '44444444-4444-4444-4444-444444444444'),
-       (gen_random_uuid(), 'Jane', 'Smith', 'jane.smith@example.com', 'hashedpassword2', '555-987-6543',
+       ('baaaaaaa-bbbb-bbbb-bbbb-aaaaaaaaaaab', 'Jane', 'Smith', 'jane.smith@example.com', 'hashedpassword2', '555-987-6543',
         '2023-02-20 14:45:00', TRUE, '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
         '55555555-5555-5555-5555-555555555555'),
        ('0d9fe705-30c3-4ce3-bfea-e03302fcf9e3', 'Laplace', 'Admin', 'admin@laplace.com', 'motdepasse', '555-456-7890', '1970-01-01 00:00:01',
         true, '33333333-3333-3333-3333-333333333333', 'cccccccc-cccc-cccc-cccc-cccccccccccc',
-        '66666666-6666-6666-6666-666666666666');
+        '66666666-6666-6666-6666-666666666666'),
+        ('0d9fe705-30c3-4ce3-bfea-e03302fcf9e4', 'Maïna', 'Clermont', 'mclermont@gmail.com', 'hashedpassword3', '819-000-1234', '2010-05-05 18:18:01',
+         true, '77777777-7777-7777-7777-777777777777', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '77777777-7777-7777-7777-777777777773'),
+        ('0d9fe705-30c3-4ce3-bfea-e03302fcf9e5', 'Amélie', 'Luneau', 'aluneau@gmail.com', 'hashedpassword4', '819-999-0000', '2020-08-08 18:18:02',
+         true, '77777777-7777-7777-7777-777777777771', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '77777777-7777-7777-7777-777777777774'),
+        ('0d9fe705-30c3-4ce3-bfea-e03302fcf9e6', 'Gabriel', 'Bruneau', 'gbruneau@gmail.com', 'hashedpassword5', '819-888-2222', '2014-12-12 18:18:03',
+         true, '88888888-8888-8888-8888-888888888888', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '77777777-7777-7777-7777-777777777772'),
+        ('0d9fe705-30c3-4ce3-bfea-e03302fcf9e7', 'Louis-Antoine', 'Gagnon', 'lagagnon@gmail.com', 'hashedpassword6', '819-675-6001', '2022-03-03 18:18:04',
+         true, '77777777-7777-7777-7777-777777777778', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '77777777-7777-7777-7777-777777777776'),
+        ('0d9fe705-30c3-4ce3-bfea-e03302fcf9e8', 'Zakary', 'Romdhane', 'zromdhane@gmail.com', 'hashedpassword7', '819-111-3987', '2013-04-04 18:18:05',
+         true, '99999999-9999-9999-9999-999999999999', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '77777777-7777-7777-7777-777777777775');
+
 
 --tests pour les annonces
 insert into app.ads (adid, title, description, publicationdate, price, userid, isarchived)
-values ('aaaaaaaa-bbbb-aaaa-aaaa-aaaaaaaaaaaa', 'Annonce 1', 'description annonce 1', '2023-01-15 08:30:00', 1300, 'aaaaaaaa-bbbb-bbbb-bbbb-aaaaaaaaaaaa', false);
+values ('aaaaaaaa-bbbb-aaaa-aaaa-aaaaaaaaaaaa', 'Location d`appartement', 'Un magnifique six et demi meublé vous attend tout près de l`université de Sherbrooke, avec chauffage et électricité inclus! Pour plus d`informations, n`hésitez pas à m`écrire.', '2023-01-15 08:30:00', 1300, 'aaaaaaaa-bbbb-bbbb-bbbb-aaaaaaaaaaaa', false),
+       ('dddddddd-dddd-dddd-dddd-ddddddddddd1', 'Appartement à louer', 'Bonjour, un beau quatre et demi est libre à partir du 18 mars 2025, bloc neuf de 3 ans, non meublé, inclusion : chauffage, électricité et internet, ' ||
+        'tout cela pour seulement 1500$ par mois. Contactez-moi si vous êtes intéressé!', '2024-09-20 17:51:45', 1500, '0d9fe705-30c3-4ce3-bfea-e03302fcf9e6', false);
 
 insert into app.apartments (apartmentid, disponibility, address, apartmentsizeid, adid)
-values ('aaaaaaaa-bbbb-bbbb-aaaa-aaaaaaaaaaaa', '2023-01-15 08:30:00', '123 rue x, sherbrooke', '00000000-0000-0000-0000-000000000612', 'aaaaaaaa-bbbb-aaaa-aaaa-aaaaaaaaaaaa');
+values ('aaaaaaaa-bbbb-bbbb-aaaa-aaaaaaaaaaaa', '2023-01-15 08:30:00', '123 rue x, Sherbrooke', '00000000-0000-0000-0000-000000000612', 'aaaaaaaa-bbbb-aaaa-aaaa-aaaaaaaaaaaa'),
+       ('dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-03-18 10:30:00', '456 rue y, Sherbrooke', '00000000-0000-0000-0000-000000000412', 'dddddddd-dddd-dddd-dddd-ddddddddddd1');
