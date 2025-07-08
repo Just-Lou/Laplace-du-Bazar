@@ -129,11 +129,23 @@ h1 {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    transition: transform 0.05s linear;
+    transition: transform 0.05s linear, height 0.4s ease-in-out;
 }
 .ad:hover {
     transform: scale(1.02);
     cursor: pointer;
+}
+
+.ad.archived {
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    transition: height 0.4s ease-in-out, padding 0.4s, margin 0.4s;
+}
+
+.ad.archived > * {
+    display: none !important;
 }
 
 .flag-options {
@@ -175,6 +187,16 @@ h1 {
 
 .full-flags {
     height: auto;
+}
+
+.flag-archive {
+    color: gray;
+    transition: color 0.2s ease-in-out;
+    display: none;
+}
+
+.flag-archive:hover {
+    color: #444444;
 }
 
 .ad-image-container {

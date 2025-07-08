@@ -24,6 +24,8 @@ public class ApartmentDetailsViewModel {
     private boolean saved;
     @JsonProperty("reported")
     private boolean reported;
+    @JsonProperty("owner")
+    private boolean owner;
     @JsonProperty("adSellerEmail")
     private String adSellerEmail;
     @JsonProperty("adSellerPhone")
@@ -33,7 +35,7 @@ public class ApartmentDetailsViewModel {
     @JsonProperty("adSellerScoreCount")
     private int adSellerScoreCount;
 
-    public ApartmentDetailsViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported, String adSellerEmail, String adSellerPhone, LocalDate disponibility, int adSellerScoreCount) {
+    public ApartmentDetailsViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported, boolean onwner, String adSellerEmail, String adSellerPhone, LocalDate disponibility, int adSellerScoreCount) {
         this.adId = adId;
         this.adTitle = adTitle;
         this.adDescription = adDescription;
@@ -43,6 +45,7 @@ public class ApartmentDetailsViewModel {
         this.adImagesPath = adImagesPath;
         this.saved = isSaved;
         this.reported = isReported;
+        this.owner = onwner;
         this.adSellerEmail = adSellerEmail;
         this.adSellerPhone = adSellerPhone;
         this.disponibility = disponibility;

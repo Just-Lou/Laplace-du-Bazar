@@ -55,4 +55,8 @@ public interface ApartmentsMapper {
     public List<ApartmentSize> getSizes();
 
     public List<ApartmentViewModel> getAllApartmentsFromUser(@Param("userId") UUID userUUID);
+
+    public String getSellerId (@Param("adId") UUID adId);
+
+    public void archiveAd(@Param("adId") UUID adId);
 }

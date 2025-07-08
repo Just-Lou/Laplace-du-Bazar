@@ -213,6 +213,35 @@
             });
     }
 
+    function archiveAd(event, element) {
+        event.stopPropagation(); // Empeche la propagation de la redirection
+
+        const elementAd = element.closest('.ad');
+        const adId = elementAd.id;
+        fetch(`http://localhost:8080/laplace/apartments/archiveAd/${adId}`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                adId: adId
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    displayMessage('Une erreur est survenue lors de l\'archivage de l\'annonce');
+                    throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+                }
+                elementAd.classList.add('archived');
+                displayMessage('Cette annonce a été archivée');
+            })
+            .catch(error => {
+                displayMessage('Une erreur est survenue lors de l\'archivage de l\'annonce');
+                throw new Error(`Erreur: ${error}`);
+            });
+    }
+
     function displayMessage(text) {
         const msgBox = document.getElementById('tmp-message');
         const msg = msgBox.querySelector('p');
@@ -271,11 +300,21 @@
                         var adImagesPath = ad['adImagesPath'];
                         var adInFavorites = ad['saved'];
 
+                        var isArchived = ad['isArchived'];
+                        var owner = ad['owner'];
+
                         fetch('adComponent.html?' + new Date().getTime())
                             .then(response => response.text())
                             .then(html => {
                                 document.getElementById('ads-listing').innerHTML += eval('`' + html + '`');
                                 document.getElementById(adId).querySelector('.rating-full-stars').style.width = eval("'" + (adSellerScore / 5 * 90) + "px'");
+                                if(owner) {
+                                    const elementAd = document.getElementById(adId);
+                                    elementAd.querySelector('.full-flags').style.display = 'none';
+                                    elementAd.querySelector('.empty-flags').style.display = 'none';
+                                    elementAd.querySelector('.flag-archive').style.display = 'block';
+                                }
+
                                 if(adInFavorites) {
                                     const elementAd = document.getElementById(adId);
 

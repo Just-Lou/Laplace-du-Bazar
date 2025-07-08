@@ -18,6 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.ws.rs.GET;
@@ -182,7 +183,7 @@ public class ApartmentsService {
             @RestForm("image") File image
     ) {
 
-        var cleanAdId = adId.replace("\"", "").trim();
+        String cleanAdId = adId.replace("\"", "").trim();
         String folderPath = apartmentsMapper.getApartmentById(UUID.fromString(cleanAdId), UUID.fromString(jwt.getSubject())).getFolderPath();
 
         File adImageFolder = new File(folderPath);
@@ -219,6 +220,27 @@ public class ApartmentsService {
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentSize> getSizes() {
         return apartmentsMapper.getSizes();
+    }
+
+    @POST
+    @Path("/archiveAd/{adId}")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public Response archiveAd(
+            @PathParam("adId") String adId
+    ) {
+        String cleanAdId = adId.replace("\"", "").trim();
+        UUID adUUID = UUID.fromString(cleanAdId);
+        String sellerId = apartmentsMapper.getSellerId(adUUID);
+
+        UUID test = UUID.fromString(jwt.getSubject());
+
+        if(sellerId == null || !(Objects.equals(jwt.getSubject(), sellerId))) {
+            return Response.serverError().entity("Erreur de permission").build();
+        }
+
+        apartmentsMapper.archiveAd(adUUID);
+
+        return Response.ok().build();
     }
 
 }

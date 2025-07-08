@@ -24,9 +24,12 @@ public class ApartmentViewModel {
     private boolean saved;
     @JsonProperty("reported")
     private boolean reported;
+    @JsonProperty("owner")
+    private boolean owner;
+    @JsonProperty("archived")
     private boolean isArchived;
 
-    public ApartmentViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported) {
+    public ApartmentViewModel(UUID adId, String adTitle, String adDescription, float adPrice, String adSellerName, float adSellerScore, String adImagesPath, boolean isSaved, boolean isReported, boolean isSeller, boolean isArchived) {
         this.adId = adId;
         this.adTitle = adTitle;
         this.adDescription = adDescription;
@@ -36,6 +39,7 @@ public class ApartmentViewModel {
         this.adImagesPath = adImagesPath;
         this.saved = isSaved;
         this.reported = isReported;
+        this.owner = isSeller;
         this.isArchived = isArchived;
     }
 
