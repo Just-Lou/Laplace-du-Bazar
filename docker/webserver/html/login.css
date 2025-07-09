@@ -40,7 +40,6 @@ body {
     box-shadow: 0px -250px 100px -100px white inset;
 }
 
-/* Position de la carte */
 #container {
     display: flex;
     justify-content: center;
@@ -71,7 +70,6 @@ body {
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
 }
 
-/* En-tête du profil */
 .profile-header {
     position: relative;
     margin-bottom: 25px;
@@ -89,7 +87,6 @@ body {
     }
 }
 
-/* Détails utilisateur */
 .user-details {
     margin-bottom: 20px;
 }
@@ -118,7 +115,6 @@ body {
     margin: 10px 0;
 }
 
-/* Informations utilisateur */
 .user-info {
     margin: 20px 0;
     font-size: 14px;
@@ -138,10 +134,9 @@ body {
     width: 16px;
 }
 
-/* Statistiques utilisateur */
 .user-stats {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     margin: 25px 0;
     padding: 20px 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -162,20 +157,12 @@ body {
     transform: translateY(-2px);
 }
 
-.stat-number {
-    font-size: 22px;
-    font-weight: 700;
-    color: #000000;
-    margin-bottom: 5px;
-}
-
 .stat-label {
     font-size: 12px;
     color: #000000;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
 
 .stars-container {
     justify-items: center;
@@ -205,7 +192,6 @@ body {
     display: inline-block;
 }
 
-/* Boutons */
 .card-actions {
     display: flex;
     flex-direction: column;
@@ -272,7 +258,6 @@ body {
     box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
 }
 
-/* Animations d'entrée */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -288,7 +273,7 @@ body {
     animation: fadeInUp 0.8s ease-out;
 }
 
-/* Responsive design amélioré */
+
 @media screen and (max-width: 480px) {
     .card {
         margin: 10px;
@@ -322,5 +307,5 @@ a {
 #rating-count {
     display: inline;
     font-size: 16px;
-    letter-spacing: 2px; /* Espacement entre les étoiles */
+    letter-spacing: 2px;
 }

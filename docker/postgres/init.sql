@@ -233,10 +233,13 @@ VALUES ('aaaaaaaa-bbbb-bbbb-bbbb-aaaaaaaaaaaa', 'John', 'Doe', 'john.doe@example
 
 --tests pour les annonces
 insert into app.ads (adid, title, description, publicationdate, price, userid, isarchived)
-values ('aaaaaaaa-bbbb-aaaa-aaaa-aaaaaaaaaaaa', 'Location d`appartement', 'Un magnifique six et demi meublé vous attend tout près de l`université de Sherbrooke, avec chauffage et électricité inclus! Pour plus d`informations, n`hésitez pas à m`écrire.', '2023-01-15 08:30:00', 1300, 'aaaaaaaa-bbbb-bbbb-bbbb-aaaaaaaaaaaa', false),
-       ('dddddddd-dddd-dddd-dddd-ddddddddddd1', 'Appartement à louer', 'Bonjour, un beau quatre et demi est libre à partir du 18 mars 2025, bloc neuf de 3 ans, non meublé, inclusion : chauffage, électricité et internet, ' ||
-        'tout cela pour seulement 1500$ par mois. Contactez-moi si vous êtes intéressé!', '2024-09-20 17:51:45', 1500, '0d9fe705-30c3-4ce3-bfea-e03302fcf9e6', false);
+values ('aaaaaaaa-bbbb-aaaa-aaaa-aaaaaaaaaaaa', 'Location d''appartement', 'Un magnifique cinq et demi meublé vous attend tout près de l''université de Sherbrooke, avec chauffage et électricité inclus! Pour plus d''informations, n''hésitez pas à m''écrire.', '2023-01-15 08:30:00', 1300, 'aaaaaaaa-bbbb-bbbb-bbbb-aaaaaaaaaaaa', false),
+       ('dddddddd-dddd-dddd-dddd-ddddddddddd1', 'Appartement à louer', 'Bonjour, un beau quatre et demi est libre à partir du 18 mars 2025, bloc neuf de 3 ans, non meublé, inclusion : chauffage, électricité et internet, tout cela pour seulement 1500$ par mois. Contactez-moi si vous êtes intéressé!', '2024-09-20 17:51:45', 1500, '0d9fe705-30c3-4ce3-bfea-e03302fcf9e6', false),
+       ('dddddddd-dddd-dddd-dddd-ddddddddddd2', 'Chambre à louer', 'Une chambre meublée dans un grand six et demi est libre pour la session d''hiver 2026, il y aura trois autres locataires présents avec chauffage, électricité et internet inclus. Si vous êtes intéressé, contactez-moi!', '2025-02-10 13:47:38', 1600, '0d9fe705-30c3-4ce3-bfea-e03302fcf9e4', false),
+       ('dddddddd-dddd-dddd-dddd-ddddddddddd3', 'Appartement à louer', 'Un trois et demi est disponible à partir du mois de mai 2026, rien n''est inclus, mais il est à proximité de plusieurs épiceries et pharmacies.', '2025-05-30', 1250, '0d9fe705-30c3-4ce3-bfea-e03302fcf9e8',false);
 
 insert into app.apartments (apartmentid, disponibility, address, apartmentsizeid, adid)
-values ('aaaaaaaa-bbbb-bbbb-aaaa-aaaaaaaaaaaa', '2023-01-15 08:30:00', '123 rue x, Sherbrooke', '00000000-0000-0000-0000-000000000612', 'aaaaaaaa-bbbb-aaaa-aaaa-aaaaaaaaaaaa'),
-       ('dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-03-18 10:30:00', '456 rue y, Sherbrooke', '00000000-0000-0000-0000-000000000412', 'dddddddd-dddd-dddd-dddd-ddddddddddd1');
+values ('aaaaaaaa-bbbb-bbbb-aaaa-aaaaaaaaaaaa', '2023-01-15 08:30:00', '123 rue x, Sherbrooke', '00000000-0000-0000-0000-000000000512', 'aaaaaaaa-bbbb-aaaa-aaaa-aaaaaaaaaaaa'),
+       ('dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-03-18 10:30:00', '456 rue y, Sherbrooke', '00000000-0000-0000-0000-000000000412', 'dddddddd-dddd-dddd-dddd-ddddddddddd1'),
+       ('ffffffff-ffff-ffff-ffff-ffffffffffff', '2026-01-01 08:00:00', '789 rue w, Sherbrooke', '00000000-0000-0000-0000-000000000612', 'dddddddd-dddd-dddd-dddd-ddddddddddd2'),
+       ('ffffffff-ffff-ffff-ffff-fffffffffff1', '2026-05-01 07:00:00', '098 rue z, Sherbrooke', '00000000-0000-0000-0000-000000000312', 'dddddddd-dddd-dddd-dddd-ddddddddddd3');
