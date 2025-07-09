@@ -52,11 +52,8 @@ public class ApartmentsService {
     @Path("getAllApartments")
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentViewModel> getAllApartments(@Context SecurityContext securityContext) {
-        String userEmail = securityContext.getUserPrincipal().getName();
 
-        String userId = usersMapper.getUserIdByEmail(userEmail);
-
-        UUID userUUID = UUID.fromString(userId);
+        UUID userUUID = UUID.fromString(jwt.getSubject());
 
         List<ApartmentViewModel> apartments = apartmentsMapper.getAllApartments(userUUID);
         return apartments;
@@ -66,11 +63,7 @@ public class ApartmentsService {
     @Path("getApartmentById/{id}")
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public ApartmentDetailsViewModel getApartmentById(@PathParam("id") UUID id, @Context SecurityContext securityContext) {
-        String userEmail = securityContext.getUserPrincipal().getName();
-
-        String userId = usersMapper.getUserIdByEmail(userEmail);
-
-        UUID userUUID = UUID.fromString(userId);
+        UUID userUUID = UUID.fromString(jwt.getSubject());
         return apartmentsMapper.getApartmentById(id, userUUID);
     }
 
@@ -89,11 +82,7 @@ public class ApartmentsService {
         JsonObject json = Json.createReader(new StringReader(jsonBody)).readObject();
         UUID adId = UUID.fromString(json.getString("adId"));
 
-        String userEmail = securityContext.getUserPrincipal().getName();
-
-        String userId = usersMapper.getUserIdByEmail(userEmail);
-
-        UUID userUUID = UUID.fromString(userId);
+        UUID userUUID = UUID.fromString(jwt.getSubject());
 
         apartmentsMapper.addToFavorites(userUUID, adId);
 
@@ -108,11 +97,7 @@ public class ApartmentsService {
         JsonObject json = Json.createReader(new StringReader(jsonBody)).readObject();
         UUID adId = UUID.fromString(json.getString("adId"));
 
-        String userEmail = securityContext.getUserPrincipal().getName();
-
-        String userId = usersMapper.getUserIdByEmail(userEmail);
-
-        UUID userUUID = UUID.fromString(userId);
+        UUID userUUID = UUID.fromString(jwt.getSubject());
 
         apartmentsMapper.removeFromFavorites(userUUID, adId);
 
@@ -123,9 +108,8 @@ public class ApartmentsService {
     @Path("getFavoriteApartments")
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentViewModel> getFavoriteApartments(@Context SecurityContext securityContext) {
-        String userEmail = securityContext.getUserPrincipal().getName();
-        String userId = usersMapper.getUserIdByEmail(userEmail);
-        UUID userUUID = UUID.fromString(userId);
+
+        UUID userUUID = UUID.fromString(jwt.getSubject());
         List<ApartmentViewModel> apartments = apartmentsMapper.getFavoriteApartments(userUUID);
         return apartments;
     }
@@ -208,9 +192,8 @@ public class ApartmentsService {
     @Path("getAllApartmentsFromUser")
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
     public List<ApartmentViewModel> getAllApartmentsFromUser(@Context SecurityContext securityContext) {
-        String userEmail = securityContext.getUserPrincipal().getName();
-        String userId = usersMapper.getUserIdByEmail(userEmail);
-        UUID userUUID = UUID.fromString(userId);
+
+        UUID userUUID = UUID.fromString(jwt.getSubject());
 
         List<ApartmentViewModel> apartments = apartmentsMapper.getAllApartmentsFromUser(userUUID);
         return apartments;
