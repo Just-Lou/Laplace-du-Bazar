@@ -33,14 +33,9 @@
     
     <div class="user-info">
       <p id="user-email" class="info-item"></p>
-      <p id="user-joined" class="info-item"></p>
     </div>
     
     <div class="user-stats">
-      <div class="stat">
-        <span id="posts-count" class="stat-number">0</span>
-        <span class="stat-label">Posts</span>
-      </div>
       <div class="stat">
         <div class="stars-container">
           <div class="stars-rating">
@@ -80,7 +75,6 @@
         .then(response => response.text())
         .then(html => document.getElementById("navbar").innerHTML = html);
 
-    // Récupération des données utilisateur
     fetch('http://localhost:8080/laplace/users/whoami', {
       credentials: 'include'
     })
@@ -95,13 +89,11 @@
               updateUserInterface(null);
             });
 
-// Modifiez votre fonction updateUserInterface pour utiliser le score
 function updateUserInterface(userData) {
     const isConnected = userData !== null;
     console.log(userData);
 
     if (isConnected) {
-        // Récupération du score
         fetch(`http://localhost:8080/laplace/scores/getScoreByUser/${userData.userId}`, {
             method: 'GET',
             credentials: 'include',
@@ -112,86 +104,60 @@ function updateUserInterface(userData) {
         .then(response => response.json())
         .then(scoreData => {
             console.log('Score récupéré:', scoreData);
-            
-            // Référencer le score depuis la réponse
+
             const userScore = scoreData['score'] || 0;
             const ratingCount = scoreData['scoreNumber'] || 0;
-            
-            // Mettre à jour l'affichage des étoiles avec le score
+
             updateStarsDisplay(userScore, ratingCount);
         })
         .catch(error => {
             console.error('Erreur récupération score:', error);
-            // Affichage par défaut si erreur
             updateStarsDisplay(0, 0);
         });
     }
 
-    // Éléments de base
     document.getElementById('user-name').innerHTML = isConnected ? userData.firstName + ' ' + userData.lastName : 'Non connecté';
     document.getElementById('user-role').innerHTML = isConnected ? formatRole(userData.roles) : 'Visiteur';
     document.getElementById('user-description').innerHTML = isConnected ? 
         (userData.description || 'Membre actif de Laplace du Bazar') : 'Bienvenue sur Laplace du Bazar';
-    
-    // Email
+
     if (isConnected && userData.email) {
         document.getElementById('user-email').innerHTML = `<i class="fas fa-envelope"></i> ${userData.email}`;
     } else {
         document.getElementById('user-email').innerHTML = '';
     }
-    
-    // Date d'inscription
-    if (isConnected && userData.joinDate) {
-        document.getElementById('user-joined').innerHTML = `<i class="fas fa-calendar-alt"></i> Membre depuis ${userData.joinDate}`;
-    } else {
-        document.getElementById('user-joined').innerHTML = '';
-    }
-    
-    // Statistiques
-    if (isConnected) {
-        document.getElementById('posts-count').textContent = userData.posts || '0';
-    } else {
-        // Réinitialiser pour les visiteurs
-        document.getElementById('posts-count').textContent = '0';
+
+    if (!isConnected) {
         updateStarsDisplay(0, 0);
     }
-    
-    // Boutons
+
     document.getElementById('login-btn').style.display = isConnected ? 'none' : 'block';
     document.getElementById('logout-btn').style.display = isConnected ? 'block' : 'none';
 }
 
-// Fonction corrigée pour afficher le bon nombre d'étoiles
 function updateStarsDisplay(userRating, ratingCount) {
     console.log(`Mise à jour étoiles: ${userRating}/5 (${ratingCount} votes)`);
     
-    // Calculer le nombre d'étoiles pleines, à moitié et vides
     const fullStars = Math.floor(userRating);
     const hasHalfStar = userRating % 1 !== 0;
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
     
-    // Construire le HTML des étoiles dynamiquement
     let starsHTML = '';
     
-    // Étoiles pleines
     for (let i = 0; i < fullStars; i++) {
         starsHTML += '<i class="fa fa-star" aria-hidden="true"></i>';
     }
     
-    // Étoile à moitié (si nécessaire)
     if (hasHalfStar) {
         starsHTML += '<i class="fa fa-star-half-o" aria-hidden="true"></i>';
     }
     
-    // Étoiles vides
     for (let i = 0; i < emptyStars; i++) {
         starsHTML += '<i class="fa fa-star-o" aria-hidden="true"></i>';
     }
     
-    // Ajouter le nombre de votes
     starsHTML += ` (${ratingCount})`;
     
-    // Mettre à jour l'affichage
     const starsContainer = document.querySelector('.stars-rating');
     if (starsContainer) {
         starsContainer.innerHTML = starsHTML;
@@ -199,21 +165,17 @@ function updateStarsDisplay(userRating, ratingCount) {
 }
 });
 
-// Fonction pour formater l'affichage du rôle
 function formatRole(role) {
     if (!role) return 'Visiteur';
     
-    // Mapping des rôles techniques vers des noms français lisibles
     const roleMap = {
         'administrator': 'Administrateur',
         'standarduser': 'Utilisateur',
         'externaluser': 'Utilisateur externe'
     };
     
-    // Convertir en minuscules pour la comparaison
     const lowerRole = role.toLowerCase();
     
-    // Retourner la version française ou capitaliser la première lettre
     return roleMap[lowerRole] || role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
 }
 </script>
