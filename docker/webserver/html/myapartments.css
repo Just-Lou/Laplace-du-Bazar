@@ -177,6 +177,17 @@ h1 {
     height: auto;
 }
 
+.flag-archive {
+    color: gray;
+    transition: color 0.2s ease-in-out;
+    display: none;
+}
+
+.flag-archive:hover {
+    color: #444444;
+}
+
+
 .ad-image-container {
     height: 300px;
     aspect-ratio: 1;
