@@ -266,7 +266,7 @@
                         var adImagesPath = ad['adImagesPath'];
                         var adInFavorites = ad['saved'];
 
-                        var isArchived = ad['isArchived'];
+                        var isArchived = ad['archived'];
                         var owner = ad['owner'];
 
                         fetch('adComponent.html?' + new Date().getTime())
@@ -279,6 +279,13 @@
                                     elementAd.querySelector('.full-flags').style.display = 'none';
                                     elementAd.querySelector('.empty-flags').style.display = 'none';
                                     elementAd.querySelector('.flag-archive').style.display = 'block';
+                                }
+                                if(isArchived) {
+                                    const elementAd = document.getElementById(adId);
+                                    var elementArchive = elementAd.querySelector('.flag-archive');
+                                    elementArchive.querySelector('i').display = 'none';
+                                    elementArchive.innerHTML = 'Archivée';
+                                    elementAd.classList.add('archived');
                                 }
 
                                 if(adInFavorites) {
@@ -334,6 +341,9 @@
                     displayMessage('Une erreur est survenue lors de l\'archivage de l\'annonce');
                     throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
                 }
+                var elementArchive = elementAd.querySelector('.flag-archive');
+                elementArchive.querySelector('i').display = 'none';
+                elementArchive.innerHTML = 'Archivée';
                 elementAd.classList.add('archived');
                 displayMessage('Cette annonce a été archivée');
             })
