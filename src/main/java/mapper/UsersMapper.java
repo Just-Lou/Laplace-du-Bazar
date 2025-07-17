@@ -39,4 +39,5 @@ public interface UsersMapper {
 
     public String getUserIdByEmail(@Param("email") String email);
 
+    public void addScoreToUser(@Param("userId") UUID userId, @Param("score") float score);
 }

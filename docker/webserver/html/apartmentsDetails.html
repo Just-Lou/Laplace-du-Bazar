@@ -75,6 +75,18 @@
                     <p id="seller-name"></p>
                 </div>
             </div>
+            <div>
+                <label for="eval">Évaluer le vendeur :</label>
+                <select id="eval" name="choix">
+                    <option value="all">--</option>
+                    <option value="1">1/5</option>
+                    <option value="2">2/5</option>
+                    <option value="3">3/5</option>
+                    <option value="4">4/5</option>
+                    <option value="5">5/5</option>
+                </select>
+            </div>
+            <button id="eval-button">Envoyer l'évaluation</button>
             <p id="seller-phone"></p>
             <p id="seller-email"></p>
         </div>
@@ -207,7 +219,14 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         loadAdDetails();
+        const evalButton = document.getElementById("eval-button");
+        evalButton.addEventListener("click", applyEval);
     });
+
+    function applyEval() {
+        const evalSelect = document.getElementById("eval");
+        const evalValue = evalSelect.value;
+    }
 
     function loadAdDetails() {
         const adId = new URLSearchParams(window.location.search).get("id");

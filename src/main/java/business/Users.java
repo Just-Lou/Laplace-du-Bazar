@@ -84,7 +84,7 @@ public class Users {
         if (score > 5f) {
             score = 5f;
         }
-        float totalScores = this.scoreClient.getScore() + score;
+        float totalScores = this.scoreClient.getScore()*this.scoreClient.getScoreNumber() + score;
         int totalNumbers = this.scoreClient.getScoreNumber() + 1;
         this.scoreClient.setScore(totalScores/totalNumbers);
         this.scoreClient.setScoreNumber(totalNumbers);
@@ -124,7 +124,7 @@ public class Users {
         if (score > 5f) {
             score = 5f;
         }
-        float totalScores = this.scoreSeller.getScore() + score;
+        float totalScores = this.scoreSeller.getScore()*this.scoreSeller.getScoreNumber() + score;
         int totalNumbers = this.scoreSeller.getScoreNumber() + 1;
         this.scoreSeller.setScore(totalScores/totalNumbers);
         this.scoreSeller.setScoreNumber(totalNumbers);
