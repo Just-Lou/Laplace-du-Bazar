@@ -72,6 +72,8 @@ public class ScoresService {
     public Response addScoreToUser(@PathParam("sellerId") UUID sellerId, @PathParam("score") float score) {
         String clientId = jwt.getSubject();
         Score sellerScore = scoresMapper.getScoreByUserId(sellerId);
+        if (score > 5) { score= 5; }
+        if (score < 0) { score = 0; }
         float newScore = (sellerScore.getScore() * sellerScore.getScoreNumber() + score) / (sellerScore.getScoreNumber() + 1);
         scoresMapper.updateScore(sellerScore.getScoreId(), newScore, sellerScore.getScoreNumber() + 1);
         return Response.ok().build();

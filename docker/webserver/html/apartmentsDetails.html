@@ -225,7 +225,75 @@
 
     function applyEval() {
         const evalSelect = document.getElementById("eval");
+        const evalButton = document.getElementById("eval-button");
         const evalValue = evalSelect.value;
+
+        if (evalValue === "all") {
+            return;
+        }
+
+        evalButton.disabled = true;
+        evalSelect.disabled = true;
+
+        const adId = new URLSearchParams(window.location.search).get("id");
+
+        fetch(`http://localhost:8080/laplace/apartments/getApartmentById/${adId}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const sellerEmail = data['adSellerEmail'];
+
+                return fetch(`http://localhost:8080/laplace/users/getUserIdByEmail/${sellerEmail}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(sellerId => {
+                return fetch(`http://localhost:8080/laplace/scores/addScoreToUser/${sellerId}/${evalValue}`, {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                displayMessage("Évaluation envoyée avec succès");
+
+                evalSelect.value = "all";
+                evalButton.innerHTML = "Évaluation envoyée!";
+                loadAdDetails();
+            })
+            .catch(error => {
+                console.error("Error submitting evaluation:", error);
+                displayMessage("Une erreur est survenue lors de l'évaluation");
+
+                evalButton.disabled = false;
+                evalSelect.disabled = false;
+                evalButton.innerHTML = "Envoyer l'évaluation";
+            });
     }
 
     function loadAdDetails() {
@@ -269,7 +337,15 @@
 
                     document.getElementById('seller-name').innerHTML = adSellerName
                     document.querySelector('.rating-full-stars').style.width = eval("'" + (adSellerScore / 5 * 90) + "px'");
-                    document.querySelector('.rating-empty-stars').innerHTML += `(${adSellerScoreCount})`;
+                    document.querySelector('.rating-empty-stars').innerHTML = `
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        (${adSellerScoreCount})
+                    `;
+
 
                     document.getElementById('seller-phone').innerHTML = 'Numéro de téléphone : ' + adSellerPhone;
                     document.getElementById('seller-email').innerHTML = 'adresse courriel : ' + adSellerEmail;
