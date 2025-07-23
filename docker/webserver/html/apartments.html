@@ -288,7 +288,7 @@
             .then(data => {
                 document.getElementById('ads-listing').innerHTML = '';
                 if (data.length > 0) {
-                    data.forEach((ad) => {
+                    data.forEach(async ad => {
                         console.log(ad);
 
                         var adId = ad['adId'];
@@ -303,7 +303,25 @@
                         var isArchived = ad['isArchived'];
                         var owner = ad['owner'];
 
-                        fetch('adComponent.html?' + new Date().getTime())
+                        await fetch(`http://localhost:8080/laplace/apartments/getDefaultImage/${adId}`, {
+                            method: 'GET',
+                            credentials: 'include',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    console.log('Aucune image trouvé pour cette annonce');
+                                } else {
+                                    return response.text();
+                                }
+                            })
+                            .then(data => {
+                                adImagesPath = `../adImages/${adId}/${data}`;
+                            })
+
+                        await fetch('adComponent.html?' + new Date().getTime())
                             .then(response => response.text())
                             .then(html => {
                                 document.getElementById('ads-listing').innerHTML += eval('`' + html + '`');

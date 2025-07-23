@@ -135,6 +135,7 @@
         for (let i = 0; i < imageFiles.length; i++) {
             const imageData = new FormData();
             imageData.append("image", imageFiles[i]);
+            imageData.append("imageName", imageFiles[i].name);
 
             await fetch(`http://localhost:8080/laplace/apartments/uploadImagesForAd/${newAdId}`, {
                 method: "POST",

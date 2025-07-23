@@ -23,7 +23,11 @@
     background-color: black;
     border-radius: 10px;
     overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: auto 100%;
 }
+
 
 .ad-carrousel-arrow {
     height: 100%;

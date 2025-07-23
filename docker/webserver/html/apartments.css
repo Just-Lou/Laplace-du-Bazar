@@ -205,6 +205,9 @@ h1 {
     flex: none;
     flex-shrink: 0;
     border-radius: 10px !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .ad-text-container {

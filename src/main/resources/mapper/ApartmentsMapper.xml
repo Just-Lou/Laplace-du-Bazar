@@ -144,5 +144,10 @@
         WHERE adid = #{adId}
     </update>
 
+    <select id="getFolderPath" resultType="String">
+        SELECT folderpath
+        FROM app.ads
+        WHERE adid = #{adId}
+    </select>
 
 </mapper>

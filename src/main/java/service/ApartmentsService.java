@@ -14,9 +14,11 @@ import jakarta.inject.Inject;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -143,7 +145,14 @@ public class ApartmentsService {
     ) {
         UUID adId = UUID.randomUUID();
 
-        String folderPath = "../adsImages/" + adId;
+        java.nio.file.Path current = Paths.get("").toAbsolutePath();
+        while (current != null && !current.getFileName().toString().equals("Laplace-du-Bazar")) {
+            current = current.getParent();
+        }
+
+        java.nio.file.Path target = current.resolve("docker/webserver/adImages").resolve(adId.toString());
+        String folderPath = target.toString();
+
 
         float flPrice = Float.parseFloat(price);
 
@@ -165,6 +174,7 @@ public class ApartmentsService {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadImagesForAd(
             @PathParam("adid") String adId,
+            @RestForm("imageName") String imageName,
             @RestForm("image") File image
     ) {
 
@@ -179,8 +189,7 @@ public class ApartmentsService {
         }
 
         try {
-            String originalName = image.getName();
-            File destination = new File(folderPath, originalName);
+            File destination = new File(folderPath, imageName);
             Files.copy(image.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             return Response.serverError().entity("Erreur de lecture").build();
@@ -206,6 +215,23 @@ public class ApartmentsService {
         return apartmentsMapper.getSizes();
     }
 
+    @GET
+    @Path("/getImageListFromAdId/{adId}")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public List<String> getImageListFromAdId(@PathParam("adId") String adId) {
+        String folderPath = apartmentsMapper.getFolderPath(UUID.fromString(adId));
+
+        File dossier = new File(folderPath);
+
+        if (dossier.isDirectory()) {
+            List<String> images = Arrays.asList(dossier.list());
+            return images;
+        } else {
+            System.out.println("Ce chemin n'est pas un dossier.");
+            return List.of();
+        }
+    }
+
     @POST
     @Path("/archiveAd/{adId}")
     @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
@@ -227,4 +253,23 @@ public class ApartmentsService {
         return Response.ok().build();
     }
 
+    @GET
+    @Path("/getDefaultImage/{adId}")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public Response getDefaultImage(@PathParam("adId") String adId) {
+        try {
+            File folder = new File(apartmentsMapper.getFolderPath(UUID.fromString(adId)));
+            File[] files = folder.listFiles(File::isFile);
+
+            if (files != null && files.length > 0) {
+                File firstFile = files[0];
+                return Response.ok(firstFile.getName()).build();
+            } else {
+                return Response.ok("Aucune image trouvée").build();
+            }
+        } catch (Exception e){
+            return  Response.ok("Aucune image").build();
+        }
+
+    }
 }

@@ -64,7 +64,7 @@
               document.getElementById('ads-listing').innerHTML = '';
 
               if (data.length > 0) {
-                data.forEach(ad => {
+                data.forEach(async ad => {
                   var adId = ad['adId'];
                   var adTitle = ad['adTitle'];
                   var adPrice = ad['adPrice'];
@@ -74,7 +74,25 @@
                   var adImagesPath = ad['adImagesPath'];
                   var adInFavorites = true;
 
-                  fetch('adComponent.html?' + new Date().getTime())
+                  await fetch(`http://localhost:8080/laplace/apartments/getDefaultImage/${adId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  })
+                          .then(response => {
+                            if (!response.ok) {
+                              console.log('Aucune image trouvé pour cette annonce');
+                            } else {
+                              return response.json();
+                            }
+                          })
+                          .then(data => {
+                            adImagesPath = `../adImages/${adId}/${data}`;
+                          })
+
+                  await fetch('adComponent.html?' + new Date().getTime())
                           .then(response => response.text())
                           .then(html => {
                             document.getElementById('ads-listing').innerHTML += eval('`' + html + '`');

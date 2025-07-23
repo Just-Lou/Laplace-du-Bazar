@@ -60,4 +60,6 @@ public interface ApartmentsMapper {
     public String getSellerId (@Param("adId") UUID adId);
 
     public void archiveAd(@Param("adId") UUID adId);
+
+    public String getFolderPath (@Param("adId") UUID adId);
 }

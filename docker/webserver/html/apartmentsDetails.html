@@ -39,10 +39,10 @@
         <h2 id="ad-price"></h2>
     </div>
     <div class="ad-carrousel loading">
-        <div class="ad-carrousel-arrow previous">
+        <div class="ad-carrousel-arrow previous" onclick="previousImage()">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
         </div>
-        <div class="ad-carrousel-arrow next">
+        <div class="ad-carrousel-arrow next" onclick="nextImage()">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </div>
     </div>
@@ -87,6 +87,9 @@
 </html>
 
 <script>
+    var imagesList = [];
+    var imgIndex = 0;
+
     function reportAd() {
 
         const elementFullReport = document.querySelector('.flag-full-report');
@@ -212,6 +215,25 @@
     function loadAdDetails() {
         const adId = new URLSearchParams(window.location.search).get("id");
 
+        fetch(`http://localhost:8080/laplace/apartments/getImageListFromAdId/${adId}`, {
+            method:'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(response.status);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                imagesList = data;
+                document.querySelector('.ad-carrousel').style.backgroundImage = `url('../adImages/${adId}/${imagesList[imgIndex]}')`;
+            })
+
         fetch(`http://localhost:8080/laplace/apartments/getApartmentById/${adId}`, {
             method: 'GET',
             credentials: 'include',
@@ -274,5 +296,23 @@
                     '<p>Une erreur lors de la récupération des informations de cette annonce est survenue...</p>' +
                     '</div>';
             });
+    }
+
+    function previousImage(){
+        const adId = new URLSearchParams(window.location.search).get("id");
+        imgIndex--;
+        if(imgIndex < 0)
+            imgIndex = imagesList.length - 1;
+
+        document.querySelector('.ad-carrousel').style.backgroundImage = `url('../adImages/${adId}/${imagesList[imgIndex]}')`;
+    }
+
+    function nextImage(){
+        const adId = new URLSearchParams(window.location.search).get("id");
+        imgIndex++;
+        if(imgIndex >= imagesList.length)
+            imgIndex = 0;
+
+        document.querySelector('.ad-carrousel').style.backgroundImage = `url('../adImages/${adId}/${imagesList[imgIndex]}')`;
     }
 </script>
