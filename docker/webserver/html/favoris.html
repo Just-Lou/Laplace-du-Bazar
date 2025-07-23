@@ -85,7 +85,7 @@
                             if (!response.ok) {
                               console.log('Aucune image trouvé pour cette annonce');
                             } else {
-                              return response.json();
+                              return response.text();
                             }
                           })
                           .then(data => {
