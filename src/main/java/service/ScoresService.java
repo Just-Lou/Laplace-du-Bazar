@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import mapper.ScoresMapper;
 import org.apache.ibatis.annotations.Param;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +22,9 @@ public class ScoresService {
 
     @Inject
     ScoresMapper scoresMapper;
+
+    @Inject
+    JsonWebToken jwt;
 
     @GET
     @Path("getScore/{id}")
@@ -59,6 +63,19 @@ public class ScoresService {
     @RolesAllowed({"StandardUser", "Administrator"})
     public Response createScore(@PathParam("id") UUID id, float score) {
         scoresMapper.createScore(id, score);
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("addScoreToUser/{sellerId}/{score}")
+    @RolesAllowed({"StandardUser", "Administrator"})
+    public Response addScoreToUser(@PathParam("sellerId") UUID sellerId, @PathParam("score") float score) {
+        String clientId = jwt.getSubject();
+        Score sellerScore = scoresMapper.getScoreByUserId(sellerId);
+        if (score > 5) { score= 5; }
+        if (score < 0) { score = 0; }
+        float newScore = (sellerScore.getScore() * sellerScore.getScoreNumber() + score) / (sellerScore.getScoreNumber() + 1);
+        scoresMapper.updateScore(sellerScore.getScoreId(), newScore, sellerScore.getScoreNumber() + 1);
         return Response.ok().build();
     }
 }

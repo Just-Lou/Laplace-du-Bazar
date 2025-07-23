@@ -75,6 +75,18 @@
                     <p id="seller-name"></p>
                 </div>
             </div>
+            <div>
+                <label for="eval">Évaluer le vendeur :</label>
+                <select id="eval" name="choix">
+                    <option value="all">--</option>
+                    <option value="1">1/5</option>
+                    <option value="2">2/5</option>
+                    <option value="3">3/5</option>
+                    <option value="4">4/5</option>
+                    <option value="5">5/5</option>
+                </select>
+            </div>
+            <button id="eval-button">Envoyer l'évaluation</button>
             <p id="seller-phone"></p>
             <p id="seller-email"></p>
         </div>
@@ -210,7 +222,83 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         loadAdDetails();
+        const evalButton = document.getElementById("eval-button");
+        evalButton.addEventListener("click", applyEval);
     });
+
+    function applyEval() {
+        const evalSelect = document.getElementById("eval");
+        const evalButton = document.getElementById("eval-button");
+        const evalValue = evalSelect.value;
+
+        if (evalValue === "all") {
+            displayMessage("Veuillez sélectionner une évaluation avant d'envoyer");
+            return;
+        }
+
+        evalButton.disabled = true;
+        evalSelect.disabled = true;
+
+        const adId = new URLSearchParams(window.location.search).get("id");
+
+        fetch(`http://localhost:8080/laplace/apartments/getApartmentById/${adId}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const sellerEmail = data['adSellerEmail'];
+
+                return fetch(`http://localhost:8080/laplace/users/getUserIdByEmail/${sellerEmail}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(sellerId => {
+                return fetch(`http://localhost:8080/laplace/scores/addScoreToUser/${sellerId}/${evalValue}`, {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                displayMessage("Évaluation envoyée avec succès");
+
+                evalSelect.value = "all";
+                evalButton.innerHTML = "Évaluation envoyée!";
+                loadAdDetails();
+            })
+            .catch(error => {
+                console.error("Error submitting evaluation:", error);
+                displayMessage("Une erreur est survenue lors de l'évaluation");
+
+                evalButton.disabled = false;
+                evalSelect.disabled = false;
+                evalButton.innerHTML = "Envoyer l'évaluation";
+            });
+    }
 
     function loadAdDetails() {
         const adId = new URLSearchParams(window.location.search).get("id");
@@ -272,7 +360,15 @@
 
                     document.getElementById('seller-name').innerHTML = adSellerName
                     document.querySelector('.rating-full-stars').style.width = eval("'" + (adSellerScore / 5 * 90) + "px'");
-                    document.querySelector('.rating-empty-stars').innerHTML += `(${adSellerScoreCount})`;
+                    document.querySelector('.rating-empty-stars').innerHTML = `
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        (${adSellerScoreCount})
+                    `;
+
 
                     document.getElementById('seller-phone').innerHTML = 'Numéro de téléphone : ' + adSellerPhone;
                     document.getElementById('seller-email').innerHTML = 'adresse courriel : ' + adSellerEmail;

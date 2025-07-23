@@ -30,10 +30,9 @@ public interface ApartmentsMapper {
             @Param("userId") UUID userId,
             @Param("minPrice") Float minPrice,
             @Param("maxPrice") Float maxPrice,
-            @Param("minScore") Float minScore,
             @Param("disponibilityBefore") LocalDate disponibilityBefore,
-            @Param("apartmentSize") Float apartmentSize,
-            @Param("sortBy") String sortBy
+            @Param("sortBy") String sortBy,
+            @Param("minSellerScore") Float minSellerScore
     );
 
     public void createAd(

@@ -123,13 +123,12 @@ public class ApartmentsService {
             @QueryParam("userId") UUID userId,
             @QueryParam("minPrice") Float minPrice,
             @QueryParam("maxPrice") Float maxPrice,
-            @QueryParam("minScore") Float minScore,
             @QueryParam("disponibilityBefore") LocalDate disponibilityBefore,
-            @QueryParam("apartmentSize") Float apartmentSize,
-            @QueryParam("sortBy") String sortBy
+            @QueryParam("sortBy") String sortBy,
+            @QueryParam("minSellerScore") Float minSellerScore
     ) {
         return apartmentsMapper.getApartmentsByCriteria(
-                userId, minPrice, maxPrice, minScore, disponibilityBefore, apartmentSize, sortBy
+                userId, minPrice, maxPrice, disponibilityBefore, sortBy, minSellerScore
         );
     }
 

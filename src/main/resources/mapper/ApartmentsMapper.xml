@@ -77,14 +77,11 @@
         <if test="maxPrice != null">
             AND ads.price &lt;= #{maxPrice}
         </if>
-        <if test="minScore != null">
-            AND s.score &gt;= #{minScore}
+        <if test="minSellerScore != null">
+            AND s.score &gt;= #{minSellerScore}
         </if>
         <if test="disponibilityBefore != null">
             AND DATE(ap.disponibility) &lt;= #{disponibilityBefore}
-        </if>
-        <if test="apartmentSize != null">
-            AND ap.apartmentSize = #{apartmentSize}
         </if>
 
         <choose>

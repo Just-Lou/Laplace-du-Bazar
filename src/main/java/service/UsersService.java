@@ -21,6 +21,7 @@ import java.util.*;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import org.apache.ibatis.annotations.Param;
 import org.jboss.resteasy.reactive.NoCache;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
@@ -56,6 +57,17 @@ public class UsersService {
     public Users getUserById(@PathParam("id") UUID id) {
         Users user = usersMapper.getUserById(id);
         return user;
+    }
+
+    @GET
+    @Path("getUserIdByEmail/{email}")
+    @RolesAllowed({"StandardUser", "Administrator", "ExternalUser"})
+    public UUID getUserIdByEmail(@PathParam("email") String email) {
+        UUID userId = UUID.fromString(usersMapper.getUserIdByEmail(email));
+        if (userId == null) {
+            throw new NotFoundException("User not found with email: " + email);
+        }
+        return userId;
     }
 
     @GET
